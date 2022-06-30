@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - edit clipboard contents (as if) in place
+#
+# idea: write to clipboard on every write to the tmp file?
+
+xsel -ob | vipe | xsel -ib

@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# - clean up files commonly left by youtube-dl errors
+#
+# (deliberately no -e in shebang)
+
+set -x
+rm -i *.'jpg'
+rm -i *.'m4a.part'
+rm -i *.'mp4.part'
+rm -i *.'temp.mp3'
+rm -i *.'webm.part'
+rm -i *.'webp'

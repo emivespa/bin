@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - print nth field
+#
+# https://github.com/garybernhardt/dotfiles/blob/main/bin/field
+
+awk "{print \$${1}}"

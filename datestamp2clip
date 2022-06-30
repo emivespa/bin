@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# - copy datestamp without newline
+#
+# Meant for a keyboard shortcut.
+
+datestamp | tr -d '\n' | xsel -ib

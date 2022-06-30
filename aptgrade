@@ -1,0 +1,22 @@
+#!/bin/sh -e
+#
+# - routine package upgrades for apt distros
+#
+# https://github.com/docwhat/dotfiles/blob/main/bin/apt-upgrade
+
+>/dev/null 2>&1 command -v 'apt' || exit 1
+
+(
+	set -x
+	sudo apt update
+	apt list --upgradable
+)
+
+if yn "aptgrade: Also upgrade and autoremove?"
+then
+	(
+		set -x
+		sudo apt upgrade -y
+		sudo apt autoremove -y
+	)
+fi

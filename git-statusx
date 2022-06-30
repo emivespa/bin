@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - columnized git status
+#
+# TODO move to .config/git/config
+
+git status -s | column  -c "$(x80)"

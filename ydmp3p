@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - youtube-dl wrapper for audio playlists
+
+yd \
+	--audio-format mp3 \
+	--audio-quality 0 \
+	--extract-audio \
+	--format bestaudio \
+	--yes-playlist \
+	"$@"

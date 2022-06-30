@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# - create a data URI from a file
+#
+# Beats pastebins for more use cases than you'd think.
+#
+# https://github.com/mathiasbynens/dotfiles/blob/main/.functions
+
+printf 'data:text/plain;base64,%s\n' "$(base64 "${1:-/dev/stdin}" | tr -d '\n')"

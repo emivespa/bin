@@ -1,0 +1,14 @@
+#!/bin/sh -e
+#
+# - convert regular youtube links to embed links
+#
+# Set YTE_UNDO to any number but 0 to do the reverse.
+#
+# TODO: pure sed?
+
+test "${YTE_UNDO:-0}" -ne '0' && {
+	sed -E 's https://www.youtube.com/embed/(.+) https://www.youtube.com/watch\?v=\1 '
+	exit
+}
+
+sed -E 's https://www.youtube.com/watch\?v=(.+) https://www.youtube.com/embed/\1 '

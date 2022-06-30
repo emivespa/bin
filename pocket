@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - copy a command's output to clipboard
+#
+# TODO: better name?
+
+"$(dmenu_path | dmenu)" | xsel -ib

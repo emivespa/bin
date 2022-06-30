@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - day-of-year date
+
+date +'%Y-%j' "$@"

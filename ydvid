@@ -1,0 +1,8 @@
+#!/bin/sh -e
+#
+# - youtube-dl wrapper for videos
+
+yd \
+	--format best \
+	--no-playlist \
+	"$@"

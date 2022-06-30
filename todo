@@ -1,0 +1,13 @@
+#!/bin/sh -e
+#
+# - look for TOD0s and friends in the staging area
+#
+# * see xxx for original
+# * see es for notes on how the alignment works
+
+ES_SEPARATOR='' # U+E000
+
+git diff --name-only --cached |
+	xargs grep -EHn '(BUG|FIXME|HACK|TODO|XXX)' |
+	sed -E "s/(:[0-9]+)(:)/\1${ES_SEPARATOR}\2/" |
+	es

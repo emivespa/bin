@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - print available columns, topping at 80
+
+cols="$(tput cols)"
+test '80' -lt "$cols" && cols="80"
+printf %s\\n "$cols"

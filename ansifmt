@@ -1,0 +1,62 @@
+#!/bin/sh -e
+#
+# - ANSI escape code helper
+#
+# https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
+
+codes_before='\[\033['
+codes_after='m\]'
+
+codes=''
+while test "$#" -gt '0'
+do
+	case "$1" in
+		reset | normal)       codes="${codes};0"    ;; # SGR < 10
+		bold)                 codes="${codes};1"    ;;
+		faint | dim)          codes="${codes};2"    ;;
+		italic)               codes="${codes};3"    ;;
+		underline)            codes="${codes};4"    ;;
+		slow)                 codes="${codes};5"    ;;
+		rapid)                codes="${codes};6"    ;;
+		reverse | invert)     codes="${codes};7"    ;;
+		conceal | hide)       codes="${codes};8"    ;;
+		crossedout | strike)  codes="${codes};9"    ;;
+		fg0 | fg00)           codes="${codes};30"   ;; # Colors, foreground, dark
+		fg1 | fg01)           codes="${codes};31"   ;;
+		fg2 | fg02)           codes="${codes};32"   ;;
+		fg3 | fg03)           codes="${codes};33"   ;;
+		fg4 | fg04)           codes="${codes};34"   ;;
+		fg5 | fg05)           codes="${codes};35"   ;;
+		fg6 | fg06)           codes="${codes};36"   ;;
+		fg7 | fg07)           codes="${codes};37"   ;;
+		fg8 | fg08)           codes="${codes};90"   ;; # Colors, foreground, light
+		fg9 | fg09)           codes="${codes};91"   ;;
+		fg10)                 codes="${codes};92"   ;;
+		fg11)                 codes="${codes};93"   ;;
+		fg12)                 codes="${codes};94"   ;;
+		fg13)                 codes="${codes};95"   ;;
+		fg14)                 codes="${codes};96"   ;;
+		fg15)                 codes="${codes};97"   ;;
+		bg0 | bg00)           codes="${codes};40"   ;; # Colors, background, dark
+		bg1 | bg01)           codes="${codes};41"   ;;
+		bg2 | bg02)           codes="${codes};42"   ;;
+		bg3 | bg03)           codes="${codes};43"   ;;
+		bg4 | bg04)           codes="${codes};44"   ;;
+		bg5 | bg05)           codes="${codes};45"   ;;
+		bg6 | bg06)           codes="${codes};46"   ;;
+		bg7 | bg07)           codes="${codes};47"   ;;
+		bg8 | bg08)           codes="${codes};100"  ;; # Colors, background, light
+		bg9 | bg09)           codes="${codes};101"  ;;
+		bg10)                 codes="${codes};102"  ;;
+		bg11)                 codes="${codes};103"  ;;
+		bg12)                 codes="${codes};104"  ;;
+		bg13)                 codes="${codes};105"  ;;
+		bg14)                 codes="${codes};106"  ;;
+		bg15)                 codes="${codes};107"  ;;
+		*) exit 95 ;; # EOPNOTSUPP 95 Operation not supported
+	esac
+	shift
+done
+codes="${codes##;}" # Trim leading semicolon.
+
+printf %s "${codes_before}${codes}${codes_after}"

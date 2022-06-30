@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - ISO date, YYYY-mm-dd
+
+date +'%Y-%m-%d' "$@"

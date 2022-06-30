@@ -1,0 +1,108 @@
+#!/bin/sh -e
+#
+# - nvi's :viusage in cheatsheet form
+
+clear
+column<<EOF
+^A search forward for cursor word
+^B scroll up by screens
+^C interrupt an operation (e.g. read, write, search)
+^D scroll down by half screens (setting count)
+^E scroll down by lines
+^F scroll down by screens
+^G file status
+^H move left by characters
+^J move down by lines
+^L redraw screen
+^M move down by lines (to first non-blank)
+^N move down by lines
+^P move up by lines
+^R redraw screen
+^T tag pop
+^U half page up (set count)
+^V input a literal character
+^W move to next screen
+^Y page up by lines
+^Z suspend editor
+^[ <escape> exit input mode, cancel partial commands
+^\ switch to ex mode
+^] tag push cursor word
+^^ switch to previous file
+<space> move right by columns
+! filter through command(s) to motion
+# number increment/decrement
+$ move to last column
+% move to match
+& repeat substitution
+' move to mark (to first non-blank)
+( move back sentence
+) move forward sentence
++ move down by lines (to first non-blank)
+, reverse last F, f, T or t search
+- move up by lines (to first non-blank)
+. repeat the last command
+/ search forward
+0 move to first character
+: ex command
+; repeat last F, f, T or t search
+< shift lines left to motion
+> shift lines right to motion
+? search backward
+@ execute buffer
+A append to the line
+B move back bigword
+C change to end-of-line
+D delete to end-of-line
+E move to end of bigword
+F character in line backward search
+G move to line
+H move to count lines from screen top
+I insert before first nonblank
+J join lines
+L move to screen bottom
+M move to screen middle
+N reverse last search
+O insert above line
+P insert before cursor from buffer
+Q switch to ex mode
+R replace characters
+S substitute for the line(s)
+T before character in line backward search
+U Restore the current line
+W move to next bigword
+X delete character before cursor
+Y copy line
+ZZ save file and exit
+[[ move back section
+]] move forward section
+^ move to first non-blank
+_ move to first non-blank
+\` move to mark
+a append after cursor
+b move back word
+c change to motion
+d delete to motion
+e move to end of word
+f character in line forward search
+h move left by columns
+i insert before cursor
+j move down by lines
+k move up by lines
+l move right by columns
+m set mark
+n repeat last search
+o append after line
+p insert after cursor from buffer
+r replace character
+s substitute character
+t before character in line forward search
+u undo last change
+w move to next word
+x delete character
+y copy text to motion into a cut buffer
+z reposition the screen
+{ move back paragraph
+| move to column
+} move forward paragraph
+~ reverse case
+EOF

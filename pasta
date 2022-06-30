@@ -1,0 +1,22 @@
+#!/bin/sh -e
+#
+# - snippets utility
+
+case "$#" in
+	0)
+		find "${XDG_CONFIG_HOME:-$HOME/.config}/pasta" -type f |
+			dmenu | xargs cat | xsel -ib
+		;;
+	1)
+		if test -f "$1"
+		then
+			xsel -ib <"$1"
+		else
+			cat >"$1"
+		fi
+		;;
+	*)
+		printf %s\\n 'too many arguments' >&2
+		exit 64 # command line usage error
+		;;
+esac

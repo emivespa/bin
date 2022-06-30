@@ -1,0 +1,31 @@
+For descriptions, run
+	whatisx * # The x is not a typo, it's a script in this repo.
+
+Some things I keep here for archival purposes.
+
+TODO:
+	[X] lsync - lazy sync
+	[ ] moreutils shadows?
+		[ ] sponge
+			could you just emulate this by calling cat within variable assignment?
+		[ ] vipe
+		[ ] anything else?
+	[X] ydr - reverse engineer youtube links from youtube-dl filenames
+	[X] shellcheck all the things
+	[X] move hardcoded youtube-dl config to .config/youtube-dl/config
+	[X] dmenu emoji picker
+		[ ] fix
+	[X] merge nite+ and nite-
+	[X] why does xclip work for the primary selection but not the clipboard
+		possibly this https://unix.stackexchange.com/a/341210
+		xclip doesn't work but xsel does
+		[X] viclip - edit clipboard contents
+		[X] something like vimanywhere, maybe viclip in a pop up terminal
+			not here, shortcut that runs "$TERMINAL -e 'viclip'"
+	[ ] custom website archival utility? https://www.gwern.net/Archiving-URLs
+	[X] posix man pages
+		done but not here, you can get them from kernel.org https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/man-pages-posix/
+	[X] fallback tldr
+	[ ] awkdown - awk markdown (lowercase) parser
+	[ ] plumbing
+	[ ] fix exit codes

@@ -1,0 +1,7 @@
+#!/usr/bin/env -S sed -f
+#
+# - html-escape text
+
+s & \&amp; g;
+s < \&lt; g;
+s > \&gt; g;

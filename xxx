@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - look for TOD0s and friends in the current folder
+#
+# * see es for notes on how the alignment works
+# * using ag because it uses .gitignore by default
+
+ES_SEPARATOR='' # U+E000
+
+ag '(BUG|FIXME|HACK|NOTE|TODO|XXX)' |
+	sed -E "s/(:[0-9]+)(:)/\1${ES_SEPARATOR}\2/" |
+	es

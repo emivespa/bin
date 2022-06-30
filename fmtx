@@ -1,0 +1,6 @@
+#!/bin/sh -e
+#
+# - fmt according to personal preferences
+
+fmt='fmt -w80 -g80'
+$fmt | sed 's/\.  /\. /g' | $fmt # Prevent 2 spaces after a period.

@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - unambiguous human readable date
+
+date +'%d %B %Y' "$@"

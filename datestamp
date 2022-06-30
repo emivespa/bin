@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - file sorting date
+
+date -u +'%Y%m%d%H%M%S'

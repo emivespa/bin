@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - youtube-dl wrapper, takes links line-by-line, base for yd*
+
+if ! command -v sponge >/dev/null
+then
+	xargs youtube-dl "${@}"
+	exit
+fi
+
+sponge | xargs youtube-dl "${@}"

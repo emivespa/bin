@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - filter primary selection
+#
+# TODO: better name?
+
+xsel -ob |
+       $(dmenu_path | dmenu) |
+	xsel -ib

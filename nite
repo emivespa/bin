@@ -1,0 +1,14 @@
+#!/bin/sh -e
+#
+# - toggle GNOME night-light
+#
+# TODO: s/dconf/gsettings/ ?
+
+key='/org/gnome/settings-daemon/plugins/color/night-light-enabled'
+
+if test "true" = "$(dconf read ${key})"
+then
+	dconf write ${key} false
+else
+	dconf write ${key} true
+fi

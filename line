@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - print nth line
+
+head -n"$1" | tail -n1
