@@ -28,4 +28,4 @@ TODO:
 	[X] fallback tldr
 	[ ] awkdown - awk markdown (lowercase) parser
 	[ ] plumbing
-	[ ] fix exit codes
+	[X] fix exit codes
