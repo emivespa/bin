@@ -15,8 +15,6 @@ TODO:
 	[X] shellcheck all the things
 	[X] move hardcoded youtube-dl config to .config/youtube-dl/config
 	[X] dmenu emoji picker
-		but it stopped working for some reason
-		[ ] fix
 	[X] merge nite+ and nite-
 	[X] why does xclip work for the primary selection but not the clipboard
 		possibly this https://unix.stackexchange.com/a/341210
