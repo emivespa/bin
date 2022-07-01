@@ -5,7 +5,8 @@ Some things I keep here for archival purposes.
 
 TODO:
 	[X] lsync - lazy sync
-	[ ] moreutils shadows?
+	[ ] fallback moreutils shadows?
+		ideally same flags and everything
 		[ ] sponge
 			could you just emulate this by calling cat within variable assignment?
 		[ ] vipe
@@ -14,6 +15,7 @@ TODO:
 	[X] shellcheck all the things
 	[X] move hardcoded youtube-dl config to .config/youtube-dl/config
 	[X] dmenu emoji picker
+		but it stopped working for some reason
 		[ ] fix
 	[X] merge nite+ and nite-
 	[X] why does xclip work for the primary selection but not the clipboard
@@ -23,8 +25,11 @@ TODO:
 		[X] something like vimanywhere, maybe viclip in a pop up terminal
 			not here, shortcut that runs "$TERMINAL -e 'viclip'"
 	[ ] custom website archival utility? https://www.gwern.net/Archiving-URLs
+		maybe ~/bin is not the right place for it
 	[X] posix man pages
-		done but not here, you can get them from kernel.org https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/man-pages-posix/
+		done but not here,
+		you can get them from kernel.org https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/man-pages-posix/
+		>man 1p ls
 	[X] fallback tldr
 	[ ] awkdown - awk markdown (lowercase) parser
 	[ ] plumbing
