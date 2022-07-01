@@ -33,3 +33,4 @@ TODO:
 	[x] plumbing script
 		[ ] xdg-open shadow
 	[X] fix exit codes
+	[ ] replace dmenu
