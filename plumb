@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - WIP plumbing command
+
+case "$(uname -s)" in
+	Darwin)
+		xsel -op | xargs open
+		;;
+	*)
+		xsel -op | xargs xdg-open
+		;;
+esac

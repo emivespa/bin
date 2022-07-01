@@ -30,5 +30,6 @@ TODO:
 		>man 1p ls
 	[X] fallback tldr
 	[ ] awkdown - awk markdown (lowercase) parser
-	[ ] plumbing
+	[x] plumbing script
+		[ ] xdg-open shadow
 	[X] fix exit codes
