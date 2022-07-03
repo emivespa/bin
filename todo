@@ -8,6 +8,6 @@
 ES_SEPARATOR='' # U+E000
 
 git diff --name-only --cached |
-	xargs grep -EHn '(BUG|FIXME|HACK|TODO|XXX)' |
+	xargs -r grep -EHn '(BUG|FIXME|HACK|TODO|XXX)' |
 	sed -E "s/(:[0-9]+)(:)/\1${ES_SEPARATOR}\2/" |
 	es

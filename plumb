@@ -4,9 +4,9 @@
 
 case "$(uname -s)" in
 	Darwin)
-		xsel -op | xargs open
+		xsel -op | xargs -r open
 		;;
 	*)
-		xsel -op | xargs xdg-open
+		xsel -op | xargs -r xdg-open
 		;;
 esac

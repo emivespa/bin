@@ -5,7 +5,7 @@
 case "$#" in
 	0)
 		find "${XDG_CONFIG_HOME:-$HOME/.config}/pasta" -type f |
-			dmenu | xargs cat | xsel -ib
+			dmenu | xargs -r cat | xsel -ib
 		;;
 	1)
 		if test -f "$1"
