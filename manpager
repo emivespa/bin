@@ -3,4 +3,4 @@
 # - custom pager for man pages
 
 col -b |
-	vi -
+	vim -R -
