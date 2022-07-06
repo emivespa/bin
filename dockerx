@@ -1,0 +1,15 @@
+#!/bin/sh -e
+#
+# - docker 'aliases'
+
+case "$@" in
+	'rma')
+		docker ps -aq | xargs -r docker rm -vf
+		;;
+	'rmia')
+		docker images -aq | xargs -r docker rmi -f
+		;;
+	*)
+		exit 64
+		;;
+esac
