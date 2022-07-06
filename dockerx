@@ -2,7 +2,15 @@
 #
 # - docker 'aliases'
 
-case "$@" in
+case "$1" in
+	'logs')
+		if test -z "$2"
+		then
+			docker ps -a | nl -v0 # TODO: picker?
+		else
+			docker ps -aq | line "$2" | xargs -r docker logs
+		fi
+		;;
 	'rma')
 		docker ps -aq | xargs -r docker rm -vf
 		;;
