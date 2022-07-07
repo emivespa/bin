@@ -3,10 +3,13 @@
 # - docker 'aliases'
 
 case "$1" in
+	'images')
+		docker images | nl -v0 | fzf --header-lines=1 | field 4 | tr '\n' ' ' | xsel -ib
+		;;
 	'logs')
 		if test -z "$2"
 		then
-			docker ps -a | nl -v0 # TODO: picker?
+			docker ps -a | nl -v0 | fzf --header-lines=1 | field 2 | xargs -r docker logs
 		else
 			docker ps -aq | line "$2" | xargs -r docker logs
 		fi
@@ -16,6 +19,10 @@ case "$1" in
 		;;
 	'rmia')
 		docker images -aq | xargs -r docker rmi -f
+		;;
+	'')
+		# When run on it's own, pick a container and copy it's ID to clipboard (for now):
+		docker ps -a | nl -v0 | fzf --header-lines=1 | field 2 | tr '\n' ' ' | xsel -ib
 		;;
 	*)
 		exit 64
