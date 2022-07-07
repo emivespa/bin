@@ -5,5 +5,5 @@
 # TODO: better name?
 
 xsel -ob |
-	$(dmenu_path | dmenu) |
+	$(dmenu_path | fmenu) |
 	xsel -ib
