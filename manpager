@@ -2,12 +2,12 @@
 #
 # - custom pager for man pages
 
-if ! >/dev/null 2>&1 command -v col
+if ! command -v col >/dev/null 2>&1
 then
 	${PAGER:-less}
 	exit
 fi
-if ! >/dev/null 2>&1 command -v vim
+if ! command -v vim >/dev/null 2>&1
 then
 	${PAGER:-less}
 	exit

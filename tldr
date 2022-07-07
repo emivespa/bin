@@ -6,7 +6,7 @@
 # my machine.
 # https://github.com/raylee/tldr-sh-client
 
->/dev/null 2>&1 command -v curl || exit 1
+command -v curl >/dev/null 2>&1 || exit 1
 
 while test "$#" -gt '0'
 do
