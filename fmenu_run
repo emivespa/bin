@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#!/bin/sh -e # TODO.
+#
+# - dmenu_run but with fmenu
+
+set -eu -o pipefail
+
+compgen -c | sort -u | fmenu "$@" | ${SHELL:-"bin/sh"} &
