@@ -1,7 +1,9 @@
 #!/bin/sh -e
 #
-# - edit clipboard contents (as if) in place
+# - vim anywhere!* edit clipboard contents (as if) in place
+# *or your $EDITOR
 #
 # idea: write to clipboard on every write to the tmp file?
+# BUG: sometimes randomly fails.
 
 termx "xsel -ob | vipe | tee $(mktemp ${TMPDIR:-'/tmp'}/viclip-bak-$(datestamp).XXX) | xsel -ib"
