@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# - zip into independent <100MB zips, for whatsapp
+#
+# https://unix.stackexchange.com/questions/490124/how-to-split-a-large-folder-into-smaller-folders-of-equal-size
+#
+# TODO: zip instead of move.
+
+set -eu -o pipefail
+
+test -z "${1:-}" && exit
+dir="$1"
+
+zippathprefix="$(printf %s "$dir" | sed 's|/|%|g').whatzip"
+mb1=1000000 # Bytes in 1 MB.
+maxzipsize="$(( 99 * mb1 ))" # s/100/99/ just in case.
+zipnum=1
+
+SAVEIFS="$IFS" IFS="$(echo -en "\n\b")" # TODO: can use subshell instead of SAVEIFS?
+for filepath in "$dir"/* ; do
+	filesize=$(wc -c "$filepath" | awk '{ print $1 }')
+	if (( filesize >= maxzipsize )); then
+		# TODO: cleanup? trap?
+		printf %s\\n "File ${filepath} is too large."
+		exit 1
+	fi
+	zippath="${zippathprefix}.${zipnum}.zip"
+	if test ! -e "$zippath"; then
+		zipsize=0
+	else
+		zipsize="$(wc -c "$zippath" | awk '{print $1}')" # Have to recalculate each step for now.
+	fi
+	if (( zipsize + filesize >= maxzipsize )); then
+		(( zipnum++ ))
+		zippath="${zippathprefix}.${zipnum}.zip"
+	fi
+	(
+		set -x
+		zip -r "$zippath" "$filepath"
+	)
+done
+IFS="$SAVEIFS"
