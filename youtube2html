@@ -1,0 +1,30 @@
+#!/bin/sh -e
+#
+# - input youtube link, get transcription with clickable timestamps
+#
+# 	Y2H_MODEL=small Y2H_LANG=es whisper https://www.youtube.com/watch?v=dQw4w9WgXcQ >transcript.html
+# 	xdg-open transcript.html
+#
+# TODO: clean this mess up. Specially 'paste'.
+
+command -v whisper >/dev/null 2>&1 || exit 1
+
+d="$(mktemp -d ${TMPDIR:-"/tmp"}/youtube2html.XXXXXXXX)"
+cd "$d"
+
+youtube-dl --audio-format mp3 --audio-quality 0 --extract-audio --format bestaudio --no-playlist "$1" 1>&2
+find . -name '*.mp3' |
+	xargs -I _ whisper --model ${Y2H_MODEL:-tiny} --language ${Y2H_LANG:-en} _ >whisper.txt
+
+cat whisper.txt |
+	awk '{ print $1 }' |
+	sed 's/^\[//' |
+	awk -F':' '{if (NF == 2) {print $1 * 60 + $2} else {print $1 * 60 * 60 + $2 * 60 + $3}}' >timestamps.txt # https://stackoverflow.com/questions/18149127/convert-a-duration-hhmmss-to-seconds-in-bash
+
+paste -d' ' timestamps.txt whisper.txt |
+	sed "s ^ ${1}\&t= " |
+	sed 's/^/<a href="/; s/ \[/">[/; s/  /<\/a>  /' >>whisper.html
+
+printf %s\\n '<pre>'
+cat whisper.html
+printf %s\\n '</pre>'

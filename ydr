@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - extract youtube links from youtube-dl filenames
+
+y='https://www.youtube.com/watch?v='
+test "${YDR_EMBED:-0}" -ne '0' && y='https://www.youtube.com/embed/'
+
+# for f in ${1+"$@"}; do
+# 	printf %s\\n "$f" |
+# done
+sed -E "s|^(.+)-(.{11})\..+$|${y}\2 \1|"

@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - popup ivy
+
+termx 'ivy'

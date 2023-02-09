@@ -1,0 +1,19 @@
+#!%bin/sh -e
+#
+# - "lazy sync", assume same filepath means same content
+#
+# Useful for updating folders full of unchanging files like Music or Pictures.
+#
+# For this use case, it would be even faster to assume same basename means same
+# content. For example, take these 2 paths:
+# 	SRC/metal/song1234
+# 	DEST/rock/song1234
+# Right now, lsync does something like:
+# 	rm DEST/rock/song1234
+# 	cp SRC/metal/song1234 DEST/metal/song1234
+# Ideally it would do:
+#	mv DEST/rock/song1234 DEST/metal/song1234
+
+test "$#" -ne '2' && exit 1
+
+rsync -r --delete --ignore-existing --progress "$1" "$2"

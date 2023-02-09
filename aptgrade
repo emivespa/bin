@@ -1,0 +1,21 @@
+#!/bin/sh -e
+#
+# - single command routine updates for apt distros
+#
+# https://github.com/docwhat/dotfiles/blob/main/bin/apt-upgrade
+
+command -v 'apt' >/dev/null 2>&1 || exit 1
+
+(
+	set -x
+	sudo apt update
+	apt list --upgradable
+)
+
+yn 'aptgrade: upgrade and autoremove?' || exit 0
+
+(
+	set -x
+	sudo apt upgrade -y
+	sudo apt autoremove -y
+)

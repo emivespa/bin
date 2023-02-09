@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - dmenu but with fzf
+#
+# https://github.com/RayZ0rr/dotfiles/blob/322d3e1d329403903f94966f723d786bf86a6743/.local/bin/fzfmenu
+
+termx "exec fzf -e $* </proc/$$/fd/0 >/proc/$$/fd/1"

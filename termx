@@ -1,0 +1,14 @@
+#!/bin/sh -e
+#
+# - run script in current terminal or spawn one
+# 
+# TODO: support multiple terminals.
+# TODO: checking $TERM works, but I'm not sure if it's correct.
+
+command -v xterm >/dev/null 2>&1 || exit 1
+
+if test -z "$TERM"; then
+	xterm -e "$@"
+else
+	sh -c "$@"
+fi

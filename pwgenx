@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - personal pwgen wrapper
+
+pwgen --no-capitalize --numerals --secure $@ 8 2

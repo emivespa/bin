@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# - even lighter weight ix.io client
+
+cat ${1+"$@"} | curl -F 'f:1=<-' ix.io

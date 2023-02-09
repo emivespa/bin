@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - sort asciibetically
+
+LC_ALL=C sort "$@"

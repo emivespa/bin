@@ -1,0 +1,13 @@
+#!/bin/sh -e
+#
+# - toggle GNOME blue light filter
+#
+# TODO: s/dconf/gsettings/ ?
+
+key='/org/gnome/settings-daemon/plugins/color/night-light-enabled'
+
+if test "$(dconf read "${key}")" = 'true'; then
+	dconf write ${key} false
+else
+	dconf write ${key} true
+fi

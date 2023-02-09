@@ -1,0 +1,36 @@
+#!/bin/sh -e
+#
+# - emoji picker
+#
+# original    https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/dmenuunicode
+# emoji list  https://github.com/LukeSmithxyz/voidrice/blob/master/.local/share/larbs/emoji
+# video       https://www.youtube.com/watch?v=UCEXY46t3OA
+#
+# DONE: better emoji list.
+# DONE: make external emoji list.
+# DONE: make backup and restore if curl fails.
+# TODO: less grep/sed calls.
+# TODO: restore possible old emoji.txt if curl fails.
+
+f="${XDG_CACHE_HOME:-"${HOME}/.cache"}/emoji.txt"
+
+# EMOJI_GET_VER='14' # Latest as of 2022: https://unicode.org/Public/emoji/14.0/emoji-test.txt
+if test  -n "$EMOJI_GET_VER"; then
+	test "$EMOJI_GET_VER" -gt '0' || exit 1
+	t="${TMPDIR:-/tmp}/emoji.txt"
+	touch "$f"
+	cp "$f" "$t" # Backup emoji.txt.
+	curl -fs "https://unicode.org/Public/emoji/${EMOJI_GET_VER}.0/emoji-test.txt" |
+		grep -E ' {2,}\#'             | # just the lines with emoji
+		sed -E 's/(.*)(# )(.*)/\3/g'  | # cut up to and including #
+		awk '{$2=""; print $0}'       | # cut field 2
+		sed -E 's/ {2,}/ /g'          | # normalize spacing
+		grep -v '(skin tone|person)'  | # exclude bloat emoji
+		cat - >"$f"
+	exit
+fi
+
+fmenu <"$f" |
+	cut -d' ' -f1 |
+	tr -d '\n' |
+	xsel -ib

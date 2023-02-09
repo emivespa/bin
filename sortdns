@@ -1,0 +1,32 @@
+#!/bin/sh -e
+#
+# - sort by reverse domain notation (TLD > 2nd lvl domain > subdomain(s) > path)
+#
+# https://en.wikipedia.org/wiki/Reverse_domain_name_notation
+#
+# Related: "The sort –key Trick" <https://www.gwern.net/Sort> altough this is
+# not exactly what he meant.
+#
+# TODO: maybe should rewrite with fifos? not sure.
+#
+# HACK: lazy regex: expect it to mishandle anything but clean input of correct URLs.
+# HACK: cargo culted awk.
+
+d="${TMPDIR:-/tmp}/sortd-$(datestamp)-$(seed)"
+cleanup() {
+	rm "$d" -r
+}
+trap cleanup EXIT
+mkdir -p "$d"
+cd "$d" || exit 1
+
+sed -E 's/(https?:\/\/)?([-\.0-9A-Za-z]+)(.*)/\1\2\3,\1,\2,\3/g' \
+	"${1:-/dev/stdin}" >'csv'
+
+awkprog='{ for (i=NF; i>=1; i--) { printf "%s%s", $i, i == 1 ? ORS : OFS } }'
+cut -d',' -f3 -- 'csv' |
+	awk "$awkprog" FS='.' OFS='.' >'txt'
+
+paste -d',' 'txt' 'csv' |
+	LC_ALL=C sort |
+	cut -d',' -f2

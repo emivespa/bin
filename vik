@@ -1,0 +1,57 @@
+#!/bin/sh -e
+#
+# - vim keywordprg helper (for the K command)
+#
+# You probably could do this within $VIMFILES/ftplugin/*, but it would be way
+# harder.
+#
+# vimrc snippet:
+#
+#	if executable('vik') " See ~/bin/vik.
+#		augroup filetype_star
+#			autocmd!
+#			autocmd FileType *
+#				\	if !&l:keywordprg
+#				\|		let &l:keywordprg = 'vik ' . &l:filetype
+#				\|	endif
+#		augroup END
+#	endif
+
+case "$1" in
+	(c)
+		man -S'2:3p:3:9:7' "$2"
+		;;
+	(clojure)
+		# Shotgun approach:
+		s="(apropos ${2})\n(dir ${2})\n(doc ${2})\n(source ${2})\n"
+		printf %s "$s" |
+			clojure |
+			"${PAGER:-less}"
+		;;
+	(go)
+		go doc "$2" | "${PAGER:-less}"
+		;;
+	(javascript)
+		command -v xdg-open >/dev/null || exit 1
+		xdg-open "https://devdocs.io/\#q=${2}"
+		;;
+	(man)
+		# Convert manual style references ('man(1)') to actual man
+		# arguments ('man.1'):
+		sed -E 's|(.+)\((.+)\)|\1\.\2|' |
+			xargs man
+		;;
+	(sh)
+		# Gotta call help from bash because sh has no help.
+		bash -c "help ${2}" 2>/dev/null ||
+			man -S'1:4:5:8:7' "$2" 2>/dev/null ||
+			tldr "$2" 2>/dev/null
+		;;
+	(python)
+		pydoc "$2"
+		;;
+	(*)
+		# Respect vim's fallback:
+		man "$2"
+		;;
+esac

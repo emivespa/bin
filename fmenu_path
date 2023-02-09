@@ -1,0 +1,6 @@
+#!/bin/sh -e
+#
+# - dmenu_path but without stest
+
+printf %s "$PATH" |
+	xargs -d : -I {} find {} -maxdepth 1 -executable -type f -printf '%P\n'

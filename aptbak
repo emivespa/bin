@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - make list of manually installed apt packages
+#
+# * this is makeshift, the list might have things like '--fix-broken'
+# * things installed on the same command will be on the same line
+#
+# TODO: remove uninstalled packages?
+
+zgrep -E 'Commandline: apt(-get)? +install' /var/log/apt/history.log /var/log/apt/history.log.*.gz |
+	sed 's/.*install //'

@@ -1,0 +1,26 @@
+#!/bin/sh -e
+#
+# - like whatis but for files instead of man pages
+# ⬆
+# That right there is an example.
+#
+# Uses the first line starting with dash+space+something, if one is found in
+# the first 5 lines.
+#
+# TODO: read until blank line instead of head -n5.
+#	TODO: check that file is not binary.
+
+test "$#" -eq '0' && {
+	printf 'whatisx what?\n' 1>&2
+	exit 1
+}
+
+{
+	for f in "$@"; do
+		test -f "$f" || continue
+		head -n5 "$f" | # Can't read whole files, 5 lines should be enough.
+			grep -E -- '- .+$' | # The '--' matters. FIXME?
+			head -1 |
+			sed -E "s/(^.*)(- .+$)/${f}  \2/g" # 2 spaces to work as es input.
+	done
+} | es # FIXME: this pipe is weird.

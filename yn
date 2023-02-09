@@ -1,0 +1,15 @@
+#!/bin/sh -e
+#
+# - yes/no prompt
+
+p="Are you sure?"
+test "$#" -ne '0' && p="$*"
+
+while true; do
+	printf %s "${p} [y/n] "
+	read r
+	case "$r" in
+		([Nn]) exit 1 ;;
+		([Yy]) exit 0 ;;
+	esac
+done

@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - GitHub gist helper
+
+dir="$(mktemp -d ${TMPDIR:-"/tmp"}/gist.XXX)"
+file="${dir}/gistfile1${1+."${1}"}"
+cleanup() {
+	rm "$dir" -r
+}
+trap cleanup EXIT
+vipe --suffix "${1}" >"$file"
+gh gist create "$file"

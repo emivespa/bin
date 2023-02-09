@@ -1,0 +1,25 @@
+#!/bin/sh -e
+#
+# - concatenate mp3s
+#
+# https://bytefreaks.net/applications/how-we-concatenate-multiple-mp3-files-into-one-using-ffmpeg
+
+if test "$#" -le '2'; then
+	printf 'not enough arguments\n' 1>&2
+	exit 1
+fi
+
+f="${TMPDIR:-/tmp}/catmp3.$(seed).mp3"
+cleanup() {
+	rm "$f"
+}
+trap cleanup EXIT
+
+url="concat:${1}"
+shift
+for i in "$@"; do
+	url="${url}|${i}"
+done
+
+ffmpeg -i "$i" -acodec copy "$f"
+cat "$f"

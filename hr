@@ -1,0 +1,8 @@
+#!/bin/sh -e
+#
+# - horizontal rule
+#
+# Meant stuff for this:
+#	while sleep 1; do; cmd2repeat; hr; done;
+
+printf %s\\n '--------------------------------------------------------------------------------'
