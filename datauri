@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - create a data URI from a file or stdin
+#
+# https://github.com/mathiasbynens/dotfiles/blob/main/.functions
+
+printf %s 'data:text/plain;base64,'
+base64 "${1:-/dev/stdin}" | tr -d '\n'
+printf \\n
