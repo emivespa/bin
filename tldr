@@ -1,0 +1,45 @@
+#!/bin/sh -e
+#
+# - MVP fallback tldr client
+#
+# Initially based on tldr-sh-client (didn't work on my machine).
+# https://github.com/raylee/tldr-sh-client
+
+command -v curl >/dev/null 2>&1 || exit 1
+
+while getopts 'p:v' opt; do
+	case "$opt" in
+		(p)
+			specified_platform="$OPTARG"
+			;;
+		(v)
+			printf %s\\n 'MVP client, "**Current Specification Version:** 1.5"' >&2
+			exit 0
+			;;
+		(*)
+			exit 1
+			;;
+	esac
+done
+
+case "$(uname -s)" in
+	(CYGWIN* | MINGW32* | MSYS*)  detected_platform='windows'  ;;
+	(Darwin)                      detected_platform='osx'      ;;
+	(Linux)                       detected_platform='linux'    ;;
+	(SunOS)                       detected_platform='sunos'    ;;
+	(*)                           detected_platform='common'   ;;
+	# android?
+esac
+
+# TODO: clean up logic after this point.
+
+base_url='https://raw.githubusercontent.com/tldr-pages/tldr/master/pages'
+platform="${specified_platform:-"$detected_platform"}"
+url="${base_url}/${platform}/${page:-tldr}.md"
+
+curl -fs "$url" && exit 0
+if test "$detected_platform" != 'common' && test -z "$specified_platform"; then
+	platform='common'
+	url="${base_url}/${platform}/${page:-tldr}.md"
+	curl -fs "$url"
+fi
