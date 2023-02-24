@@ -1,0 +1,8 @@
+#!/bin/sh -e
+#
+# - >put a string in a shell-quoted form
+#
+#!/usr/bin/env -S sed -f # TODO
+# https://www.etalabs.net/sh_tricks.html
+
+sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/"
