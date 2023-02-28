@@ -11,7 +11,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-cat ${*:-/dev/null} |
+cat ${@:-/dev/null} |
 	vipe --suffix "${GIST_SUFFIX}" |
 	tee >"${file}"
 
