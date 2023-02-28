@@ -1,12 +1,19 @@
 #!/bin/sh -e
 #
 # - GitHub gist helper
+#
+# TODO: take extension from $1
 
 dir="$(mktemp -d ${TMPDIR:-"/tmp"}/gist.XXX)"
-file="${dir}/gistfile1${1+."${1}"}"
+file="${dir}/gistfile1${GIST_SUFFIX+."${GIST_SUFFIX}"}"
 cleanup() {
 	rm "$dir" -r
 }
 trap cleanup EXIT
-vipe --suffix "${1}" >"$file"
-gh gist create "$file"
+
+vipe --suffix "${GIST_SUFFIX}" <"${1:-/dev/null}" |
+	tee >"${file}"
+
+gh gist create "${file}" |
+	tee /dev/tty |
+	xargs xdg-open
