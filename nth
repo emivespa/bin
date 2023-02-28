@@ -24,6 +24,6 @@ case "$#" in
 	(*)
 		bin=$(which -a "$1" | tac | head -n"$2" | tail -n1)
 		shift 2
-		$bin ${1+"$@"}
+		$bin ${1+"$*"}
 		;;
 esac
