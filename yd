@@ -1,12 +1,12 @@
 #!/bin/sh -e
 #
-# - comfy youtube-dl wrapper
+# - comfy yt-dlp (youtube-dl++) wrapper
 #
 #	yd clean|md3|mp3p|vid|vidp
 
 yd() {
 	printf %s\\n 'Enter links one by line, press ctrl-D when done or ctrl-C to cancel:'
-	spongex | xargs -r youtube-dl ${1+"$@"}
+	spongex | xargs -r yt-dlp ${1+"$@"}
 }
 
 case "$1" in
