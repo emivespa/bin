@@ -1,56 +1,19 @@
 #!/bin/sh -e
 #
-# - organize your git clones several ways
+# - organize your git clones
 #
-# git clonex $mode $url
-#
-# git clonex 1p  https://git.host/user/project  == clone https://git.host/user/project ~/src/git.host%user/project
-# git clonex 1s  https://git.host/user/project  == clone https://git.host/user/project ~/src/git.host/user%project
-# git clonex p   https://git.host/user/project  == clone https://git.host/user/project ./git.host%user%project
-# git clonex s   https://git.host/user/project  == clone https://git.host/user/project ~/src/git.host/user/project
-#
-# TODO: clarify whether clone root is ./ or ./src
+# git clonex https://git.host/user/project
+# ==
+# git clone https://git.host/user/project ~/src/git.host/user/project
 
-mode="$1"
-url="$2"
-shift
+url="$1"
 shift
 
 case "$url" in
-	(*'%'*)    exit 1             ;; # Err if URL contains any %s. (Yes, even for 's' setting.)
+	# (*'%'*)    exit 1             ;; # Err if URL contains any %s.
 	(*'://'*)  dir="${url#*://}"  ;; # Strip protocol if there is one.
 	(*)        dir="$url"         ;; # Case for user@host type URLs.
 esac
 
-case "$mode" in
-	(1p)
-		# Single percent sign: ~/src/git.alice.com%alice/project
-		#
-		# Useful for self-hosted git servers with a single user.
-		dir="${HOME:-'~'}/src/$(printf %s "$dir" | sed 's|/|%|')"
-		;;
-	(1s)
-		# Single slash: ~/src/github.com/user%project
-		#
-		# Useful for big git providers.
-		dir="${HOME:-'~'}/src/$(printf %s "$dir" | sed 's|/|%|g; s|%|/|')"
-		;;
-	(p)
-		# Percent signs: ./git.host%user%project
-		#
-		# Useful for projects grouped by theme. Doesn't cd into ~/src.
-		dir="./$(printf %s "$dir" | sed 's|/|%|g')"
-		;;
-	(s)
-		# Slashes: ~/src/git.host/user/project
-		#
-		# Old default. Not as opinionated as other options. Similar to
-		# what Go uses for $GOPATH/src.
-		dir="${HOME:-'~'}/src/${dir}"
-		;;
-	(*)
-		exit 1
-		;;
-esac
-
-git clone "$url" "$dir" "$@"
+dir="${HOME:-'~'}/src/${dir}"
+git clone "$url" "$dir" "$@" # Slashes: ~/src/git.host/user/project
