@@ -1,6 +1,8 @@
 #!/bin/sh -e
 #
 # - git commit ID picker
+#
+# git revert $(git shax)
 
 preview=''
 if test "$(tput cols)" -ge '138'; then # 138 = 8 SHA + 50 message + 80 preview.
