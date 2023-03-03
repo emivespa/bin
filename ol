@@ -7,4 +7,7 @@ if command grep --version >/dev/null 2>&1; then
 	opts='--color=auto'
 fi
 
-grep $opts "$*" "${HOME:-~}/src/oneliners.sh"
+grep -v '^#' "${HOME:-~}/src/oneliners.sh" | # Ignore comments.
+	grep $opts "$*.*#" | # Select lines with $* before the #.
+	grep $opts '#.*' # Only color comment.
+
