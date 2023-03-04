@@ -1,7 +1,0 @@
-#!/bin/sh -e
-#
-# - list clone urls for all github repos within current folder
-
-find . -path '*/.git/logs/refs/remotes/origin/HEAD' |
-	xargs cat |
-	awk '{print $NF}'
