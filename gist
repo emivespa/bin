@@ -4,7 +4,7 @@
 #
 # TODO: take extension from $1
 
-dir="$(mktemp -d ${TMPDIR:-"/tmp"}/gist.XXX)"
+dir="$(mktemp -d "${TMPDIR:-"/tmp"}"/gist.XXX)"
 file="${dir}/gistfile1${GIST_SUFFIX+."${GIST_SUFFIX}"}"
 cleanup() {
 	rm "$dir" -r

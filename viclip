@@ -6,4 +6,4 @@
 # idea: write to clipboard on every write to the tmp file?
 # BUG: sometimes randomly fails.
 
-termx "xsel -ob | vipe | tee $(mktemp ${TMPDIR:-'/tmp'}/viclip-bak-$(datestamp).XXX) | xsel -ib"
+termx "xsel -ob | vipe | tee $(mktemp "${TMPDIR:-'/tmp'}"/viclip-bak-$(datestamp).XXX) | xsel -ib"

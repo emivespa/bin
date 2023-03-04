@@ -9,12 +9,12 @@
 
 command -v whisper >/dev/null 2>&1 || exit 1
 
-d="$(mktemp -d ${TMPDIR:-"/tmp"}/youtube2html.XXXXXXXX)"
+d="$(mktemp -d "${TMPDIR:-"/tmp"}"/youtube2html.XXXXXXXX)"
 cd "$d"
 
 yt-dlp --audio-format mp3 --audio-quality 0 --extract-audio --format bestaudio --no-playlist "$1" 1>&2
 find . -name '*.mp3' |
-	xargs -I _ whisper --model ${Y2H_MODEL:-tiny} --language ${Y2H_LANG:-en} _ >whisper.txt
+	xargs -I _ whisper --model "${Y2H_MODEL:-tiny}" --language "${Y2H_LANG:-en}" _ >whisper.txt
 
 cat whisper.txt |
 	awk '{ print $1 }' |
