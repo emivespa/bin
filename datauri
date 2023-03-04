@@ -4,6 +4,4 @@
 #
 # https://github.com/mathiasbynens/dotfiles/blob/main/.functions
 
-printf %s 'data:text/plain;base64,'
-base64 "${1:-/dev/stdin}" | tr -d '\n'
-printf \\n
+printf %s\\n "data:text/plain;base64,$(base64 "${1:-/dev/stdin}" | tr -d '\n')"
