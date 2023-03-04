@@ -12,7 +12,7 @@
 # HACK: lazy regex: expect it to mishandle anything but clean input of correct URLs.
 # HACK: cargo culted awk.
 
-d="${TMPDIR:-/tmp}/sortd-$(datestamp)-$(seed)"
+d="${TMPDIR:-/tmp}/sortd-$(datex sort)-$(seed)"
 cleanup() {
 	rm "$d" -r
 }
