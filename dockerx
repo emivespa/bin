@@ -9,11 +9,11 @@ sel() {
 }
 
 case "$1" in
-	(c)   docker container ls     | fzf "$fo" --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(ca)  docker container ls -a  | fzf "$fo" --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(i)   docker image ls         | fzf "$fo" --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(ia)  docker image ls -a      | fzf "$fo" --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(n)   docker network ls       | fzf "$fo" --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
-	(v)   docker volume ls        | fzf "$fo" --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
+	(c)   docker container ls     | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(ca)  docker container ls -a  | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(i)   docker image ls         | fzf $fo --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(ia)  docker image ls -a      | fzf $fo --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(n)   docker network ls       | fzf $fo --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
+	(v)   docker volume ls        | fzf $fo --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
 	(*)   exit 1 ;;
 esac
