@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# - nvi's :viusage in cheatsheet form
+# - cheatsheets
 
 tmux_cheatsheet() { # From [C-b ?].
 column<<EOF
