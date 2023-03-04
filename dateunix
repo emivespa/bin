@@ -1,0 +1,11 @@
+#!/usr/bin/awk -f
+#
+# - unix epoch date
+#
+# https://lobste.rs/s/uk5esr/rich_s_sh_posix_shell_tricks#c_rghtbb
+#
+# date +%s is a GNU extension.
+
+BEGIN {
+	print srand();
+}
