@@ -2,4 +2,4 @@
 #
 # - print nth line
 
-head -n"$1" | tail -n1
+sed -n "${1}p"
