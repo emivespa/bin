@@ -1,0 +1,10 @@
+#!/bin/sh -e
+#
+# - s3 bucket picker
+#
+# aws s3 ls $(s3x)
+
+aws s3 ls |
+	fzf -n3 |
+	awk '{print $3}' | # TODO: should use $3 or $NF?
+	sed 's|^|s3://|'
