@@ -2,6 +2,11 @@
 #
 # - comfy date wrapper
 
+if test "$#" -eq '0'; then
+	printf %s\\n 'usage: datex (doy|h|sort|unix|ymd)'
+	exit 1
+fi
+
 mode="$1"
 shift
 
