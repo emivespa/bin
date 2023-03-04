@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - shellcheck PWD
+
+find . -type f | while read -r file; do
+	test -x "$file" && shellcheck -f diff "$file"
+done
