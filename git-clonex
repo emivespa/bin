@@ -26,3 +26,9 @@ case "$mode" in
 esac
 
 git clone "$url" "$dir" "$@"
+
+xsel -ib <<EOF
+${dir}
+EOF
+
+printf %s\\n "cd '${dir}' # Has been copied to your clipboard." | tee /dev/tty | xsel -ib

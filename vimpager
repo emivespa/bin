@@ -4,7 +4,7 @@
 #
 # /usr/share/vim/vim82/macros/less.sh
 
-if test -t 1
+if test -t 1; then
 	cmd= "vim -c 'set nomodifiable readonly'"
 else
 	cmd='cat'
