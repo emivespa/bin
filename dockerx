@@ -5,7 +5,8 @@
 fo='--header-lines=1 --multi'
 
 sel() {
-	tr '\n' ' ' | xsel -ib
+	tr '\n' ' ' | tee /dev/tty | xsel -ib
+	printf \\n 1>&2
 }
 
 case "$1" in
