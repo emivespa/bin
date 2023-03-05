@@ -1,0 +1,17 @@
+#!/bin/sh -e
+#
+# - curl with generated directory path
+#
+# usage: curlx "$link" "$opts"
+
+url="$1"
+shift
+
+# Err if url cointains any %s.
+case "$url" in
+	(*'%'*) exit 1 ;;
+esac
+
+dest="$(printf %s "$url" | sed 's|/|%/g')"
+
+curl "$@" "$url" >"$dest"
