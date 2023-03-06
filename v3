@@ -1,0 +1,8 @@
+#!/bin/sh -e
+#
+# - edit s3 object "in place"
+
+s3uri="$1"
+aws s3 cp "${s3uri}" - |
+	vipe |
+	aws s3 cp - "${s3uri}"
