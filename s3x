@@ -1,10 +1,28 @@
 #!/bin/sh -e
 #
-# - s3 bucket picker
+# - s3 picker
 #
 # aws s3 ls $(s3x)
 
-aws s3 ls |
-	fzf -n3 |
-	awk '{print $3}' | # TODO: should use $3 or $NF?
-	sed 's|^|s3://|'
+mode="$1"
+shift
+
+case "$mode" in
+	(b)
+		aws s3 ls |
+			fzf -n3 |
+			awk '{print $3}' | # TODO: should use $3 or $NF?
+			sed 's|^|s3://|'
+		;;
+	(o)
+		b="$(aws s3 ls | fzf -n3 | awk '{print $3}')"
+		if test -z "${b}"; then
+			exit 1
+		fi
+		o="$(aws s3 ls "s3://${b}" | fzf -n4 | awk '{print $4}')"
+		if test -z "${o}"; then
+			exit 1
+		fi
+		printf %s\\n "s3://${b}/${o}"
+		;;
+esac
