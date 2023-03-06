@@ -27,6 +27,6 @@ esac
 
 (
 	set  -x
+	echo "${dir}" | xsel -ib
 	git clone "$url" "$dir" ${1+"$@"}
-	echo ${dir} | xsel -ib
 )
