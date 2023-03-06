@@ -4,8 +4,8 @@
 #
 # git clonex $mode $url
 #
-# git clonex a https://git.host/user/project == git clone https://git.host/user/project ~/src/git.host/user/project
-# git clonex r https://git.host/user/project == git clone https://git.host/user/project ./git.host/user/project
+# git clonex a https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
+# git clonex r https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
 #
 # TODO: clarify whether clone root is ./ or ./src
 
@@ -25,10 +25,8 @@ case "$mode" in
 	(*) exit 1                         ;;
 esac
 
-git clone "$url" "$dir" "$@"
-
-xsel -ib <<EOF
-${dir}
-EOF
-
-printf %s\\n "cd '${dir}' # Has been copied to your clipboard." | tee /dev/tty | xsel -ib
+(
+	set  -x
+	git clone "$url" "$dir" ${1+"$@"}
+	echo ${dir} | xsel -ib
+)
