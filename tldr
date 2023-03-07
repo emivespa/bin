@@ -1,0 +1,62 @@
+#!/bin/sh -e
+#
+# - MVP fallback tldr client
+#
+# Loosely based on tldr-sh-client, which looks pretty cool but doesn't work on
+# my machine.
+# https://github.com/raylee/tldr-sh-client
+
+command -v curl >/dev/null 2>&1 || exit 1
+
+while test "$#" -gt '0'
+do
+	case "$1" in
+		-p|--platform)
+			if test -z "$2"
+			then
+				>&2 printf %s\\n 'missing platform'
+				exit 64
+			fi
+			specified_platform="$2"
+			shift
+			;;
+		-v|--version)
+			>&2 printf %s\\n 'versionless client, not spec compliant'
+			exit 0
+			;;
+		-*)
+			>&2 printf %s\\n "Unrecognized option '$1'"
+			exit 64
+			;;
+		*)
+			# https://github.com/tldr-pages/tldr/blob/main/CLIENT-SPECIFICATION.md#page-names
+			page=$(printf %s "$*" | tr 'A-Z ' 'a-z-')
+			break
+			;;
+	esac
+	shift
+done
+
+case "$(uname -s)" in
+	CYGWIN* | MINGW32* | MSYS*)  detected_platform='windows'  ;;
+	Darwin)                      detected_platform='osx'      ;;
+	Linux)                       detected_platform='linux'    ;;
+	SunOS)                       detected_platform='sunos'    ;;
+	*)                           detected_platform='common'   ;;
+	# android?
+esac
+
+base_url='https://raw.githubusercontent.com/tldr-pages/tldr/master/pages'
+if test -n "$specified_platform"
+then
+	curl -fs "${base_url}/${specified_platform}/${page:-tldr}.md"
+else
+	if test "$detected_platform" = 'common'
+	then
+		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md"
+	else
+		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" ||
+			curl -fs "${base_url}/common/${page:-tldr}.md"
+	fi
+fi
+
