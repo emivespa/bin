@@ -2,4 +2,9 @@
 #
 # - personal pwgen wrapper
 
-pwgen --no-capitalize --numerals --secure $@ 8 2
+pwgen --no-capitalize --numerals --secure $@ 16 1 |
+	tee /dev/tty |
+	tr -d '\n' |
+	xsel -bi
+
+printf %s\\n '(Has been copied to your clipboard.)'
