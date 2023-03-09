@@ -10,6 +10,7 @@ sel() {
 }
 
 case "$1" in
+	# shellcheck disable=2086 # Intentional: "Double quote to prevent globbing and word splitting."
 	(c)   docker container ls     | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
 	(ca)  docker container ls -a  | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
 	(i)   docker image ls         | fzf $fo --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
