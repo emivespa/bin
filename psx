@@ -6,4 +6,4 @@ ps aux |
 	fzf --header-lines=1 --multi |
 	awk '{print $2}' |
 	tee /dev/tty |
-	xsel -ib
+	cbx

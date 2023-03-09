@@ -33,4 +33,4 @@ fi
 fmenu <"$f" |
 	cut -d' ' -f1 |
 	tr -d '\n' |
-	xsel -ib
+	cbx

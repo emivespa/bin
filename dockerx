@@ -5,7 +5,7 @@
 fo='--header-lines=1 --multi'
 
 sel() {
-	tr '\n' ' ' | tee /dev/tty | xsel -ib
+	tr '\n' ' ' | cbx
 	printf \\n 1>&2
 }
 

@@ -26,7 +26,7 @@ case "$mode" in
 esac
 
 (
-	set  -x
-	echo "${dir}" | xsel -ib
+	set -x
+	echo "${dir}" | cbx
 	git clone "$url" "$dir" ${1+"$@"}
 )

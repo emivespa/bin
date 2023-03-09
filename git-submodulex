@@ -2,7 +2,7 @@
 #
 # - git-clonex for submodules
 #
-# No a/r option.
+# No a/r option, only relative paths allowed.
 
 url="$1"
 shift
@@ -13,7 +13,7 @@ case "$url" in
 esac
 
 (
-	set  -x
-	echo "${dir}" | xsel -ib
+	set -x
+	echo "${dir}" | cbx
 	git submodule add "$url" "$dir" ${1+"$@"}
 )
