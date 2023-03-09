@@ -1,0 +1,36 @@
+#!/bin/sh -e
+#
+# - universal clipboard for portable scripts
+#
+# Will copy stdin if there is any.
+# Prints contents by default, so you can use it like tee.
+#
+# $stream | cbx
+# cbx | $filter
+
+case "$(uname -s)" in
+	('Darwin')
+		command -v 'pbcopy' >/dev/null 2>&1 || exit 1
+		command -v 'pbpaste' >/dev/null 2>&1 || exit 1
+		cbxi() { pbcopy ; }
+		cbxo() { pbpaste ; }
+		;;
+	('Linux')
+		if command -v 'xsel' >/dev/null 2>&1; then
+			cbxi() { xsel -bi ; }
+			cbxo() { xsel -bo ; }
+		elif command -v 'xclip' >/dev/null 2>&1; then
+			cbxi() { xclip -i -selection clipboard ; }
+			cbxo() { xclip -o -selection clipboard ; }
+		else
+			exit 1
+		fi
+		;;
+	(*)
+		;;
+esac
+
+if test -p /dev/stdin; then
+	cbxi
+fi
+cbxo
