@@ -1,10 +1,11 @@
 #!/bin/sh -e
 #
-# - MVP fallback tldr client
+# - fallback tldr client
 #
 # Loosely based on tldr-sh-client, which looks pretty cool but doesn't work on
-# my machine.
-# https://github.com/raylee/tldr-sh-client
+# my machine for some reason. <https://github.com/raylee/tldr-sh-client>
+#
+# TODO: cache?
 
 command -v curl >/dev/null 2>&1 || exit 1
 
@@ -46,6 +47,12 @@ case "$(uname -s)" in
 	# android?
 esac
 
+mdfmt() {
+	sed "s/^\`/$(tput rev)\`/; s/\`$/\`$(tput sgr0)/"
+		# No empty lines, reverse fg/bg for code blocks.
+}
+
+# TODO: clean up this logic:
 base_url='https://raw.githubusercontent.com/tldr-pages/tldr/master/pages'
 if test -n "$specified_platform"
 then
@@ -53,10 +60,13 @@ then
 else
 	if test "$detected_platform" = 'common'
 	then
-		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md"
+		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" |
+			mdfmt
 	else
-		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" ||
-			curl -fs "${base_url}/common/${page:-tldr}.md"
+		{
+			curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" ||
+				curl -fs "${base_url}/common/${page:-tldr}.md"
+		} |
+			mdfmt
 	fi
 fi
-
