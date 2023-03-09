@@ -33,6 +33,7 @@ For a complete list, run `make whatis`.
 
 		curlx
 		git-clonex
+		git-submodulex
 
 ## Ideas
 

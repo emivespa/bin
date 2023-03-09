@@ -1,0 +1,19 @@
+#!/bin/sh -e
+#
+# - git-clonex for submodules
+#
+# No a/r option.
+
+url="$1"
+shift
+
+case "$url" in
+	(*'://'*)  dir="${url#*://}"  ;; # Strip protocol if there is one.
+	(*)        dir="$url"         ;; # Case for user@host type URLs.
+esac
+
+(
+	set  -x
+	echo "${dir}" | xsel -ib
+	git submodule add "$url" "$dir" ${1+"$@"}
+)
