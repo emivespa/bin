@@ -1,7 +1,7 @@
 #!/bin/sh -e
 #
 # - vim anywhere!* edit clipboard contents (as if) in place
-# *or your $EDITOR
+# *or whatever your $EDITOR is
 #
 # idea: write to clipboard on every write to the tmp file?
 # BUG: sometimes randomly fails.
