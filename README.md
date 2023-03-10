@@ -2,41 +2,42 @@
 
 For a complete list, run `make whatis`.
 
-	backup lists of pointers to things
+	base for a lot of things here
 
-		Musicbak  ~/Music folder content as youtube links
-		aptbak    installed package names
-		git-urls  remote URLs for all repos under ./
-
-	comfy wrappers around tiring-to-type commands
-
-		datex  date: DOY, human readable, file sorting, unix, YYYY-mm-dd
-		yd     youtube-dl/yt-dlp
-
-	edit thing "as if in place"
-
-		gist    new Github gist
-		ix      ix pastebin entry
-		v3      s3 objects
-		viclip  clipboard contents
+		cbx - tee to clipboard and stdin
+		fmenu - termx + fzf = dmenu replacement
+		fzf* - by junegunn
+		termx - run command in a new terminal unless within one
+		vipe* - "edit pipe" from moreutils
 
 	fzf thing pickers
 
-		aptf      apt packages (feeds to `apt list`)
-		dockerx   docker IDs (running containers, images, most things)
+		aptf - apt packages (feeds to `apt list`)
+		dockerx - docker IDs (running containers, images, most things)
 		emoji
-		git-shax  commit IDs
-		psx       PIDs
-		s3x       s3 URIs
+		git-shax - commit IDs
+		psx - PIDs
+		s3x - s3 URIs
+
+	vipe pipes: edit thing "as if in place"
+
+		gist - new Github gist
+		ix - ix pastebin entry
+		v3 - s3 objects
+		viclip - clipboard contents
+
+	backup lists of pointers to things
+
+		musicbak - ~/Music folder content as youtube links
+		aptbak - installed package names
+		git-urls - remote URLs for all repos under ./
+
+	comfy wrappers for tiring-to-type commands
+
+		datex - date: DOY, human readable, file sorting, unix, YYYY-mm-dd
+		yd - youtube-dl/yt-dlp
 
 	organize downloads based on URL
 
 		curlx
 		git-clonex
-		git-submodulex
-
-## Ideas
-
-* custom website archival utility? https://www.gwern.net/Archiving-URLs
-* something like luke smith's "copy command" script, but less hacky by way of
-  using bash history instead of PS1 regex
