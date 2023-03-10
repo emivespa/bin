@@ -12,5 +12,4 @@ fi
 git log --oneline |
 	fzf --preview="$preview" |
 	awk '{print $1}' |
-	tee /dev/tty |
 	cbx
