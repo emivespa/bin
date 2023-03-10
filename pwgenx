@@ -3,6 +3,5 @@
 # - personal pwgen wrapper
 
 pwgen --no-capitalize --numerals --secure $@ 16 1 |
-	tee /dev/tty |
 	tr -d '\n' |
 	cbx
