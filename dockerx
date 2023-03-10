@@ -6,7 +6,6 @@ fo='--header-lines=1 --multi'
 
 sel() {
 	tr '\n' ' ' | cbx
-	printf \\n 1>&2
 }
 
 case "$1" in
