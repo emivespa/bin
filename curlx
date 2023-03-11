@@ -7,11 +7,13 @@
 url="$1"
 shift
 
-# Err if url cointains any %s.
 case "$url" in
-	(*'%'*) exit 1 ;;
+	(*'://'*)  dest="${url#*://}"  ;; # Strip protocol if there is one.
+	(*)        dest="$url"         ;;
 esac
 
-dest="$(printf %s "$url" | sed 's|/|%/g')"
+# dest="$(printf %s "$url" | sed 's|/|%/g')"
 
-curl "$@" "$url" >"$dest"
+curl --create-dirs -o "$dest" ${1+"$@"} -- "$url"
+
+
