@@ -4,9 +4,9 @@ For a complete list, run `make whatis`.
 
 	base for a lot of things here
 
-		cbx - tee to clipboard and stdin
+		cbx - optimistically tee and copy to clipboard
 		fmenu - termx + fzf = dmenu replacement
-		fzf* - by junegunn
+		fzf* - "A command-line fuzzy finder" https://github.com/junegunn/fzf
 		termx - run command in a new terminal unless within one
 		vipe* - "edit pipe" from moreutils
 

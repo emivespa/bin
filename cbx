@@ -7,6 +7,8 @@
 #
 # $stream | cbx
 # cbx | $filter
+#
+# TODO: make work on no-clipboard environments.
 
 case "$(uname -s)" in
 	('Darwin')
@@ -22,8 +24,6 @@ case "$(uname -s)" in
 		elif command -v 'xclip' >/dev/null 2>&1; then
 			cbxi() { xclip -i -selection clipboard ; }
 			cbxo() { xclip -o -selection clipboard ; }
-		else
-			exit 1
 		fi
 		;;
 	(*)
@@ -31,6 +31,13 @@ case "$(uname -s)" in
 esac
 
 if test -p /dev/stdin; then
-	cbxi
+	temp="$(mktemp)"
+	tee "$temp"
+	if command -v cbxi >/dev/null 2>&1; then
+		cbxi <"$temp"
+	fi
+else
+	cbxo
 fi
-cbxo
+
+
