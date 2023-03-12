@@ -1,0 +1,24 @@
+#!/bin/sh -e
+#
+# - toggle light and dark versions of Yaru gtk-theme
+#
+# TODO turn into general purpose theme switcher
+#	how to know what theme to use? how does neofetch do it?
+#
+# TODO: s/dconf/gsettings/ ?
+
+key='/org/gnome/desktop/interface/gtk-theme'
+
+case "$(dconf read ${key})" in
+	("'Yaru'")
+		dconf write ${key} "'Yaru-dark'"
+		;;
+	("'Yaru-dark'")
+		dconf write ${key} "'Yaru'"
+		;;
+	(*)
+		dconf read "$key"
+		exit 1
+		;;
+esac
+
