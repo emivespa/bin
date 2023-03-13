@@ -11,8 +11,8 @@ whatis:
 
 ################################################################################
 
-.PHONY: submodule-symlinks
-submodule-symlinks: birch fff neofetch pfetch shfm
+.PHONY: vendor
+vendor: birch fff neofetch pfetch shfm
 
 birch:
 	ln -s vendor/github.com/dylanaraps/birch/birch birch
