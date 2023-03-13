@@ -13,3 +13,6 @@
 [submodule "vendor/github.com/dylanaraps/birch"]
 	path = vendor/github.com/dylanaraps/birch
 	url = https://github.com/dylanaraps/birch
+[submodule "vendor/git.zx2c4.com/password-store"]
+	path = vendor/git.zx2c4.com/password-store
+	url = https://git.zx2c4.com/password-store

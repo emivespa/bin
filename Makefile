@@ -12,7 +12,7 @@ whatis:
 ################################################################################
 
 .PHONY: vendor
-vendor: birch fff neofetch pfetch shfm
+vendor: birch fff neofetch pass pfetch shfm
 
 birch:
 	ln -s vendor/github.com/dylanaraps/birch/birch birch
@@ -23,11 +23,11 @@ fff:
 neofetch:
 	ln -s vendor/github.com/dylanaraps/neofetch/neofetch neofetch
 
-pass: ; # TODO
+pass:
+	ln -s vendor/git.zx2c4.com/password-store/src/password-store.sh pass
 
 pfetch:
 	ln -s vendor/github.com/dylanaraps/pfetch/pfetch pfetch
 
 shfm:
 	ln -s vendor/github.com/dylanaraps/shfm/shfm shfm
-
