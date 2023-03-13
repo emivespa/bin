@@ -12,7 +12,7 @@ For a complete list, run `make whatis`.
 
 	fzf thing pickers
 
-		aptf - apt packages (feeds to `apt list`)
+		aptf - apt packages
 		dockerx - docker IDs (running containers, images, most things)
 		emoji
 		git-shax - commit IDs
