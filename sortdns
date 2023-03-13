@@ -13,10 +13,10 @@
 # HACK: cargo culted awk.
 
 d="${TMPDIR:-/tmp}/sortd-$(datex sort)-$(seed)"
-cleanup() {
+on_exit() {
 	rm "$d" -r
 }
-trap cleanup EXIT
+trap on_exit EXIT
 mkdir -p "$d"
 cd "$d" || exit 1
 

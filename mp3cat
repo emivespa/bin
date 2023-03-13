@@ -10,10 +10,10 @@ if test "$#" -le '2'; then
 fi
 
 f="${TMPDIR:-/tmp}/catmp3.$(seed).mp3"
-cleanup() {
+on_exit() {
 	rm "$f"
 }
-trap cleanup EXIT
+trap on_exit EXIT
 
 url="concat:${1}"
 shift
