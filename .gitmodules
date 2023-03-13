@@ -1,0 +1,15 @@
+[submodule "vendor/github.com/dylanaraps/pfetch"]
+	path = vendor/github.com/dylanaraps/pfetch
+	url = https://github.com/dylanaraps/pfetch
+[submodule "vendor/github.com/dylanaraps/neofetch"]
+	path = vendor/github.com/dylanaraps/neofetch
+	url = https://github.com/dylanaraps/neofetch
+[submodule "vendor/github.com/dylanaraps/fff"]
+	path = vendor/github.com/dylanaraps/fff
+	url = https://github.com/dylanaraps/fff
+[submodule "vendor/github.com/dylanaraps/shfm"]
+	path = vendor/github.com/dylanaraps/shfm
+	url = https://github.com/dylanaraps/shfm
+[submodule "vendor/github.com/dylanaraps/birch"]
+	path = vendor/github.com/dylanaraps/birch
+	url = https://github.com/dylanaraps/birch
