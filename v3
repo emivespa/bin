@@ -10,3 +10,7 @@ fi
 aws s3 cp "${s3uri}" - |
 	vipe |
 	aws s3 cp - "${s3uri}"
+
+# TODO: when -R flag:
+# aws s3 cp "${s3uri}" - |
+# 	vimpager
