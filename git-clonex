@@ -15,8 +15,14 @@ shift
 shift
 
 case "$url" in
-	(*'://'*)  dir="${url#*://}"  ;; # Strip protocol if there is one.
-	(*)        dir="$url"         ;; # Case for user@host type URLs.
+	(*'://'*) # Strip protocol if there is one.
+		dir="${url#*://}"
+		;;
+	(*)
+		# Case for user@host type URLs.
+		# TODO: do something else for user@host type urls.
+		dir="$url"
+		;;
 esac
 
 case "$mode" in
@@ -28,5 +34,5 @@ esac
 (
 	set -x
 	echo "${dir}" | cbx
-	git clone "$url" "$dir" ${1+"$@"}
+	git clone ${1+"$@"} "$url" "$dir"
 )

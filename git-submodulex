@@ -15,5 +15,5 @@ esac
 (
 	set -x
 	echo "${dir}" | cbx
-	git submodule add "$url" "$dir" ${1+"$@"}
+	git submodule add ${1+"$@"} "$url" "$dir"
 )
