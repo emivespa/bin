@@ -20,6 +20,9 @@ birch:
 fff:
 	ln -s vendor/github.com/dylanaraps/fff/fff fff
 
+golfetch:
+	ln -s vendor/github.com/dylanaraps/golfetch/pf-unobfuscated golfetch
+
 neofetch:
 	ln -s vendor/github.com/dylanaraps/neofetch/neofetch neofetch
 
