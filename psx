@@ -3,6 +3,6 @@
 # - ps aux PID picker
 
 ps aux |
-	fzf --header-lines=1 --multi |
+	fzf --header-lines=1 -m -n 11.. |
 	awk '{print $2}' |
 	cbx
