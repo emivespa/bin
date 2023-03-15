@@ -4,17 +4,14 @@
 #
 # TODO: take extension from $1
 
-dir="$(mktemp -d "${TMPDIR:-"/tmp"}"/gist.XXX)"
-file="${dir}/gistfile1${GIST_SUFFIX+."${GIST_SUFFIX}"}"
-on_exit() {
-	rm "$dir" -r
-}
-trap on_exit EXIT
-
-cat ${@:-/dev/null} |
-	vipe --suffix "${GIST_SUFFIX}" |
-	tee >"${file}"
-
-gh gist create "${file}" |
-	tee /dev/tty |
-	xargs xdg-open
+{
+	if test -p /dev/stdin; then
+		cat - ${@:-/dev/null}
+	else
+		cat ${@:-/dev/null}
+	fi
+} |
+	vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
+	gh gist create - -w |
+	awk '{ print $2 }' |
+	cbx
