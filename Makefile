@@ -14,6 +14,9 @@ whatis:
 .PHONY: vendor
 vendor: birch fff neofetch pass pfetch shfm
 
+ani:
+	ln -s vendor/github.com/pystardust/ani-cli/ani-cli ani
+
 birch:
 	ln -s vendor/github.com/dylanaraps/birch/birch birch
 

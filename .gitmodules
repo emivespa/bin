@@ -19,3 +19,6 @@
 [submodule "vendor/github.com/dylanaraps/golfetch"]
 	path = vendor/github.com/dylanaraps/golfetch
 	url = https://github.com/dylanaraps/golfetch
+[submodule "vendor/github.com/pystardust/ani-cli"]
+	path = vendor/github.com/pystardust/ani-cli
+	url = https://github.com/pystardust/ani-cli
