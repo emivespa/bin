@@ -2,20 +2,32 @@
 #
 # - docker ID picker
 
-fo='--header-lines=1 --multi'
+FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --header-lines=1"
+
+mode_pick() {
+	fzf -n1 --header-lines=1<<-EOF | awk '{ print $1 }'
+		Choose mode:
+		c   container
+		ca  container --all
+		i   image
+		ia  image --all
+		n   network
+		v   volume
+	EOF
+}
+mode="${1:-$(mode_pick)}"
 
 sel() {
 	tr '\n' ' ' | cbx
 	printf \\n
 }
 
-case "$1" in
-	# shellcheck disable=2086 # Intentional: "Double quote to prevent globbing and word splitting."
-	(c)   docker container ls     | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(ca)  docker container ls -a  | fzf $fo --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(i)   docker image ls         | fzf $fo --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(ia)  docker image ls -a      | fzf $fo --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(n)   docker network ls       | fzf $fo --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
-	(v)   docker volume ls        | fzf $fo --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
+case "$mode" in
+	(c)   docker container ls     | fzf -m --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(ca)  docker container ls -a  | fzf -m --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(i)   docker image ls         | fzf -m --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(ia)  docker image ls -a      | fzf -m --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(n)   docker network ls       | fzf -m --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
+	(v)   docker volume ls        | fzf -m --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
 	(*)   exit 1 ;;
 esac
