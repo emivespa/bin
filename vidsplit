@@ -1,0 +1,46 @@
+#!/bin/sh -e
+#
+# - download youtube video split by chapter
+#
+# * $1 is the URL
+# * arguents after the url are passed as yt-dlp flags when downloading
+#   * not for --dump-json
+# * we use --ignore-config because you likely don't want your global options to be used here
+
+url="$1"; shift
+YTDLP_OPTS="--ignore-config --embed-thumbnail --geo-bypass --no-call-home"
+YTDLP_OPTS_DL="${1+"$@"}"
+
+chapters_json="$(yt-dlp $YTDLP_OPTS --dump-json "$url" | jq -r '.chapters')"
+
+t2hms()
+{
+        # Total seconds to HH:MM:SS
+	read -r t
+	h=$((t / 3600))
+	m=$((t % 3600 / 60))
+	s=$((t % 60))
+	printf "%02d:%02d:%02d\n" "$h" "$m" "$s"
+}
+
+while true; do
+	if test -z "$i"; then
+		i='0'
+	else
+		i="$(echo "${i} + 1" | bc)"
+	fi
+	obj="$(echo "$chapters_json" | jq ".[$i]")"
+	if test "$obj" = 'null'; then
+		break
+	fi
+	start_time="$(echo "$obj" | jq -r '.start_time' | t2hms)"
+	end_time="$(echo "$obj" | jq -r '.end_time' | t2hms)"
+	title="$(echo "$obj" | jq -r '.title')"
+	printf %s\\n "$start_time $end_time $title"
+	yt-dlp  \
+		$YTDLP_OPTS \
+		$YTDLP_OPTS_DL \
+		--download-sections "*$start_time-$end_time" \
+		--output "$title - %(title)s.%(ext)s" \
+		-- "$url"
+done
