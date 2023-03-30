@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - total seconds to HH:MM:SS
+#
+# (No dd:HH:MM:SS support for now.)
+
+read -r t
+h=$((t / 3600))
+m=$((t % 3600 / 60))
+s=$((t % 60))
+printf "%02d:%02d:%02d\n" "$h" "$m" "$s"
