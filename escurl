@@ -25,10 +25,7 @@ urlencode() {
 	done
 	printf '\n'
 }
-# urldecode() {
-# 	# Usage: urldecode "string"
-# 	: "${1//+/ }"
-# 	printf '%b\n' "${_//%/\\x}"
-# }
 
-urlencode "$1"
+while read -r s; do
+	urlencode "$s"
+done
