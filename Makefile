@@ -12,7 +12,7 @@ whatis:
 ################################################################################
 
 .PHONY: vendor
-vendor: birch fff neofetch pass pfetch shfm
+vendor: ani birch fff neofetch pass pfetch shfm ytfzf
 
 ani:
 	ln -s vendor/github.com/pystardust/ani-cli/ani-cli ani
@@ -37,3 +37,6 @@ pfetch:
 
 shfm:
 	ln -s vendor/github.com/dylanaraps/shfm/shfm shfm
+
+ytfzf:
+	ln -s vendor/github.com/pystardust/ytfzf/ytfzf ytfzf

@@ -22,3 +22,6 @@
 [submodule "vendor/github.com/pystardust/ani-cli"]
 	path = vendor/github.com/pystardust/ani-cli
 	url = https://github.com/pystardust/ani-cli
+[submodule "vendor/github.com/pystardust/ytfzf"]
+	path = vendor/github.com/pystardust/ytfzf
+	url = https://github.com/pystardust/ytfzf
