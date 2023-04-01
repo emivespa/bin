@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - shellcheck for :'<,'>!
+
+dir="$(mktemp -d)"
+cd "$dir" || exit 1
+cat - >file
+shellcheck -f diff file 2>/dev/null | patch -p1 >/dev/null
+cat file
