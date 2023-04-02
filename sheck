@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# - shellcheck for :'<,'>!
+# - shellcheck for piping selections through
 
 dir="$(mktemp -d)"
 cd "$dir" || exit 1
