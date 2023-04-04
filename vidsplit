@@ -53,17 +53,16 @@ on_exit()
 }
 trap on_exit EXIT
 yt-dlp $YTDLP_OPTS --dump-json "$url" | jq >"$temp"
-
 # Create dir for files, cd into it and mv json dump from $temp to dir/dump.json
 if test -z "$dir"; then
 	dir="$(jq -r '.title' "$temp") [$(jq -r '.id' "$temp")].d" # Mimic yt-dlp video format.
 fi
-mkdir "$dir"
+mkdir -p "$dir"
 cd "$dir" || exit 1
 cp "$temp" dump.json
 
 chapters_length="$(jq -r '.chapters | length' dump.json)"
-last_i="$(expr "$chapters_length" - 1)"
+last_i="$(( $chapters_length - 1))"
 for i in $(seq 0 "$last_i"); do
 	start_time="$(jq -r ".chapters[${i}].start_time" dump.json | t2hms)"
 	end_time="$(jq -r ".chapters[${i}].end_time" dump.json | t2hms)"
