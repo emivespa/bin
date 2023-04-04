@@ -23,4 +23,5 @@ test "$#" -eq '0' && {
 			head -1 |
 			sed -E "s/(^.*)(- .+$)/${f}  \2/g" # 2 spaces to work as es input.
 	done
-} | es # FIXME: this pipe is weird.
+} |
+	es

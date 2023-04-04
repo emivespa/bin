@@ -2,8 +2,6 @@
 #
 # - WIP uri-escape text
 #
-# TODO: stdin?
-#
 # https://www.werockyourweb.com/url-escape-characters/
 # https://github.com/dylanaraps/pure-bash-bible#percent-encode-a-string
 #
