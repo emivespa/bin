@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# - universal clipboard for portable scripts
+# - optimistically tee to clipboard
 #
 # Will copy stdin if there is any.
 # Prints contents by default, so you can use it like tee.
@@ -12,32 +12,28 @@
 
 case "$(uname -s)" in
 	('Darwin')
-		command -v 'pbcopy' >/dev/null 2>&1 || exit 1
-		command -v 'pbpaste' >/dev/null 2>&1 || exit 1
-		cbxi() { pbcopy ; }
-		cbxo() { pbpaste ; }
+		if command -v 'pbcopy' >/dev/null 2>&1; then
+			cbxi='pbcopy'
+		fi
+		# if command -v 'pbpaste' >/dev/null 2>&1; then
+		# 	cbxo='pbpaste'
+		# fi
 		;;
 	('Linux')
 		if command -v 'xsel' >/dev/null 2>&1; then
-			cbxi() { xsel -bi ; }
-			cbxo() { xsel -bo ; }
+			cbxi='xsel -bi'
+			# cbxo='xsel -bo'
 		elif command -v 'xclip' >/dev/null 2>&1; then
-			cbxi() { xclip -i -selection clipboard ; }
-			cbxo() { xclip -o -selection clipboard ; }
+			cbxi='xclip -i -selection clipboard'
+			# cbxo='xclip -o -selection clipboard'
 		fi
 		;;
 	(*)
 		;;
 esac
 
-if test -p /dev/stdin; then
-	temp="$(mktemp)"
-	tee "$temp"
-	if command -v cbxi >/dev/null 2>&1; then
-		cbxi <"$temp"
-	fi
-else
-	cbxo
+stdin="$(cat -)"
+if test -n "$cbxi"; then
+	printf %s\\n "$stdin" | $cbxi
 fi
-
-
+printf %s\\n "$stdin"
