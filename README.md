@@ -2,9 +2,9 @@
 
 For a complete list, run `make whatis`.
 
-	base for a lot of things here
+	deps for other things here
 
-		cbx - optimistically tee and copy to clipboard
+		cbx - optimistically tee to clipboard
 		fmenu - termx + fzf = dmenu replacement
 		fzf* - "A command-line fuzzy finder" https://github.com/junegunn/fzf
 		termx - run command in a new terminal unless within one
