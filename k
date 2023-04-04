@@ -1,5 +1,5 @@
 #!/bin/sh -e
 #
-# - kubectl
+# - kubectl "alias"
 
 kubectl ${1+"$@"}

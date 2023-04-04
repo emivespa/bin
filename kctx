@@ -1,5 +1,5 @@
 #!/bin/sh -e
 #
-# - kubectx
+# - kubectx "alias"
 
 kubectx ${1+"$@"}
