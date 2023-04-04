@@ -48,8 +48,7 @@ case "$(uname -s)" in
 esac
 
 mdfmt() {
-	sed "s/^\`/$(tput rev)\`/; s/\`$/\`$(tput sgr0)/"
-		# No empty lines, reverse fg/bg for code blocks.
+	cat -
 }
 
 # TODO: clean up this logic:
@@ -60,13 +59,9 @@ then
 else
 	if test "$detected_platform" = 'common'
 	then
-		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" |
-			mdfmt
+		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md"
 	else
-		{
-			curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" ||
-				curl -fs "${base_url}/common/${page:-tldr}.md"
-		} |
-			mdfmt
+		curl -fs "${base_url}/${detected_platform}/${page:-tldr}.md" ||
+			curl -fs "${base_url}/common/${page:-tldr}.md"
 	fi
 fi
