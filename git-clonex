@@ -9,10 +9,8 @@
 
 set -eu -o pipefail
 
-mode="$1"
-url="$2"
-shift
-shift
+mode="$1"; shift
+url="$1"; shift
 
 case "$url" in
 	(*'://'*)
@@ -32,8 +30,5 @@ case "$mode" in
 	(*) exit 1                         ;;
 esac
 
-(
-	set -x
-	echo "${dir}" | cbx
-	git clone ${1+"$@"} "$url" "$dir"
-)
+git clone ${1+"$@"} "$url" "$dir"
+echo "${dir}" | cbx
