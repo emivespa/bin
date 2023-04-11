@@ -1,0 +1,43 @@
+#!/bin/sh -e
+#
+# - print youtube video chapter data as csv
+#
+# chapterx $url >drag-and-drop.csv
+#
+# TODO: remove rec2csv dependency.
+
+command -v jq >/dev/null 2>&1 || exit 1
+command -v rec2csv >/dev/null 2>&1 || exit 1
+command -v yt-dlp >/dev/null 2>&1 || exit 1
+
+# Work in a temp directory.
+d="$(mktemp -d)"
+on_exit()
+{
+	rm "$d" -rf
+}
+trap on_exit EXIT
+cd "$d" || exit 1
+
+yt-dlp --dump-json "$1" >dump.json
+
+id="$(jq -r ".id" dump.json)"
+link="https://youtube.com/watch?v=${id}"
+chapters_length="$(jq -r '.chapters | length' dump.json)"
+last_i="$(( chapters_length - 1))"
+{
+	for i in $(seq 0 "$last_i"); do
+		start_time="$(jq -r ".chapters[${i}].start_time" dump.json)"
+		end_time="$(jq -r ".chapters[${i}].end_time" dump.json)"
+		title="$(jq -r ".chapters[${i}].title" dump.json)"
+
+		printf %s\\n "chapternumber: $(( i + 1 ))"
+		printf %s\\n "title: ${title}"
+		printf %s\\n "description:"
+		printf %s\\n "+ ORIGINAL ${link}"
+		printf %s\\n "+ CLIP_START ${link}&t=${start_time}"
+		printf %s\\n "+ CLIP_END ${link}&t=${end_time}"
+		printf %s\\n ""
+	done
+} |
+	rec2csv
