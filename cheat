@@ -2,6 +2,82 @@
 #
 # - cheatsheets
 
+ec2_cheatsheet() {
+cat<<EOF
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html
+EOF
+column<<EOF
+ami-id
+ami-launch-index
+ami-manifest-path
+ancestor-ami-ids
+autoscaling/target-lifecycle-state
+block-device-mapping/ami
+block-device-mapping/ebsN
+block-device-mapping/ephemeralN
+block-device-mapping/root
+block-device-mapping/swap
+elastic-gpus/associations/elastic-gpu-id
+elastic-inference/associations/eia-id
+events/maintenance/history
+events/maintenance/scheduled
+events/recommendations/rebalance
+hostname
+iam/info
+iam/security-credentials/role-name
+identity-credentials/ec2/info
+identity-credentials/ec2/security-credentials/ec2-instance
+instance-action
+instance-id
+instance-life-cycle
+instance-type
+ipv6
+kernel-id
+local-hostname
+local-ipv4
+mac
+metrics/vhostmd
+network/interfaces/macs/mac/device-number
+network/interfaces/macs/mac/interface-id
+network/interfaces/macs/mac/ipv4-associations/public-ip
+network/interfaces/macs/mac/ipv6s
+network/interfaces/macs/mac/local-hostname
+network/interfaces/macs/mac/local-ipv4s
+network/interfaces/macs/mac/mac
+network/interfaces/macs/mac/network-card-index
+network/interfaces/macs/mac/owner-id
+network/interfaces/macs/mac/public-hostname
+network/interfaces/macs/mac/public-ipv4s
+network/interfaces/macs/mac/security-group-ids
+network/interfaces/macs/mac/security-groups
+network/interfaces/macs/mac/subnet-id
+network/interfaces/macs/mac/subnet-ipv4-cidr-block
+network/interfaces/macs/mac/subnet-ipv6-cidr-blocks
+network/interfaces/macs/mac/vpc-id
+network/interfaces/macs/mac/vpc-ipv4-cidr-block
+network/interfaces/macs/mac/vpc-ipv4-cidr-blocks
+network/interfaces/macs/mac/vpc-ipv6-cidr-blocks
+placement/availability-zone
+placement/availability-zone-id
+placement/group-name
+placement/host-id
+placement/partition-number
+placement/region
+product-codes
+public-hostname
+public-ipv4
+public-keys/0/openssh-key
+ramdisk-id
+reservation-id
+security-groups
+services/domain
+services/partition
+spot/instance-action
+spot/termination-time
+tags/instance
+EOF
+}
+
 http_cheatsheet() { # From Wikipedia (RFC 9110).
 column<<EOF
 1xx (Informational): The request was received, continuing process
@@ -272,8 +348,10 @@ EOF
 }
 
 case "$1" in
+	(ec2) ec2_cheatsheet ;;
 	(http) http_cheatsheet ;;
 	(tmux) tmux_cheatsheet ;;
 	(vi) vi_cheatsheet ;;
 	(*) exit 1 ;;
 esac
+
