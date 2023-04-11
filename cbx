@@ -11,6 +11,7 @@
 # TODO: make work on no-clipboard environments.
 
 case "$(uname -s)" in
+	# TODO: FreeBSD, NetBSD, OpenBSD, Windows (Windows_NT).
 	('Darwin')
 		if command -v 'pbcopy' >/dev/null 2>&1; then
 			cbxi='pbcopy'
@@ -29,11 +30,14 @@ case "$(uname -s)" in
 		fi
 		;;
 	(*)
+		printf %s\\n "OS not supported, just piping to stdin:"
 		;;
 esac
 
-stdin="$(cat -)"
+stdin="$(cat -)
+"
+
 if test -n "$cbxi"; then
-	printf %s\\n "$stdin" | $cbxi
+	printf %s "$stdin" | $cbxi
 fi
-printf %s\\n "$stdin"
+printf %s "$stdin"
