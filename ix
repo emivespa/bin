@@ -2,4 +2,4 @@
 #
 # - even lighter weight ix.io client
 
-cat ${@:-/dev/null} | vipe | curl -F 'f:1=<-' ix.io
+cat ${@:-/dev/null} | vipe | curl -F 'f:1=<-' ix.io | cbx
