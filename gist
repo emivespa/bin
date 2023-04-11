@@ -4,14 +4,37 @@
 #
 # TODO: take extension from $1
 
-{
-	if test -p /dev/stdin; then
-		cat - ${@:-/dev/null}
-	else
-		cat ${@:-/dev/null}
-	fi
-} |
-	vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
-	gh gist create - -w |
-	awk '{ print $2 }' |
-	cbx
+magic_id='NEW'
+
+pick_id() {
+	{
+		printf %s\\n "$magic_id"
+		gh gist list 2>/dev/null |
+			sed 's/\t\t/\t-\t/g' | # Empty field -> '-'.
+			sed 's/\t/  /g' |
+			es
+	} |
+		fzf -n2.. --preview='gh gist view {1} 2>/dev/null' |
+		awk '{ print $1; }'
+}
+
+# If passed stdin, always create a new gist:
+if test -p /dev/stdin; then
+	cat - "${@:-/dev/null}" |
+		vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
+		gh gist create - -w |
+		awk '{ print $2 }' |
+		cbx
+	exit $?
+fi
+
+id="$(pick_id)"
+if test "$id" = "$magic_id"; then
+	cat "${@:-/dev/null}" |
+		vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
+		gh gist create - -w |
+		awk '{ print $2 }' |
+		cbx
+else
+	gh gist edit "$id"
+fi
