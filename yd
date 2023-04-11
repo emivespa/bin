@@ -43,14 +43,12 @@ case "$1" in
 	(vid)
 		shift
 		yd \
-			--format best \
 			--no-playlist \
 			"$@"
 		;;
 	(vidp)
 		shift
 		yd \
-			--format best \
 			--yes-playlist \
 			"$@"
 		;;
