@@ -62,7 +62,7 @@ cd "$dir" || exit 1
 cp "$temp" dump.json
 
 chapters_length="$(jq -r '.chapters | length' dump.json)"
-last_i="$(( $chapters_length - 1))"
+last_i="$(( chapters_length - 1))"
 for i in $(seq 0 "$last_i"); do
 	start_time="$(jq -r ".chapters[${i}].start_time" dump.json | t2hms)"
 	end_time="$(jq -r ".chapters[${i}].end_time" dump.json | t2hms)"
