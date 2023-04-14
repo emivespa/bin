@@ -2,4 +2,8 @@
 #
 # - kubectl "alias"
 
-kubectl ${1+"$@"}
+if command -v kubecolor >/dev/null 2>&1; then
+	kubecolor ${1+"$@"}
+else
+	kubectl ${1+"$@"}
+fi
