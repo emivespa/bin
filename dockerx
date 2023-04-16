@@ -19,7 +19,6 @@ mode="${1:-$(mode_pick)}"
 
 sel() {
 	tr '\n' ' ' | cbx
-	printf \\n
 }
 
 case "$mode" in

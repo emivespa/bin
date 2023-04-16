@@ -2,7 +2,7 @@
 #
 # - s3 picker
 #
-# aws s3 ls $(s3x)
+# aws s3 ls $(s3x b)
 
 mode="$1"
 shift
@@ -13,6 +13,7 @@ case "$mode" in
 			fzf -m -n3 |
 			awk '{print $3}' | # TODO: should use $3 or $NF?
 			sed 's|^|s3://|' |
+			tr '\n' ' ' |
 			cbx
 		;;
 	(o)
@@ -25,6 +26,7 @@ case "$mode" in
 			exit 1
 		fi
 		printf %s\\n "${o}" | sed "s|^|s3://${b}/|g" |
+			tr '\n' ' ' |
 			cbx
 		;;
 esac

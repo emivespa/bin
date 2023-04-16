@@ -5,4 +5,5 @@
 ps aux |
 	fzf --header-lines=1 -m -n 11.. |
 	awk '{print $2}' |
+	tr '\n' ' ' |
 	cbx
