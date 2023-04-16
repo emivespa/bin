@@ -57,18 +57,24 @@ print_last_message()
 	jq -r '.messages | last | .content' <"$f"
 }
 
-if yn 'Do you want to use a system prompt?'; then
-	printf %s\\n "👨‍💻"
-	prompt | prompt2message 'system' | append_message
+if test "$#" -ne '0'; then
+	echo "$*" | prompt2message 'system' | append_message
 fi
 
-while true; do
-	printf %s\\n "👨‍💻"
-	prompt | prompt2message 'user' | append_message
+if ! test -t 0; then
+	# input is from stdin:
+	prompt2message 'user' | append_message
+	hit_api | response2message | jq -r '.content'
+else
+	# input is from a terminal, repl mode:
+	while true; do
+		printf %s\\n "👨‍💻"
+		prompt | prompt2message 'user' | append_message
 
-	printf %s\\n "⏳"
-	hit_api | response2message | append_message
+		printf %s\\n "⏳"
+		hit_api | response2message | append_message
 
-	printf %s\\n "🤖"
-	print_last_message
-done
+		printf %s\\n "🤖"
+		print_last_message
+	done
+fi
