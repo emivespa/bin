@@ -1,0 +1,74 @@
+#!/bin/sh -e
+#
+# - chatgpt repl
+
+command -v jq >/dev/null 2>&1 || exit 1
+command -v sponge >/dev/null 2>&1 || exit 1
+
+if test -z "$OPENAI_API_KEY"; then
+	printf %s\\n "error: no OPENAI_API_KEY in env" 2>&1
+	exit 1
+fi
+
+d="/tmp/cgpt"; mkdir -p "$d"
+f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
+cat<<EOF >"$f"
+{
+	"model": "gpt-3.5-turbo",
+	"messages": []
+}
+EOF
+
+prompt()
+{
+	if command -v rlwrap >/dev/null 2>&1; then
+		rlwrap cat -
+	else
+		cat -
+	fi
+}
+
+prompt2message()
+{
+	jq -Rns "{ \"role\": \"$1\", \"content\": input }"
+}
+
+append_message()
+{
+	jq --argjson message "$(cat -)" '.messages |= . + [$message]' "$f" |
+		sponge "$f"
+}
+
+hit_api()
+{
+	curl -s "https://api.openai.com/v1/chat/completions" \
+		-H "Authorization: Bearer ${OPENAI_API_KEY}" \
+		-H "Content-Type: application/json" \
+		-d @- <"$f"
+}
+
+response2message()
+{
+	jq '.choices[0].message'
+}
+
+print_last_message()
+{
+	jq -r '.messages | last | .content' <"$f"
+}
+
+if yn 'Do you want to use a system prompt?'; then
+	printf %s\\n "👨‍💻"
+	prompt | prompt2message 'system' | append_message
+fi
+
+while true; do
+	printf %s\\n "👨‍💻"
+	prompt | prompt2message 'user' | append_message
+
+	printf %s\\n "⏳"
+	hit_api | response2message | append_message
+
+	printf %s\\n "🤖"
+	print_last_message
+done
