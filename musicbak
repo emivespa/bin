@@ -1,0 +1,6 @@
+#!/bin/sh -e
+#
+# - ydr everything in this folder
+
+find . -path '*.mp3' |
+	ydr
