@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - cgpt to exec
+
+system_prompt="
+write a single line bash command for the given task,
+it is VERY important that you only provide a single executable line of code,
+that the user should be able to execute as is, with no markdown or backticks
+"
+echo "$*" |
+	cgpt "$system_prompt" |
+	cbx
