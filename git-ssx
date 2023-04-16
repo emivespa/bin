@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - pick files from git-status
+
+git status -s |
+	fzf -m -n2 --preview='git status -- {2}' |
+	awk '{ print $2 }' |
+	tr '\n' ' ' |
+	cbx
