@@ -13,30 +13,30 @@ whatis:
 
 .PHONY: vendor
 vendor: ani birch fff neofetch pass pfetch shfm ytfzf
-
 ani:
-	ln -s vendor/github.com/pystardust/ani-cli/ani-cli ani
-
+	unlink $@
+	ln -s vendor/github.com/pystardust/ani-cli/ani-cli $@
 birch:
-	ln -s vendor/github.com/dylanaraps/birch/birch birch
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/birch/birch $@
 fff:
-	ln -s vendor/github.com/dylanaraps/fff/fff fff
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/fff/fff $@
 golfetch:
-	ln -s vendor/github.com/dylanaraps/golfetch/pf-unobfuscated golfetch
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/golfetch/pf-unobfuscated $@
 neofetch:
-	ln -s vendor/github.com/dylanaraps/neofetch/neofetch neofetch
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/neofetch/neofetch $@
 pass:
-	ln -s vendor/git.zx2c4.com/password-store/src/password-store.sh pass
-
+	unlink $@
+	ln -s vendor/git.zx2c4.com/password-store/src/password-store.sh $@
 pfetch:
-	ln -s vendor/github.com/dylanaraps/pfetch/pfetch pfetch
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/pfetch/pfetch $@
 shfm:
-	ln -s vendor/github.com/dylanaraps/shfm/shfm shfm
-
+	unlink $@
+	ln -s vendor/github.com/dylanaraps/shfm/shfm $@
 ytfzf:
-	ln -s vendor/github.com/pystardust/ytfzf/ytfzf ytfzf
+	unlink $@
+	ln -s vendor/github.com/pystardust/ytfzf/ytfzf $@
