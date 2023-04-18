@@ -22,11 +22,11 @@ sel() {
 }
 
 case "$mode" in
-	(c)   docker container ls     | fzf -m --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(ca)  docker container ls -a  | fzf -m --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(i)   docker image ls         | fzf -m --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(ia)  docker image ls -a      | fzf -m --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(n)   docker network ls       | fzf -m --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
-	(v)   docker volume ls        | fzf -m --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
+	(c)   docker container ls     | fzf -m --bind ctrl-a:select-all --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(ca)  docker container ls -a  | fzf -m --bind ctrl-a:select-all --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
+	(i)   docker image ls         | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(ia)  docker image ls -a      | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
+	(n)   docker network ls       | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
+	(v)   docker volume ls        | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
 	(*)   exit 1 ;;
 esac
