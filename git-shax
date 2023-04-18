@@ -12,5 +12,5 @@ fi
 git log --oneline |
 	fzf --preview="$preview" |
 	awk '{print $1}' |
-	tr '\n' ' '
+	tr '\n' ' ' |
 	cbx
