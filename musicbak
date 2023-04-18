@@ -2,5 +2,7 @@
 #
 # - ydr everything in this folder
 
+cd "${HOME}/Music" || exit 1
+
 find . -path '*.mp3' |
 	ydr
