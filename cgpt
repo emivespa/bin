@@ -5,6 +5,7 @@
 command -v jq >/dev/null 2>&1 || exit 1
 command -v sponge >/dev/null 2>&1 || exit 1
 
+. "${HOME}/.env" # I use this as global dotenv.
 if test -z "$OPENAI_API_KEY"; then
 	printf %s\\n "error: no OPENAI_API_KEY in env" 2>&1
 	exit 1
