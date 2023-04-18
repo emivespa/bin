@@ -25,9 +25,9 @@ case "$url" in
 esac
 
 case "$mode" in
-	(a) dir="${HOME:-'~'}/src/${dir}"  ;; # "absolute"
-	(r) dir="./${dir}"                 ;; # "relative"
-	(*) exit 1                         ;;
+	(a) dir="${HOME}/src/${dir}"  ;; # "absolute"
+	(r) dir="./${dir}"            ;; # "relative"
+	(*) exit 1                    ;;
 esac
 
 git clone ${1+"$@"} "$url" "$dir"
