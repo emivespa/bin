@@ -6,7 +6,9 @@
 
 set -eu -o pipefail
 
-compgen -c |
-	LC_ALL=C sort -u |
-	fmenu ${1+"$@"} |
+{
+	printf %s\\n 'Pick a command (or press "!" to run your query):'
+	compgen -c | LC_ALL=C sort -u
+} |
+	fmenu --bind '!:print-query' --header-lines=1 --header-first ${1+"$@"} |
 	${SHELL:-"bin/sh"}
