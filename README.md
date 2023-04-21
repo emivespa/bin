@@ -15,20 +15,20 @@ For a complete list, run `make whatis`.
 		aptf - apt packages
 		dockerx - docker IDs (running containers, images, most things)
 		emoji
-		git-shax - commit IDs
+		git-refx - commit / tag / branch
 		psx - PIDs
 		s3x - s3 URIs
 
 	vipe pipes: edit thing "as if in place"
 
-		gist - new Github gist
+		gist - Github gists
 		ix - ix pastebin entry
 		v3 - s3 objects
 		viclip - clipboard contents
 
 	backup lists of pointers to things
 
-		musicbak - ~/Music folder content as youtube links
+		musicbak - ~/Music folder content as youtube links (assumes you youtube-dl'd everything there)
 		aptbak - installed package names
 		git-urls - remote URLs for all repos under ./
 
@@ -41,3 +41,9 @@ For a complete list, run `make whatis`.
 
 		curlx
 		git-clonex
+		git-clonet - (git-clonex redo-ish)
+
+	vim non-plugin utils
+
+		es - align cells
+		sheck - apply shellcheck fix
