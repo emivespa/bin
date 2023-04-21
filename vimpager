@@ -5,7 +5,7 @@
 # /usr/share/vim/vim82/macros/less.sh
 
 if test -t 1; then
-	vim -c 'set nomodifiable readonly' "${@:--}"
+	vi -c 'set nomodifiable readonly' "${@:--}" # 'vi' might be vim or nvim.
 else
 	cat "${@:--}"
 fi
