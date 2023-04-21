@@ -1,9 +1,13 @@
 default: ;
 
+.PHONY: deps
+deps:
+	git grep 'command -v *.*|| *exit' | sed 's/:/ /' | awk '{ print $$1 ": " $$4 }'
+
 .PHONY: shellcheck
 shellcheck:
 	find . -maxdepth 1 -type f | \
-		while read -r file; do test -x $$file && shellcheck -f diff $$file; done
+		while read -r file; do test -x $$file && shellcheck -f diff $$file 2>/dev/null; done
 
 .PHONY: whatis
 whatis:
