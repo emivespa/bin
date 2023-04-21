@@ -4,7 +4,7 @@
 #
 # https://github.com/docwhat/dotfiles/blob/main/bin/apt-upgrade
 
-command -v 'apt' >/dev/null 2>&1 || exit 1
+command -v apt >/dev/null 2>&1 || exit 1
 
 (
 	set -x
