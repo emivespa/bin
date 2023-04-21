@@ -5,7 +5,8 @@
 # $ echo 'echo $double_quote' | sheck
 # echo "$double_quote"
 
-dir="$(mktemp -d)"
+date="$(date -u +'%Y%m%d%H%M%S')"
+dir="$(mktemp -d "sheck.${date}.XXXXXXXXXX")"
 on_exit() {
 	rm -rf "$dir"
 }
