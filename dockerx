@@ -2,9 +2,8 @@
 #
 # - docker ID picker
 
-FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --header-lines=1"
-
-mode_pick() {
+mode_pick()
+{
 	fzf -n1 --header-lines=1<<-EOF | awk '{ print $1 }'
 		Choose mode:
 		c   container
@@ -17,16 +16,20 @@ mode_pick() {
 }
 mode="${1:-$(mode_pick)}"
 
-sel() {
-	tr '\n' ' ' | cbx
+f()
+{
+	fzf -m --bind ctrl-a:select-all --header-lines=1 --preview-window=bottom --preview="$2" |
+		awk "{ print \$$1 }" |
+		tr '\n' ' ' |
+		cbx
 }
 
 case "$mode" in
-	(c)   docker container ls     | fzf -m --bind ctrl-a:select-all --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(ca)  docker container ls -a  | fzf -m --bind ctrl-a:select-all --preview="docker logs     {1}" | awk '{print $1}' | sel ;;
-	(i)   docker image ls         | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(ia)  docker image ls -a      | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {3}" | awk '{print $3}' | sel ;;
-	(n)   docker network ls       | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {1}" | awk '{print $1}' | sel ;;
-	(v)   docker volume ls        | fzf -m --bind ctrl-a:select-all --preview="docker inspect  {2}" | awk '{print $2}' | sel ;;
+	(c)   docker container ls     | f 1 'docker logs {1}' ;;
+	(ca)  docker container ls -a  | f 1 'docker logs {1}' ;;
+	(i)   docker image ls         | f 3 'docker inspect {3}' ;;
+	(ia)  docker image ls -a      | f 3 'docker inspect {3}' ;;
+	(n)   docker network ls       | f 1 'docker inspect {1}' ;;
+	(v)   docker volume ls        | f 2 'docker inspect {2}' ;;
 	(*)   exit 1 ;;
 esac
