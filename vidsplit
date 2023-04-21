@@ -46,7 +46,7 @@ while test "$#" -ne 0; do
 done
 
 # Write video json dump to temp file
-temp="$(mktemp)"
+temp="${TMPDIR:-/tmp}/vidsplit-$(datex sort)-$(seed)"
 on_exit()
 {
 	rm "$temp"

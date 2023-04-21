@@ -11,7 +11,7 @@ command -v rec2csv >/dev/null 2>&1 || exit 1
 command -v yt-dlp >/dev/null 2>&1 || exit 1
 
 # Work in a temp directory.
-d="$(mktemp -d)"
+d="${TMPDIR:-/tmp}/chatperx-$(datex sort)-$(seed)"
 on_exit()
 {
 	rm "$d" -rf

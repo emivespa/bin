@@ -6,5 +6,4 @@
 # idea: write to clipboard on every write to the tmp file?
 # BUG: sometimes randomly fails?
 
-date="$(date -u +'%Y%m%d%H%M%S')"
-termx "xsel -ob | vipe | tee $(mktemp viclip-bak-${date}.XXXXXXXXXX) | xsel -ib"
+termx "xsel -ob | vipe | tee ${TMPDIR:-/tmp}/viclip-bak-$(datex sort)-$(seed) | xsel -ib"
