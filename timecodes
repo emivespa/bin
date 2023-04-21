@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - youtube video timecodes from description
+
+yt-dlp --get-description "$1" |
+	dos2unix | # Just in case.
+	sed -n '/^0*:00/{:a;N;/\n$/!ba;p}' | # Print from pattern until empty line.
+	sed '/^$/d' # Remove leftover empty line.
+
+if test "$TIMECODES_DURATION" = '1'; then
+	yt-dlp --get-duration "$1"
+fi
