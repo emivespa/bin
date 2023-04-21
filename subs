@@ -1,0 +1,59 @@
+#!/bin/sh -e
+#
+# - download and htmlify all subs from a youtube channel
+#
+# TODO: use pv to show download progress.
+
+outdir='build'
+workdir='artifacts'
+
+lang="${1}"
+channel="${2}"
+opts='--ignore-config --geo-bypass --no-call-home --no-embed-thumbnail --no-write-thumbnail --restrict-filenames'
+
+set -x
+
+rm "${workdir}" -rf
+mkdir -p "${workdir}"
+cd "${workdir}"
+
+# Download lrc subtitles for every video from the channel:
+yt-dlp $opts --print id --skip-download "${channel}" | # Get IDs.
+	sed 's ^ https://www.youtube.com/watch?v= ' | # Convert to URLs.
+	xargs -n1 yt-dlp $opts --convert-subs=lrc --skip-download --sub-lang="${lang}" --write-auto-sub --output "%(id)s" # Download subs for each.
+
+# # Remove file extensions:
+# find . -type f | sed 's|^./||' | while read -r file; do mv -- "${file}" "${file%%.*}"; done
+
+# Delete first 3 lines of each file (metadata):
+find . -print0 -type f | xargs -I _ sed -i '1,3d' _
+
+# Reformat without brackets:
+find . -print0 -type f | xargs -I _ sed -i 's/^\[//; s/\]/\t/' _
+
+# Extract and convert MM:SS.xx to total seconds timestamps ([ID] -> [ID].ts):
+txt2seconds() {
+	# https://stackoverflow.com/questions/18149127/convert-a-duration-hhmmss-to-seconds-in-bash
+	sed -E 's/^([0-9]*):([0-9]*).([0-9]*).*/\1 \2/' | awk '{print $1 * 60 + $2}'
+}
+find . -type f ! -name '*.ts'|
+	while read -r file; do txt2seconds <"${file}" >"${file}.ts"; done
+
+# Paste with some HTML on workdir/outdir:
+rm "${outdir}" -rf
+mkdir -p "${outdir}"
+htmlify() {
+	printf %s\\n '<pre>'
+	paste -d"\t" "${1}.ts" "${1}" |
+		sed "s|^|<a href=\"https://www.youtube.com/watch?v=$(basename "${1}" .es.lrc)\&t=|" |
+		sed -E 's|\t|">|; s/\t/<\/a> /'
+	printf %s\\n '</pre>'
+}
+find . -type f ! -name '*.ts' |
+	while read -r file; do htmlify "${file}" >"${outdir}/${file%%.*}.html"; done
+
+touch "${outdir}/index.html"
+
+# Move outdir out of workdir:
+cd ..
+mv "${workdir}/${outdir}" "${outdir}"
