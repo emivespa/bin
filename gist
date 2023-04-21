@@ -14,7 +14,7 @@ pick_id() {
 			sed 's/\t/  /g' |
 			es
 	} |
-		fzf -n2.. --preview='gh gist view {1} 2>/dev/null' |
+		fzf -n2.. --preview='gh gist view {1} 2>/dev/null' --preview-window=bottom |
 		awk '{ print $1; }'
 }
 
