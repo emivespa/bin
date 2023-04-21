@@ -4,6 +4,7 @@
 # *or whatever your $EDITOR is
 #
 # idea: write to clipboard on every write to the tmp file?
-# BUG: sometimes randomly fails.
+# BUG: sometimes randomly fails?
 
-termx "xsel -ob | vipe | tee $(mktemp "${TMPDIR:-"/tmp"}"/viclip-bak-$(datex sort).XXX) | xsel -ib"
+date="$(date -u +'%Y%m%d%H%M%S')"
+termx "xsel -ob | vipe | tee $(mktemp viclip-bak-${date}.XXXXXXXXXX) | xsel -ib"
