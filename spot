@@ -1,0 +1,17 @@
+#!/bin/sh -e
+#
+# - aws describe-spot-price-history if it had the --all-regions option
+
+dateunix()
+{
+	awk 'BEGIN { print srand(); }'
+}
+
+for region in $(aws ec2 describe-regions --query 'Regions[].RegionName' --output text); do
+	aws ec2 describe-spot-price-history \
+		--start-time "$(dateunix)" \
+		--instance-types "${1:-'t3.micro'}" \
+		--product-descriptions 'Linux/UNIX' \
+		--output text \
+		--region "$region"
+done
