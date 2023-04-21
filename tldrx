@@ -1,9 +1,10 @@
 #!/bin/sh -e
-
+#
+# - execute tldr
 
 {
 	tldr "$@" |
 		sed -E 's/^>/# >/; s/^-/# -/; s/`(.*)`/# \1/;'
 } |
 	vipe |
-	sh
+	bash
