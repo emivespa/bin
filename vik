@@ -32,8 +32,7 @@ case "$1" in
 		go doc "$2" | "${PAGER:-less}"
 		;;
 	(javascript)
-		command -v xdg-open >/dev/null || exit 1
-		xdg-open "https://devdocs.io/\#q=${2}"
+		${BROWSER:-firefox} "https://devdocs.io/\#q=${2}"
 		;;
 	(man)
 		# Convert manual style references ('man(1)') to actual man
