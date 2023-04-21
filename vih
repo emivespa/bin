@@ -2,4 +2,4 @@
 #
 # - open vim straight to help page
 
-vi +help\ "$1" +only
+vi "+help ${1}" "+only"
