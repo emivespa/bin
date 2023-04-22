@@ -12,6 +12,7 @@ command -v yt-dlp >/dev/null 2>&1 || exit 1
 
 # Work in a temp directory.
 d="${TMPDIR:-/tmp}/chatperx-$(datex sort)-$(seed)"
+mkdir -p "$d"
 on_exit()
 {
 	rm "$d" -rf
