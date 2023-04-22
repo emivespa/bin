@@ -1,0 +1,16 @@
+#!/bin/sh -e
+#
+# - remove files leftover by failed youtube-dl/yt-dlp runs
+
+d="${TMPDIR:-/tmp}/ydclean-$(datex sort)-$(seed)"
+mkdir -p "$d"
+
+(
+	set -x
+	mv ./*'.m4a.part'       "$d"
+	mv ./*'.mp4.part'       "$d"
+	mv ./*'.temp.mp3'       "$d"
+	mv ./*'.webm.'*'.part'  "$d"
+	mv ./*'.webm.part'      "$d"
+	mv ./*'.webm.ytdl'      "$d"
+)
