@@ -5,8 +5,8 @@
 # Will copy stdin if there is any.
 # Prints contents by default, so you can use it like tee.
 #
-# $stream | cbx
-# cbx | $filter
+# $stream | clipe
+# clipe | $filter
 #
 # TODO: make work on no-clipboard environments.
 
@@ -14,30 +14,25 @@ case "$(uname -s)" in
 	# TODO: FreeBSD, NetBSD, OpenBSD, Windows (Windows_NT).
 	('Darwin')
 		if command -v 'pbcopy' >/dev/null 2>&1; then
-			cbxi='pbcopy'
+			clipe_prg='pbcopy'
 		fi
-		# if command -v 'pbpaste' >/dev/null 2>&1; then
-		# 	cbxo='pbpaste'
-		# fi
 		;;
 	('Linux')
 		if command -v 'xsel' >/dev/null 2>&1; then
-			cbxi='xsel -bi'
-			# cbxo='xsel -bo'
+			clipe_prg='xsel -bi'
 		elif command -v 'xclip' >/dev/null 2>&1; then
-			cbxi='xclip -i -selection clipboard'
-			# cbxo='xclip -o -selection clipboard'
+			clipe_prg='xclip -i -selection clipboard'
 		fi
 		;;
 	(*)
-		printf %s\\n "OS not supported, just piping to stdin:"
+		printf %s\\n "error: OS not supported, just piping to stdin:" 1>&2
 		;;
 esac
 
 stdin="$(cat -)
 "
 
-if test -n "$cbxi"; then
-	printf %s "$stdin" | $cbxi
+if test -n "$clipe_prg"; then
+	printf %s "$stdin" | $clipe_prg
 fi
 printf %s "$stdin"
