@@ -2,6 +2,7 @@
 #
 # - chatgpt repl
 
+command -v curl >/dev/null 2>&1 || exit 1
 command -v jq >/dev/null 2>&1 || exit 1
 command -v sponge >/dev/null 2>&1 || exit 1
 
@@ -10,15 +11,6 @@ if test -z "$OPENAI_API_KEY"; then
 	printf %s\\n "error: no OPENAI_API_KEY in env" 2>&1
 	exit 1
 fi
-
-d="/tmp/cgpt"; mkdir -p "$d"
-f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
-cat<<EOF >"$f"
-{
-	"model": "gpt-3.5-turbo",
-	"messages": []
-}
-EOF
 
 prompt()
 {
@@ -58,16 +50,58 @@ print_last_message()
 	jq -r '.messages | last | .content' <"$f"
 }
 
+d="/tmp/cgpt"; mkdir -p "$d"
+
+case "$1" in
+	('--edit') # Pick a conversation and edit it:
+		f="$(find "$d" -type f | fzf --preview='cat {1}')"
+		${EDITOR:-nano} "$f"
+		shift
+		;;
+	('--last') # Pick last conversation:
+		f="$(find "$d" -type f | tail -n1)"
+		shift
+		;;
+	('--pick') # Pick an arbitrary conversation:
+		f="$(find "$d" -type f | fzf --preview='cat {1}')"
+		shift
+		;;
+	('--syslib') # Pick from system prompt library:
+		shift
+		test "$#" -ne '0' && exit 1 # Don't accept other system prompts.
+		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
+		cat<<-EOF | jq >"$f"
+		{
+		"model": "gpt-3.5-turbo",
+		"messages": []
+		}
+		EOF
+		find "${HOME}/src/github.com/emivespa/system-prompts" -type f |
+			fzf --preview='cat {1}' | xargs cat |
+			prompt2message 'system' | append_message
+		;;
+	(*) # Start with an empty conversation:
+		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
+		cat<<-EOF | jq >"$f"
+		{
+		"model": "gpt-3.5-turbo",
+		"messages": []
+		}
+		EOF
+	;;
+esac
+
 if test "$#" -ne '0'; then
 	echo "$*" | prompt2message 'system' | append_message
 fi
 
 if ! test -t 0; then
-	# input is from stdin:
+	# Input is from stdin, run once:
 	prompt2message 'user' | append_message
-	hit_api | response2message | jq -r '.content'
+	hit_api | response2message | append_message
+	print_last_message | clipe
 else
-	# input is from a terminal, repl mode:
+	# Input is from a terminal, REPL mode:
 	while true; do
 		printf %s\\n "👨‍💻"
 		prompt | prompt2message 'user' | append_message
@@ -76,6 +110,6 @@ else
 		hit_api | response2message | append_message
 
 		printf %s\\n "🤖"
-		print_last_message
+		print_last_message | clipe
 	done
 fi

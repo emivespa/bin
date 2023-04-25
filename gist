@@ -4,6 +4,8 @@
 #
 # TODO: take extension from $1
 
+command -v gh >/dev/null 2>&1 || exit 1
+
 magic_id='NEW'
 
 pick_id() {
@@ -13,28 +15,21 @@ pick_id() {
 			sed 's/\t\t/\t-\t/g' | # Empty field -> '-'.
 			sed 's/\t/  /g' |
 			es
-	} |
-		fzf -n2.. --preview='gh gist view {1} 2>/dev/null' --preview-window=bottom |
-		awk '{ print $1; }'
+	} | fzf -n2.. --preview='gh gist view {1} 2>/dev/null' \
+		--preview-window=bottom | awk '{ print $1; }'
 }
 
 # If passed stdin, always create a new gist:
 if test -p /dev/stdin; then
-	cat - "${@:-/dev/null}" |
-		vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
-		gh gist create - -w |
-		awk '{ print $2 }' |
-		cbx
+	cat - "${@:-/dev/null}" | vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
+		gh gist create - -w | awk '{ print $2 }' | clipe
 	exit $?
 fi
 
 id="$(pick_id)"
 if test "$id" = "$magic_id"; then
-	cat "${@:-/dev/null}" |
-		vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
-		gh gist create - -w |
-		awk '{ print $2 }' |
-		cbx
+	cat "${@:-/dev/null}" | vipe ${GIST_SUFFIX+"--suffix ${GIST_SUFFIX}"} |
+		gh gist create - -w | awk '{ print $2 }' | clipe
 else
 	gh gist edit "$id"
 fi

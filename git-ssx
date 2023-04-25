@@ -2,8 +2,8 @@
 #
 # - pick files from git-status
 
-git status -s |
-	fzf -m -n2 --preview='git status -- {2}' |
-	awk '{ print $2 }' |
-	tr '\n' ' ' |
-	cbx
+command -v fzf >/dev/null 2>&1 || exit 1
+command -v git >/dev/null 2>&1 || exit 1
+
+git status -s | fzf -m -n2 --preview='git status -- {2}' | awk '{ print $2 }' |
+	tr '\n' ' ' | clipe

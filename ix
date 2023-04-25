@@ -2,4 +2,8 @@
 #
 # - even lighter weight ix.io client
 
-cat "${@:-/dev/null}" | vipe | curl -F 'f:1=<-' ix.io | cbx | xargs "${BROWSER:-firefox}"
+command -v curl >/dev/null 2>&1 || exit 1
+command -v vipe >/dev/null 2>&1 || exit 1
+
+cat "${@:-/dev/null}" | vipe | curl -F 'f:1=<-' ix.io | clipe |
+	xargs "${BROWSER:-firefox}"

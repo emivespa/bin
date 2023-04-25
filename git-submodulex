@@ -4,6 +4,8 @@
 #
 # No a/r option, only relative paths allowed.
 
+command -v git >/dev/null 2>&1 || exit 1
+
 url="$1"
 shift
 
@@ -14,6 +16,6 @@ esac
 
 (
 	set -x
-	echo "${dir}" | cbx
+	echo "${dir}" | clipe
 	git submodule add ${1+"$@"} "$url" "$dir"
 )

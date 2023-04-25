@@ -7,5 +7,6 @@
 #
 # TODO: remove uninstalled packages?
 
-zgrep -E 'Commandline: apt(-get)? +install' /var/log/apt/history.log /var/log/apt/history.log.*.gz |
+zgrep -E 'Commandline: apt(-get)? +install' \
+	/var/log/apt/history.log /var/log/apt/history.log.*.gz |
 	sed 's/.*install //'

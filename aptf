@@ -2,8 +2,6 @@
 #
 # - apt search 🤝 fzf
 
-apt-cache search "$@" | # Specifically use apt-cache for it's 1 line per entry formatting.
-	fzf --multi --preview='apt show {1}' |
-	awk '{print $1}' |
-	tr '\n' ' ' |
-	cbx
+apt-cache search "$@" | # Use apt-cache for it's 1 line per entry formatting.
+	fzf --multi --preview='apt show {1}' | awk '{print $1}' | tr '\n' ' ' |
+	clipe

@@ -40,5 +40,4 @@ last_i="$(( chapters_length - 1))"
 		printf %s\\n "+ CLIP_END ${link}&t=${end_time}"
 		printf %s\\n ""
 	done
-} |
-	rec2csv
+} | rec2csv

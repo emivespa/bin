@@ -4,7 +4,7 @@ For a complete list, run `make whatis`.
 
 	deps for other things here
 
-		cbx - optimistically tee to clipboard
+		clipe - optimistically tee to clipboard
 		fmenu - termx + fzf = dmenu replacement
 		fzf* - "A command-line fuzzy finder" https://github.com/junegunn/fzf
 		termx - run command in a new terminal unless within one

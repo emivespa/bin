@@ -6,6 +6,8 @@
 #
 # git clonet https://r.e/p/o == git clone https://a.b/c/d https+++a.b+c+d
 
+command -v git >/dev/null 2>&1 || exit 1
+
 url="$1"; shift
 
 # Replace illegal characters with '+':
@@ -15,4 +17,4 @@ dir="$(printf %s\\n "$url" | tr ':/@' '+++')"
 # dir="${HOME}/src/+/${dir}"
 
 git clone ${1+"$@"} "$url" "$dir"
-echo "${dir}" | cbx
+echo "${dir}" | clipe

@@ -24,6 +24,5 @@ separate_cells() {
 	fi
 }
 
-separate_cells |
-	column -o'  ' -t -s"${ES_FS:-${fs}}" |
+separate_cells | column -o'  ' -t -s"${ES_FS:-${fs}}" |
 	sed 's/ *$//' # Remove trailing spaces left by column.

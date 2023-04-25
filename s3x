@@ -4,17 +4,21 @@
 #
 # aws s3 ls $(s3x b)
 
-mode="$1"
-shift
+mode_pick()
+{
+	fzf -n1 --header-lines=1<<-EOF | awk '{ print $1 }'
+		Choose mode:
+		b  bucket
+		o  object
+	EOF
+}
+mode="${1:-$(mode_pick)}"
 
 case "$mode" in
 	(b)
-		aws s3 ls |
-			fzf -m -n3 |
+		aws s3 ls | fzf -m -n3 |
 			awk '{print $3}' | # TODO: should use $3 or $NF?
-			sed 's|^|s3://|' |
-			tr '\n' ' ' |
-			cbx
+			sed 's|^|s3://|' | tr '\n' ' ' | clipe
 		;;
 	(o)
 		b="$(aws s3 ls | fzf -n3 | awk '{print $3}')"
@@ -25,8 +29,7 @@ case "$mode" in
 		if test -z "${o}"; then
 			exit 1
 		fi
-		printf %s\\n "${o}" | sed "s|^|s3://${b}/|g" |
-			tr '\n' ' ' |
-			cbx
+		printf %s\\n "${o}" | sed "s|^|s3://${b}/|g" | tr '\n' ' ' |
+			clipe
 		;;
 esac

@@ -18,10 +18,9 @@ mode="${1:-$(mode_pick)}"
 
 f()
 {
-	fzf -m --bind ctrl-a:select-all --header-lines=1 --preview-window=bottom --preview="$2" |
-		awk "{ print \$$1 }" |
-		tr '\n' ' ' |
-		cbx
+	fzf -m --bind ctrl-a:select-all --header-lines=1 \
+		--preview-window=bottom --preview="$2" |
+		awk "{ print \$$1 }" | tr '\n' ' ' | clipe
 }
 
 case "$mode" in

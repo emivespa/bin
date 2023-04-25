@@ -4,18 +4,14 @@
 #
 # git revert $(git shax)
 
+command -v git >/dev/null 2>&1 || exit 1
+command -v fzf >/dev/null 2>&1 || exit 1
+
 preview=''
 if test "$(tput cols)" -ge '138'; then # 138 = 8 SHA + 50 message + 80 preview.
 	preview='git show {1}'
 fi
 
-# {
-# 	git branch | cut -c 3-
-# 	git tag
-# 	git log --oneline
-# }
 git log --abbrev-commit --color=always --decorate=full --pretty=oneline |
-	fzf --ansi --preview="$preview" |
-	awk '{print $1}' |
-	tr '\n' ' ' |
-	cbx
+	fzf --ansi --preview="$preview" | awk '{print $1}' | tr '\n' ' ' |
+	clipe

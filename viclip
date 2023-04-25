@@ -6,4 +6,6 @@
 # idea: write to clipboard on every write to the tmp file?
 # BUG: sometimes randomly fails?
 
+command -v xsel >/dev/null 2>&1 || exit 1
+
 termx "xsel -ob | vipe | tee ${TMPDIR:-/tmp}/viclip-bak-$(datex sort)-$(seed) | xsel -ib"

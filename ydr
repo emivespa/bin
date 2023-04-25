@@ -11,5 +11,4 @@ test "${YDR_EMBED:-0}" -ne '0' && y='https://www.youtube.com/embed/'
 #          |   / either a space or a hyphen (to account for --restrict-filenames)
 #          |   |   / 11 characters inside brackets (youtube vide IDs are 11 characters)
 #          |   |   |            / '.' and whatever's after (the file extension)
-#          v   v   v            v '.' and whatever's after (the file extension)
 sed -E "s|^(.+)[ -]\\[(.{11})\\]\..+$|${y}\2 '\1'|" # yt-dlp format

@@ -2,15 +2,6 @@
 #
 # - edit s3 object "in place"
 
-s3uri="$1"
-if test -z "${s3uri}"; then
-	s3uri="$(s3x o)"
-fi
+s3uri="${1:-$(s3x o)}"
 
-aws s3 cp "${s3uri}" - |
-	vipe |
-	aws s3 cp - "${s3uri}"
-
-# TODO: when -R flag:
-# aws s3 cp "${s3uri}" - |
-# 	vimpager
+aws s3 cp ${s3uri} - | vipe | aws s3 cp - ${s3uri}

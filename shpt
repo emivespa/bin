@@ -3,10 +3,7 @@
 # - cgpt to exec
 
 system_prompt="
-write a single line bash command for the given task,
-it is VERY important that you only provide a single executable line of code,
-that the user should be able to execute as is, with no markdown or backticks
+Write a single line of bash code for the given task, that the user should be able to copy, paste, and execute, as is.
 "
-echo "$*" |
-	cgpt "$system_prompt" |
-	cbx
+
+cat - | cgpt "$system_prompt" | clipe

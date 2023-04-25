@@ -4,6 +4,8 @@
 #
 # usage: curlx "$link" "$opts"
 
+command -v curl >/dev/null 2>&1 || exit 1
+
 url="$1"
 shift
 
@@ -15,5 +17,3 @@ esac
 # dest="$(printf %s "$url" | sed 's|/|%/g')"
 
 curl --create-dirs -o "$dest" ${1+"$@"} -- "$url"
-
-
