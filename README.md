@@ -35,7 +35,6 @@ For a complete list, run `make whatis`.
 	comfy wrappers for tiring-to-type commands
 
 		datex - date: DOY, human readable, file sorting, unix, YYYY-mm-dd
-		yd - youtube-dl/yt-dlp
 
 	organize downloads based on URL
 

@@ -1,10 +1,15 @@
 #!/bin/sh -e
 #
-# - chatgpt repl
+# - chatgpt cli/repl
 
 command -v curl >/dev/null 2>&1 || exit 1
 command -v jq >/dev/null 2>&1 || exit 1
 command -v sponge >/dev/null 2>&1 || exit 1
+
+skel='{
+	"model": "gpt-3.5-turbo",
+	"messages": []
+}'
 
 . "${HOME}/.env" # I use this as global dotenv.
 if test -z "$OPENAI_API_KEY"; then
@@ -70,24 +75,14 @@ case "$1" in
 		shift
 		test "$#" -ne '0' && exit 1 # Don't accept other system prompts.
 		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
-		cat<<-EOF | jq >"$f"
-		{
-		"model": "gpt-3.5-turbo",
-		"messages": []
-		}
-		EOF
+		printf %s\\n "$skel" >"$f"
 		find "${HOME}/src/github.com/emivespa/system-prompts" -type f |
 			fzf --preview='cat {1}' | xargs cat |
 			prompt2message 'system' | append_message
 		;;
 	(*) # Start with an empty conversation:
 		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
-		cat<<-EOF | jq >"$f"
-		{
-		"model": "gpt-3.5-turbo",
-		"messages": []
-		}
-		EOF
+		printf %s\\n "$skel" >"$f"
 	;;
 esac
 
@@ -103,13 +98,10 @@ if ! test -t 0; then
 else
 	# Input is from a terminal, REPL mode:
 	while true; do
-		printf %s\\n "👨‍💻"
+		printf %s\\n "+=+=+=+=+=+=+=+ user:"
 		prompt | prompt2message 'user' | append_message
-
-		printf %s\\n "⏳"
+		printf %s\\n "+=+=+=+=+=+=+=+ assistant:"
 		hit_api | response2message | append_message
-
-		printf %s\\n "🤖"
 		print_last_message | clipe
 	done
 fi

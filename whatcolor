@@ -1,0 +1,13 @@
+#!/bin/sh -e
+#
+# - colors you should use
+
+case "${1:-$(read -r i; printf %s "$i")}" in
+	('01' | '1')  printf %s\\n '9'   ;;
+	('04' | '4')  printf %s\\n '12'  ;;
+	('05' | '5')  printf %s\\n '13'  ;;
+	('10')        printf %s\\n '2'   ;;
+	('11')        printf %s\\n '3'   ;;
+	('14')        printf %s\\n '6'   ;;
+	(*)           printf %s\\n "$1"  ;;
+esac
