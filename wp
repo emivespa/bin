@@ -1,0 +1,43 @@
+#!/bin/sh -e
+#
+# - set random wallpaper from ~/Pictures/wallpapers
+#
+# GNOME only for now.
+
+command -v gsettings >/dev/null 2>&1 || exit 1
+
+d="${HOME}/Pictures/wallpapers"
+test -d "$d" || exit 1
+
+newwp() {
+	new="$(find "${HOME}/Pictures/wallpapers" -type f | shuf -n1)"
+	gsettings set org.gnome.desktop.background picture-uri "$new"
+	gsettings set org.gnome.desktop.background picture-uri-dark "$new"
+}
+
+while getopts "dnp" opt; do
+	case "$opt" in
+		(d)
+			curr="$(gsettings get org.gnome.desktop.background picture-uri)"
+			currd="$(gsettings get org.gnome.desktop.background picture-uri-dark)"
+			test "X$curr" != "X$currd" && exit 1 # Assume something's wrong.
+			curr="${curr##\'}"
+			curr="${curr%%\'}"
+			case "$curr" in
+				"${d}"*) (set -x; rm "$curr") ;;
+				*) exit 1 ;;
+			esac
+			;;
+		(n)
+			newwp
+			;;
+		(p)
+			gsettings get org.gnome.desktop.background picture-uri
+			gsettings get org.gnome.desktop.background picture-uri-dark
+			;;
+		(*)
+			exit 1
+			;;
+	esac
+done
+test "$OPTIND" = '1' && newwp
