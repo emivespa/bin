@@ -2,7 +2,7 @@
 #
 # - remove files leftover by failed youtube-dl/yt-dlp runs
 
-d="${TMPDIR:-/tmp}/ydclean-$(datex sort)-$(seed)"
+d="${TMPDIR:-/tmp}/ydclean-$(date -u +'%Y%m%d%H%M%S')-$(seed)"
 mkdir -p "$d"
 
 (

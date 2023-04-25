@@ -9,7 +9,7 @@
 
 command -v whisper >/dev/null 2>&1 || exit 1
 
-d="${TMPDIR:-/tmp}/youtube2html-$(datex sort)-$(seed)"
+d="${TMPDIR:-/tmp}/youtube2html-$(date -u +'%Y%m%d%H%M%S')-$(seed)"
 mkdir "$d"
 cd "$d"
 
