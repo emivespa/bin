@@ -2,7 +2,4 @@
 #
 # - sort by last word (last > 1 > 2 > ...)
 
-cat "${1:-/dev/stdin}" |
-	awk '{print $NF,$0}' |
-	LC_ALL=C sort |
-	cut -f2- -d' '
+cat "${1:-/dev/stdin}" | awk '{print $NF,$0}' | LC_ALL=C sort | cut -f2- -d' '
