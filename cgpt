@@ -6,6 +6,8 @@ command -v curl >/dev/null 2>&1 || exit 1
 command -v jq >/dev/null 2>&1 || exit 1
 command -v sponge >/dev/null 2>&1 || exit 1
 
+d="/tmp/cgpt"; mkdir -p "$d"
+
 skel='{
 	"model": "gpt-3.5-turbo",
 	"messages": []
@@ -16,6 +18,12 @@ if test -z "$OPENAI_API_KEY"; then
 	printf %s\\n "error: no OPENAI_API_KEY in env" 2>&1
 	exit 1
 fi
+
+pick_conversation()
+{
+	command -v fzf >/dev/null 2>&1 || exit 1
+	find "$d" -type f | fzf --preview='cat {1}'
+}
 
 prompt()
 {
@@ -55,12 +63,15 @@ print_last_message()
 	jq -r '.messages | last | .content' <"$f"
 }
 
-d="/tmp/cgpt"; mkdir -p "$d"
-
 case "$1" in
 	('--edit') # Pick a conversation and edit it:
-		f="$(find "$d" -type f | fzf --preview='cat {1}')"
+		f="$(pick_conversation)"
 		${EDITOR:-nano} "$f"
+		shift
+		;;
+	('--fork')
+		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
+		cp "$(pick_conversation)" "$f"
 		shift
 		;;
 	('--last') # Pick last conversation:
@@ -68,7 +79,7 @@ case "$1" in
 		shift
 		;;
 	('--pick') # Pick an arbitrary conversation:
-		f="$(find "$d" -type f | fzf --preview='cat {1}')"
+		f="$(pick_conversation)"
 		shift
 		;;
 	('--syslib') # Pick from system prompt library:
@@ -83,7 +94,7 @@ case "$1" in
 	(*) # Start with an empty conversation:
 		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
 		printf %s\\n "$skel" >"$f"
-	;;
+		;;
 esac
 
 if test "$#" -ne '0'; then
