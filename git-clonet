@@ -16,5 +16,5 @@ dir="$(printf %s\\n "$url" | tr ':/@' '+++')"
 # Test git-clonext in ~/src/+/. for now:
 # dir="${HOME}/src/+/${dir}"
 
-git clone ${1+"$@"} "$url" "$dir"
+git clone ${1+"$@"} --depth 1 "$url" "$dir"
 echo "${dir}" | clipe

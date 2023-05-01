@@ -31,5 +31,5 @@ case "$mode" in
 	(*) exit 1                    ;;
 esac
 
-git clone ${1+"$@"} "$url" "$dir"
+git clone ${1+"$@"} --depth 1 "$url" "$dir"
 echo "${dir}" | clipe
