@@ -1,0 +1,8 @@
+#!/bin/sh -e
+#
+# - curl httpstat.us/$1
+
+command -v curl >/dev/null 2>&1 || exit 1
+
+curl "httpstat.us/$1"
+printf \\n
