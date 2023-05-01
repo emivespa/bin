@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - WIP sponge clone
+#
+# TODO s/spongex/sponge when compatible
+
+if test "$1" = '-a'; then
+	shift
+	printf %s\\n "$(cat -)" >>"${1:-/dev/stdout}" # with a flag
+else
+	printf %s\\n "$(cat -)" >"${1:-/dev/stdout}"
+fi
