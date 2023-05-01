@@ -109,9 +109,9 @@ if ! test -t 0; then
 else
 	# Input is from a terminal, REPL mode:
 	while true; do
-		printf %s\\n "+=+=+=+=+=+=+=+ user:"
+		printf %s\\n "$(tput setaf 3)user:$(tput sgr0)"
 		prompt | prompt2message 'user' | append_message
-		printf %s\\n "+=+=+=+=+=+=+=+ assistant:"
+		printf %s\\n "$(tput setaf 2)assistant:$(tput sgr0)"
 		hit_api | response2message | append_message
 		print_last_message | clipe
 	done
