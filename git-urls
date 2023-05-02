@@ -7,4 +7,4 @@ command -v git >/dev/null 2>&1 || exit 1
 find . -name '.git' -print0 |
 	xargs -0 -I _ grep -H 'from' _/logs/refs/remotes/origin/HEAD 2>/dev/null |
 	sed -E 's|/.git/logs/refs/remotes/origin/HEAD:| |' |
-	awk '{ print $NF " " $1 }'
+	awk '{ print $NF "\t" $1 }'
