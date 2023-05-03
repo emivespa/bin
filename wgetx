@@ -1,0 +1,11 @@
+#!/bin/sh -e
+#
+# - archive a webpage with wget
+#
+# https://dheinemann.com/posts/2022-02-05-archiving-a-website-with-wget
+# https://www.petekeen.net/archiving-websites-with-wget
+# https://gist.github.com/mullnerz/9fff80593d6b442d5c1b
+
+cd "${HOME}/dl" || exit 1
+wget -c -k -np -p -e robots=off -- "$@"
+	# --user-agent="" # TODO.
