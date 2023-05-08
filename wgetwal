@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - wgetpage for wallpapers
+
+cd "${HOME}/Pictures/wallpapers" || exit 1
+wget -p -e robots=off -- "${@:-$(xsel -bo)}"
+	# --user-agent="" # TODO.
+	# -p makes no sense here (since jpegs don't have requisites),
+	# but it has the nice side-effect of namespacing by URL.
