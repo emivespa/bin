@@ -6,6 +6,8 @@
 
 command -v curl >/dev/null 2>&1 || exit 1
 
+cd "${HOME}/dl"
+
 url="$1"
 shift
 
@@ -13,7 +15,5 @@ case "$url" in
 	(*'://'*)  dest="${url#*://}"  ;; # Strip protocol if there is one.
 	(*)        dest="$url"         ;;
 esac
-
-# dest="$(printf %s "$url" | sed 's|/|%/g')"
 
 curl --create-dirs -o "$dest" ${1+"$@"} -- "$url"
