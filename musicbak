@@ -2,7 +2,18 @@
 #
 # - ydr everything in this folder
 
-cd "${HOME}/Music" || exit 1
+d="${1:-${HOME}/Music}"
+cd "$d" || exit 1
+
+maybe_render_tsv()
+{
+	# TODO: test.
+	if test -t 1 && command -v sponge >/dev/null 2>&1; then
+		sponge | column -t -s'	' -- -
+	else
+		cat -
+	fi
+}
 
 find . -path '*.mp3' |
 	ydr
