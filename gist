@@ -11,10 +11,10 @@ magic_id='NEW'
 pick_id() {
 	{
 		printf %s\\n "$magic_id"
-		gh gist list 2>/dev/null |
+		gh gist list -L 999 2>/dev/null |
 			sed 's/\t\t/\t-\t/g' | # Empty field -> '-'.
-			sed 's/\t/  /g' |
-			es
+			column -t -s"	" |
+			sort -k 2
 	} | fzf -n2.. --preview='gh gist view {1} 2>/dev/null' \
 		--preview-window=bottom | awk '{ print $1; }'
 }
