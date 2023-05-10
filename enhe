@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - eñe
+
+printf %s "ñ" | xsel -bi
