@@ -2,15 +2,20 @@
 #
 # - organize your git clones
 #
-# git clonex $mode $url
+# git clonex $clonex_opts $url $clone_opts
 #
-# git clonex a https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
-# git clonex r https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
+# git clonex     https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
+# git clonex -r  https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
 set -eu -o pipefail
 
 command -v git >/dev/null 2>&1 || exit 1
 
-mode="$1"; shift
+mode='absolute'
+if test "$1" = '-r'; then
+	mode='relative'
+	shift
+fi
+
 url="$1"; shift
 
 case "$url" in
@@ -18,6 +23,7 @@ case "$url" in
 		dir="${url#*://}"
 		;;
 	('git@'*)
+		dir="${url#*@}"
 		dir="${url/:/\/}" # FIXME: this is the only lines that requires bash instead of sh.
 		;;
 	(*)
@@ -26,10 +32,15 @@ case "$url" in
 esac
 
 case "$mode" in
-	(a) dir="${HOME}/src/${dir}"  ;; # "absolute"
-	(r) dir="./${dir}"            ;; # "relative"
-	(*) exit 1                    ;;
+	('absolute') dir="${HOME}/src/${dir}" ;;
+	('relative') dir="./${dir}" ;;
+	(*) exit 1 ;;
 esac
 
-git clone ${1+"$@"} --depth 1 "$url" "$dir"
+git clone ${1+"$@"} --depth 1 "$url" "$dir" || ex="$?"
+	# If clone fails, we still want to copy the directory to the clipboard,
+	# but remember the exit code so we can exit with it later.
 echo "${dir}" | clipe
+if test "${ex-}" != ''; then
+	exit "$ex"
+fi
