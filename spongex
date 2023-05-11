@@ -2,7 +2,7 @@
 #
 # - WIP sponge clone
 #
-# TODO s/spongex/sponge when compatible
+# TODO: make bug-for-bug compatible, then rename to spongex.
 
 if test "$1" = '-a'; then
 	shift

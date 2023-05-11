@@ -1,5 +1,27 @@
-#!/bin/sh
+#!/bin/sh -e
 #
-# - vipe clone
+# - vipe clone to have it everywhere
+#
+# https://github.com/0mp/vipe.sh/blob/master/vipe.sh
+#
+# TODO: make sure it's bug-for-bug compatible, then drop the X.
 
-exit 1
+f="${TMPDIR:-/tmp}/vipex-$(datex sort)-$(seed)${suffix+.${suffix}}"
+on_exit() {
+	rm -f "$f"
+}
+trap on_exit EXIT
+
+if test "$1" = '--suffix'; then
+	suffix="$2"
+fi
+
+maybeStdin=''
+if ! test -t 0; then
+	maybeStdin='-'
+fi
+cat "${maybeStdin:-/dev/null}" > "$f"
+
+"${VISUAL:-${EDITOR:-nano}}" "$f"
+
+cat "$f"
