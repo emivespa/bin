@@ -4,6 +4,7 @@
 #
 # git clonex $clonex_opts $url $clone_opts
 #
+# git clonex     git:r.e:p/o.git == git clone git:r.e:p/o.git ~/src/r.e/p/o.git
 # git clonex     https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
 # git clonex -r  https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
 set -eu -o pipefail
@@ -11,10 +12,18 @@ set -eu -o pipefail
 command -v git >/dev/null 2>&1 || exit 1
 
 mode='absolute'
-if test "$1" = '-r'; then
-	mode='relative'
-	shift
-fi
+case "$1" in
+	('-r')
+		mode='relative'
+		shift
+		;;
+	('--tmp')
+		mode='tmp'
+		shift
+		;;
+	(*)
+		;;
+esac
 
 url="$1"; shift
 
@@ -24,16 +33,17 @@ case "$url" in
 		;;
 	('git@'*)
 		dir="${url#*@}"
-		dir="${url/:/\/}" # FIXME: this is the only lines that requires bash instead of sh.
+		dir="${url/:/\/}" # FIXME: bashism.
 		;;
 	(*)
-		dir="${url/:/\/}" # FIXME: this is the only lines that requires bash instead of sh.
+		dir="${url/:/\/}" # FIXME: bashism.
 		;;
 esac
 
 case "$mode" in
 	('absolute') dir="${HOME}/src/${dir}" ;;
 	('relative') dir="./${dir}" ;;
+	('tmp') dir="/tmp/${USER}/${dir}" ;;
 	(*) exit 1 ;;
 esac
 
