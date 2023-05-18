@@ -1,29 +1,8 @@
 #!/bin/sh -e
 #
 # - pick between identically named entries in $PATH
-#
-# The list is reversed so that the entry deepest in $path is always number 1.
-#
-# TODO: better example.
 
 command -v which >/dev/null 2>&1 || exit 1
 
-usage='usage:
-	nth $cmd           # prints all entries of $cmd in $PATH
-	nth $cmd $n $args  # runs ${n}th-to-last $cmd in $PATH, optional $args included
-'
-
-case "$#" in
-	(0)
-		1>&2 printf %s "$usage"
-		exit 1
-		;;
-	(1)
-		which -a "$1" | tac | nl
-		;;
-	(*)
-		bin=$(which -a "$1" | tac | head -n"$2" | tail -n1)
-		shift 2
-		$bin ${1+"$@"}
-		;;
-esac
+q="$1"; shift
+$(which -a $q | fzf) ${1+"$@"}
