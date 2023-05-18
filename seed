@@ -4,4 +4,4 @@
 #
 # TODO: better name?
 
-head -n16 /dev/urandom | sha1sum | cut -d' ' -f1
+head -n16 /dev/urandom | sha1sum | cut -d' ' -f1 | cut -c1-${1:-7}
