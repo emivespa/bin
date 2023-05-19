@@ -1,0 +1,12 @@
+#!/bin/sh -e
+#
+# - local torrents.csv
+#
+# curl "https://torrents-csv.ml/service/search?q=${query}&size=999" #&page=[PAGE]
+
+command -v csv2rec >/dev/null 2>&1 || exit 1
+
+{
+	head -n1 ~/.cache/torrents.csv
+	grep -F "$*" ~/.cache/torrents.csv # FIXME.
+} | csv2rec
