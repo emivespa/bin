@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - fmt, but single space after a period
+
+fmt | sed 's/\.  /\. /g' | fmt
