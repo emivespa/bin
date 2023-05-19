@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - literally wgetwal but s/wallpapers/memes/
+
+cd "${HOME}/dl/." || exit 1
+wget -p -e robots=off -- "${@:-$(xsel -po)}"
+	# --user-agent="" # TODO.
+	# -p makes no sense here (since jpegs don't have requisites),
+	# but it has the nice side-effect of namespacing by URL.
