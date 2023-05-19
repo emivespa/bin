@@ -1,0 +1,15 @@
+#!/bin/sh -e
+#
+# - several curl utils
+#
+# https://github.com/chubin/awesome-console-services
+
+command -v curl >/dev/null 2>&1 || exit 1
+command -v fzf >/dev/null 2>&1 || exit 1
+command -v vipe >/dev/null 2>&1 || exit 1
+
+cat<<EOF | fzf | vipe | xargs curl
+https://checkip.amazonaws.com/
+https://status.plaintext.sh/t
+https://wttr.in/
+EOF
