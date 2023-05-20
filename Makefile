@@ -16,31 +16,20 @@ whatis:
 ################################################################################
 
 .PHONY: vendor
-vendor: ani birch fff neofetch pass pfetch shfm ytfzf
+vendor: submodules ani birch fff neofetch pass pfetch shfm ytfzf
+.PHONY: submodules
+submodules:
+	git submodule init
+	git submodule update
 ani:
 	unlink $@ || true
 	ln -s vendor/github.com/pystardust/ani-cli/ani-cli $@
 birch:
 	unlink $@ || true
 	ln -s vendor/github.com/dylanaraps/birch/birch $@
-fff:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/fff/fff $@
-golfetch:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/golfetch/pf-unobfuscated $@
 neofetch:
 	unlink $@ || true
 	ln -s vendor/github.com/dylanaraps/neofetch/neofetch $@
-pass:
-	unlink $@ || true
-	ln -s vendor/git.zx2c4.com/password-store/src/password-store.sh $@
-pfetch:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/pfetch/pfetch $@
-shfm:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/shfm/shfm $@
 ytfzf:
 	unlink $@ || true
 	ln -s vendor/github.com/pystardust/ytfzf/ytfzf $@
