@@ -1,24 +1,9 @@
-[submodule "vendor/github.com/dylanaraps/pfetch"]
-	path = vendor/github.com/dylanaraps/pfetch
-	url = https://github.com/dylanaraps/pfetch
 [submodule "vendor/github.com/dylanaraps/neofetch"]
 	path = vendor/github.com/dylanaraps/neofetch
 	url = https://github.com/dylanaraps/neofetch
-[submodule "vendor/github.com/dylanaraps/fff"]
-	path = vendor/github.com/dylanaraps/fff
-	url = https://github.com/dylanaraps/fff
-[submodule "vendor/github.com/dylanaraps/shfm"]
-	path = vendor/github.com/dylanaraps/shfm
-	url = https://github.com/dylanaraps/shfm
 [submodule "vendor/github.com/dylanaraps/birch"]
 	path = vendor/github.com/dylanaraps/birch
 	url = https://github.com/dylanaraps/birch
-[submodule "vendor/git.zx2c4.com/password-store"]
-	path = vendor/git.zx2c4.com/password-store
-	url = https://git.zx2c4.com/password-store
-[submodule "vendor/github.com/dylanaraps/golfetch"]
-	path = vendor/github.com/dylanaraps/golfetch
-	url = https://github.com/dylanaraps/golfetch
 [submodule "vendor/github.com/pystardust/ani-cli"]
 	path = vendor/github.com/pystardust/ani-cli
 	url = https://github.com/pystardust/ani-cli
