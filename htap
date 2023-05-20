@@ -1,0 +1,7 @@
+#!/bin/sh -e
+#
+# - execute with reverse path
+
+HTAP="$(echo "$PATH" | tr ':' '\n' | tac | tr '\n' ':' | sed 's/:$//g')"
+
+PATH="${HTAP}" ${1+"$@"}
