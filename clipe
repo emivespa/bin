@@ -29,10 +29,9 @@ case "$(uname -s)" in
 		;;
 esac
 
-stdin="$(cat -)
-"
+stdin="$(cat -)"
 
 if test -n "$clipe_prg"; then
 	printf %s "$stdin" | $clipe_prg
 fi
-printf %s "$stdin"
+printf %s\\n "$stdin"
