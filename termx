@@ -9,7 +9,7 @@
 
 command -v xterm >/dev/null 2>&1 || exit 1
 
-if test -z "$TERM"; then
+if test -z "$TERM" -o "$TERM" = 'dumb'; then
 	xterm -e "$@"
 else
 	sh -c "$@"
