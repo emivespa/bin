@@ -7,17 +7,15 @@
 #
 # TODO: s/dconf/gsettings/ ?
 
-key='/org/gnome/desktop/interface/gtk-theme'
-
-case "$(dconf read ${key})" in
-	("'Yaru'")
-		dconf write ${key} "'Yaru-dark'"
+case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
+	"'prefer-dark'")
+		gsettings set org.gnome.desktop.interface color-scheme prefer-light
 		;;
-	("'Yaru-dark'")
-		dconf write ${key} "'Yaru'"
+	"'prefer-light'")
+		gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 		;;
-	(*)
-		dconf read "$key"
+	*)
+		# echo "$current_theme"
 		exit 1
 		;;
 esac
