@@ -7,5 +7,6 @@
 # BUG: sometimes randomly fails?
 
 command -v xsel >/dev/null 2>&1 || exit 1
+f="${TMPDIR:-/tmp}/viclip-bak-$(datex sort)-$(seed)"
 
-termx "xsel -ob | vipe | tee ${TMPDIR:-/tmp}/viclip-bak-$(datex sort)-$(seed) | xsel -ib"
+termx "xsel -ob >'$f'; ${VISUAL:-${EDITOR:-nano}} '$f'; xsel -ib <'$f'"
