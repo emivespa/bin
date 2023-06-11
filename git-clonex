@@ -29,11 +29,12 @@ url="$1"; shift
 
 case "$url" in
 	(*'://'*)
-		dir="${url#*://}"
+		dir="${url##*://}"
 		;;
-	('git@'*)
-		dir="${url#*@}"
-		dir="${url/:/\/}" # FIXME: bashism.
+	(*'@'*)
+		dir="${url}"
+		dir="${dir##*@}"
+		dir="${dir/:/\/}" # FIXME: bashism.
 		;;
 	(*)
 		dir="${url/:/\/}" # FIXME: bashism.

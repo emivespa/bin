@@ -1,0 +1,31 @@
+#!/bin/sh -e
+#
+# - bluetoothctl buddy
+
+command -v gum >/dev/null 2>&1 || exit 1
+
+disconnects()
+{
+	bluetoothctl devices Connected | while read -r _ mac name; do
+		printf %s\\n "bluetoothctl disconnect ${mac} # ${name}"
+	done
+}
+connects()
+{
+	bluetoothctl devices Paired | while read -r _ mac name; do
+		printf %s\\n "bluetoothctl connect ${mac} # ${name}"
+	done
+}
+
+main()
+{
+cat<<EOF | sed '/^$/d'| fzf --nth=2.. | sh
+$(connects)
+$(disconnects)
+bluetoothctl power off
+bluetoothctl power on
+# exit
+EOF
+}
+
+"${@:-main}"
