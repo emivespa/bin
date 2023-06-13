@@ -1,0 +1,45 @@
+#!/bin/sh -e
+#
+# - git-add and pregen AI commit message in the background
+
+if test "$#" -ne '0'; then
+	git add "$@"
+fi
+
+state="$(git diff --cached)"
+
+hash="$(printf %s "$state" | sha256sum | awk '{print $1}')"
+
+d="${TMPDIR:-/tmp}/git-addx"; mkdir -p "$d"
+
+f="${d}/${hash}"
+
+system_prompt="
+You're a commit message generator AI.
+You'll be passed the output of \`git diff --cached\`.
+Your task is to create a commit message based on that input.
+Use conventional commits.
+"
+
+check()
+{
+	test -f "$f"
+}
+
+gen()
+{
+	printf %s "$state" | cgpt "$system_prompt" >"$f"
+}
+
+bg_gen()
+{
+	# TODO: should the nohup be here?
+	printf %s "$state" | nohup cgpt "$system_prompt" >"$f" &
+}
+
+sync()
+{
+	check || gen
+}
+
+sync
