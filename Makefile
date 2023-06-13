@@ -16,7 +16,7 @@ whatis:
 ################################################################################
 
 .PHONY: vendor
-vendor: submodules ani birch fff neofetch pass pfetch shfm ytfzf
+vendor: submodules ani birch neofetch ytfzf
 .PHONY: submodules
 submodules:
 	git submodule init
