@@ -4,18 +4,30 @@
 #
 # https://github.com/docwhat/dotfiles/blob/main/bin/apt-upgrade
 
-command -v apt >/dev/null 2>&1 || exit 1
-
+non_destructive()
 (
 	set -x
 	sudo apt update
 	apt list --upgradable
 )
 
-yn 'aptgrade: upgrade and autoremove?' || exit 0
-
+destructive()
 (
 	set -x
 	sudo apt upgrade -y
 	sudo apt autoremove -y
 )
+
+main()
+{
+	non_destructive
+
+	printf %s\\n 'aptgrade: upgrade and autoremove? C-c to cancel or C-d to continue.'
+	cat >/dev/null
+
+	destructive
+}
+
+command -v apt >/dev/null 2>&1 || exit 1
+
+"${1:-main}"
