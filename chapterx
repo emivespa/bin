@@ -1,3 +1,6 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i sh -p jq recutils yt-dlp
+
 #!/bin/sh -e
 #
 # - print youtube video chapter data as csv
