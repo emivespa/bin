@@ -4,6 +4,25 @@
 #
 # aws s3 ls $(s3x b)
 
+b()
+{
+	aws s3 ls | fzf -m -n3 |
+		awk '{print $3}' | # TODO: should use $3 or $NF?
+		sed 's|^|s3://|' | tr '\n' ' ' | clipe
+}
+
+o() {
+	b="$(aws s3 ls | fzf -n3 | awk '{print $3}')"
+	if test -z "${b}"; then
+		exit 1
+	fi
+	o="$(aws s3 ls "s3://${b}" | fzf -m -n4 | awk '{print $4}')"
+	if test -z "${o}"; then
+		exit 1
+	fi
+	printf %s\\n "${o}" | sed "s|^|s3://${b}/|g" | tr '\n' ' ' | clipe
+}
+
 mode_pick()
 {
 	fzf -n1 --header-lines=1<<-EOF | awk '{ print $1 }'
@@ -12,24 +31,5 @@ mode_pick()
 		o  object
 	EOF
 }
-mode="${1:-$(mode_pick)}"
 
-case "$mode" in
-	(b)
-		aws s3 ls | fzf -m -n3 |
-			awk '{print $3}' | # TODO: should use $3 or $NF?
-			sed 's|^|s3://|' | tr '\n' ' ' | clipe
-		;;
-	(o)
-		b="$(aws s3 ls | fzf -n3 | awk '{print $3}')"
-		if test -z "${b}"; then
-			exit 1
-		fi
-		o="$(aws s3 ls "s3://${b}" | fzf -m -n4 | awk '{print $4}')"
-		if test -z "${o}"; then
-			exit 1
-		fi
-		printf %s\\n "${o}" | sed "s|^|s3://${b}/|g" | tr '\n' ' ' |
-			clipe
-		;;
-esac
+"${1:-$(mode_pick)}"
