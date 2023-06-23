@@ -2,7 +2,8 @@
 #
 # - cheatsheets
 
-ec2_cheatsheet() {
+ec2()
+{
 cat<<EOF
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html
 EOF
@@ -78,7 +79,9 @@ tags/instance
 EOF
 }
 
-http_cheatsheet() { # From Wikipedia (RFC 9110).
+http()
+{
+# From Wikipedia (RFC 9110).
 column<<EOF
 1xx (Informational): The request was received, continuing process
 100 Continue
@@ -155,7 +158,9 @@ column<<EOF
 EOF
 }
 
-tmux_cheatsheet() { # From [C-b ?].
+tmux()
+{
+# From [C-b ?].
 column<<EOF
 C-b C-b     Send the prefix key
 C-b C-o     Rotate through the panes
@@ -241,7 +246,9 @@ C-b S-Right Move the visible part of the window right
 EOF
 }
 
-vi_cheatsheet() { # From nvi's :viusage.
+vi()
+{
+# From nvi's :viusage.
 column<<EOF
 ^A search forward for cursor word
 ^B scroll up by screens
@@ -347,11 +354,4 @@ z reposition the screen
 EOF
 }
 
-case "$1" in
-	(ec2) ec2_cheatsheet ;;
-	(http) http_cheatsheet ;;
-	(tmux) tmux_cheatsheet ;;
-	(vi) vi_cheatsheet ;;
-	(*) exit 1 ;;
-esac
-
+"$1"
