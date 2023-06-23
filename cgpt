@@ -1,6 +1,10 @@
 #!/bin/sh -e
 #
 # - chatgpt cli/repl
+#
+# TODO: specify system prompt with flag.
+
+echo hi
 
 command -v curl >/dev/null 2>&1 || exit 1
 command -v jq >/dev/null 2>&1 || exit 1
@@ -63,6 +67,35 @@ print_last_message()
 	jq -r '.messages | last | .content' <"$f"
 }
 
+filter_mode()
+{
+	prompt2message 'user' | append_message
+	hit_api | response2message | append_message
+	print_last_message | clipe
+}
+
+repl_mode()
+{
+	while true; do
+		printf %s\\n "$(tput setaf 3)user:$(tput sgr0)"
+		prompt | prompt2message 'user' | append_message
+		printf %s\\n "$(tput setaf 2)assistant:$(tput sgr0)"
+		hit_api | response2message | append_message
+		print_last_message | clipe
+	done
+}
+
+main()
+{
+	if ! test -t 0; then
+		# Input is from stdin, run once:
+		filter_mode
+	else
+		# Input is from a terminal, REPL mode:
+		repl_mode
+	fi
+}
+
 case "$1" in
 	('--edit') # Pick a conversation and edit it:
 		f="$(pick_conversation)"
@@ -82,7 +115,7 @@ case "$1" in
 		f="$(pick_conversation)"
 		shift
 		;;
-	('--syslib') # Pick from system prompt library:
+	('--syspick') # Pick from system prompt library:
 		shift
 		test "$#" -ne '0' && exit 1 # Don't accept other system prompts.
 		f="${d}/$(date -u +'%Y%m%d%H%M%S').json"
@@ -101,18 +134,4 @@ if test "$#" -ne '0'; then
 	echo "$*" | prompt2message 'system' | append_message
 fi
 
-if ! test -t 0; then
-	# Input is from stdin, run once:
-	prompt2message 'user' | append_message
-	hit_api | response2message | append_message
-	print_last_message | clipe
-else
-	# Input is from a terminal, REPL mode:
-	while true; do
-		printf %s\\n "$(tput setaf 3)user:$(tput sgr0)"
-		prompt | prompt2message 'user' | append_message
-		printf %s\\n "$(tput setaf 2)assistant:$(tput sgr0)"
-		hit_api | response2message | append_message
-		print_last_message | clipe
-	done
-fi
+main
