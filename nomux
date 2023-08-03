@@ -1,0 +1,5 @@
+#!/bin/sh -e
+#
+# - open new terminal without tmux
+
+xterm -e "TMUX='no' ${SHELL}"
