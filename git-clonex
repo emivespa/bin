@@ -7,6 +7,9 @@
 # git clonex     git:r.e:p/o.git == git clone git:r.e:p/o.git ~/src/r.e/p/o.git
 # git clonex     https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
 # git clonex -r  https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
+#
+# TODO: add --go
+
 set -eu -o pipefail
 
 command -v git >/dev/null 2>&1 || exit 1
@@ -48,10 +51,6 @@ case "$mode" in
 	(*) exit 1 ;;
 esac
 
-git clone ${1+"$@"} --depth 1 "$url" "$dir" || ex="$?"
-	# If clone fails, we still want to copy the directory to the clipboard,
-	# but remember the exit code so we can exit with it later.
-echo "${dir}" | clipe
-if test "${ex-}" != ''; then
-	exit "$ex"
-fi
+git clone ${1+"$@"} --depth 1 "$url" "$dir"
+
+printf %s\\n "cd ${dir}"
