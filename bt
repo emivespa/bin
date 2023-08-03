@@ -1,32 +1,43 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 #
 # - bluetoothctl buddy
 
-disconnects()
-{
+disconnects() {
 	bluetoothctl devices Connected | while read -r _ mac name; do
 		printf %s\\n "bluetoothctl disconnect ${mac} # ${name}"
 	done
 }
 
-connects()
-{
+connects() {
 	bluetoothctl devices Paired | while read -r _ mac name; do
 		printf %s\\n "bluetoothctl connect ${mac} # ${name}"
 	done
 }
 
-main()
-{
-	# We filter empty lines because $(connects) or $(disconnects) may be
-	# empty lines.
-	cat<<-EOF | sed '/^$/d'| fzf --nth=2.. | sh
+cat_opts() {
+	cat<<-EOF | sed '/^$/d'
 		$(connects)
 		$(disconnects)
 		bluetoothctl power off
 		bluetoothctl power on
-		# exit
 	EOF
+}
+
+choose() {
+	cat_opts | fzf \
+		--nth=2.. \
+		--header="Choose an action or press ctrl-c to cancel:" \
+		--header-first \
+		--
+}
+
+run_choice() {
+	choose | sh -x
+}
+
+main() {
+	# FIXME: work without recursion.
+	termx "$0 run_choice" || exit 0
 }
 
 "${@:-main}"
