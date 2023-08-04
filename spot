@@ -1,17 +1,49 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 #
-# - aws describe-spot-price-history if it had the --all-regions option
+# - aws describe-spot-price-history wrapper
 
 dateunix()
 {
-	awk 'BEGIN { print srand(); }'
+	awk 'BEGIN { srand(); print srand(); }'
+}
+get_one() {
+	aws ec2 describe-spot-price-history \
+		${instance_type+--instance-types "${instance_type}"} \
+		${product_descriptions+--product-descriptions "${product_descriptions}"} \
+		${region+--region "${region}"} \
+		--no-cli-pager \
+		--output text \
+		--start-time "$(dateunix)" \
+		--
 }
 
-for region in $(aws ec2 describe-regions --query 'Regions[].RegionName' --output text); do
-	aws ec2 describe-spot-price-history \
-		--start-time "$(dateunix)" \
-		--instance-types "${1:-'t3.micro'}" \
-		--product-descriptions 'Linux/UNIX' \
-		--output text \
-		--region "$region"
+get_all() {
+	for region in $(aws ec2 describe-regions --query 'Regions[].RegionName' --output text); do
+		get_one
+	done
+}
+
+main() {
+	if test "${region:-}" = 'loop-all-regions'; then
+		get_all
+	else
+		get_one
+	fi
+}
+
+while test "$#" -ne '0'; do
+	arg="$1"; shift
+	case "$arg" in
+		(*'.'*)
+			instance_type="$arg"
+			;;
+		(*'-'*'-'*)
+			region="$arg"
+			;;
+		(*)
+			product_descriptions="$arg"
+			;;
+	esac
 done
+
+main
