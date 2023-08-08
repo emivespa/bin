@@ -1,0 +1,16 @@
+#!/bin/sh -e
+#
+# - poor man's notify-send
+
+if test "$#" -eq '0'; then
+	s="$(cat -)"
+else
+	s="$*"
+fi
+
+cmd="echo"
+if command -v figlet >/dev/null 2>&1; then
+	cmd="figlet"
+fi
+
+xterm -e "tput bel; $cmd '$s'; read -r x"
