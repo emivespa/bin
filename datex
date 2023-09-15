@@ -14,6 +14,6 @@ case "$mode" in
 	(doy)   date +'%Y-%j' ${1+"$@"}         ;; # day-of-year date
 	(h)     date +'%d %B %Y' ${1+"$@"}      ;; # unambiguous human readable date
 	(sort)  date -u +'%Y%m%d%H%M%S'         ;; # file sorting date
-	(unix)  awk 'BEGIN { print srand(); }'  ;; # unix epoch date (date +%s is a GNU extension). https://lobste.rs/s/uk5esr/rich_s_sh_posix_shell_tricks#c_rghtbb
+	(unix)  awk 'BEGIN { srand(); print srand(); }'  ;; # unix epoch date (date +%s is a GNU extension). https://lobste.rs/s/uk5esr/rich_s_sh_posix_shell_tricks#c_rghtbb
 	(ymd)   date +'%Y-%m-%d' ${1+"$@"}      ;; # ISO date, YYYY-mm-dd
 esac
