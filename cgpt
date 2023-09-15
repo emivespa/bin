@@ -1,14 +1,12 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 #
 # - chatgpt cli/repl
 #
 # TODO: specify system prompt with flag.
 
-echo hi
-
-command -v curl >/dev/null 2>&1 || exit 1
-command -v jq >/dev/null 2>&1 || exit 1
-command -v sponge >/dev/null 2>&1 || exit 1
+type curl >/dev/null 2>&1 || exit 1
+type jq >/dev/null 2>&1 || exit 1
+type sponge >/dev/null 2>&1 || exit 1
 
 d="/tmp/cgpt"; mkdir -p "$d"
 
@@ -25,16 +23,20 @@ fi
 
 pick_conversation()
 {
-	command -v fzf >/dev/null 2>&1 || exit 1
+	type fzf >/dev/null 2>&1 || exit 1
 	find "$d" -type f | fzf --preview='cat {1}'
 }
 
 prompt()
 {
-	if command -v rlwrap >/dev/null 2>&1; then
-		rlwrap cat -
-	else
+	if test -p /dev/stdin; then
 		cat -
+	else
+		if type rlwrap >/dev/null 2>&1; then
+			rlwrap cat -
+		else
+			cat -
+		fi
 	fi
 }
 
@@ -71,7 +73,7 @@ filter_mode()
 {
 	prompt2message 'user' | append_message
 	hit_api | response2message | append_message
-	print_last_message | clipe
+	print_last_message
 }
 
 repl_mode()
@@ -81,7 +83,7 @@ repl_mode()
 		prompt | prompt2message 'user' | append_message
 		printf %s\\n "$(tput setaf 2)assistant:$(tput sgr0)"
 		hit_api | response2message | append_message
-		print_last_message | clipe
+		print_last_message
 	done
 }
 
@@ -96,7 +98,7 @@ main()
 	fi
 }
 
-case "$1" in
+case "${1-''}" in
 	('--edit') # Pick a conversation and edit it:
 		f="$(pick_conversation)"
 		${EDITOR:-nano} "$f"

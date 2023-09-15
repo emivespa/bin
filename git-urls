@@ -2,12 +2,12 @@
 #
 # - list clone urls for all github repos within current folder
 
-command -v git >/dev/null 2>&1 || exit 1
+type git >/dev/null 2>&1 || exit 1
 
 maybe_render_tsv()
 {
 	# TODO: test.
-	if test -t 1 && command -v sponge >/dev/null 2>&1; then
+	if test -t 1 && type sponge >/dev/null 2>&1; then
 		sponge | column -t -s'	' --
 	else
 		cat -

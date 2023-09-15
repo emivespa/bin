@@ -8,20 +8,47 @@
 # git clonex     https://r.e/p/o == git clone https://a.b/c/d ~/src/r.e/p/o
 # git clonex -r  https://r.e/p/o == git clone https://a.b/c/d ./r.e/p/o
 #
-# TODO: add --go
+# TODO: add --go mode.
+# TODO: remove bashisms and use sh.
 
 set -eu -o pipefail
 
-command -v git >/dev/null 2>&1 || exit 1
+type git >/dev/null 2>&1 || exit 1
 
-mode='absolute'
+strip_protocol() {
+	case "$1" in
+		(*'://'*)
+			printf %s "${1##*://}"
+			;;
+		(*'@'*)
+			dir="${1}"
+			dir="${dir##*@}"
+			dir="${dir/:/\/}" # FIXME: bashism.
+			printf %s "${1}"
+			;;
+		(*)
+			printf %s "${1/:/\/}" # FIXME: bashism.
+			;;
+	esac
+}
+
+mode_root() {
+	case "$1" in
+		('--absolute')  printf %s "${HOME}/src" ;;
+		('--relative')  printf %s "./" ;;
+		('--tmp')       printf %s "/tmp/${USER}" ;;
+		(*) exit 1 ;;
+	esac
+}
+
+mode='--absolute' # Default mode.
 case "$1" in
-	('-r')
-		mode='relative'
+	('--relative'|'-r')
+		mode='--relative'
 		shift
 		;;
 	('--tmp')
-		mode='tmp'
+		mode='--tmp'
 		shift
 		;;
 	(*)
@@ -29,28 +56,16 @@ case "$1" in
 esac
 
 url="$1"; shift
+dir="$(strip_protocol "${url}")"
+prefix="$(mode_root "$mode")"
+dest="${prefix}/${dir}"
 
-case "$url" in
-	(*'://'*)
-		dir="${url##*://}"
-		;;
-	(*'@'*)
-		dir="${url}"
-		dir="${dir##*@}"
-		dir="${dir/:/\/}" # FIXME: bashism.
-		;;
-	(*)
-		dir="${url/:/\/}" # FIXME: bashism.
-		;;
-esac
+(
+	# TODO: clone to a tmp repo.
+	set -x
+	git clone ${1+"$@"} --depth 1 "$url" "$dest"
+)
 
-case "$mode" in
-	('absolute') dir="${HOME}/src/${dir}" ;;
-	('relative') dir="./${dir}" ;;
-	('tmp') dir="/tmp/${USER}/${dir}" ;;
-	(*) exit 1 ;;
-esac
-
-git clone ${1+"$@"} --depth 1 "$url" "$dir"
-
-printf %s\\n "cd ${dir}"
+tput setaf 2
+printf %s\\n "cd ${dest}"
+tput sgr0

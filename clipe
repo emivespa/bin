@@ -13,14 +13,14 @@
 case "$(uname -s)" in
 	# TODO: FreeBSD, NetBSD, OpenBSD, Windows (Windows_NT).
 	('Darwin')
-		if command -v 'pbcopy' >/dev/null 2>&1; then
+		if type 'pbcopy' >/dev/null 2>&1; then
 			clipe_prg='pbcopy'
 		fi
 		;;
 	('Linux')
-		if command -v 'xsel' >/dev/null 2>&1; then
+		if type 'xsel' >/dev/null 2>&1; then
 			clipe_prg='xsel -bi'
-		elif command -v 'xclip' >/dev/null 2>&1; then
+		elif type 'xclip' >/dev/null 2>&1; then
 			clipe_prg='xclip -i -selection clipboard'
 		fi
 		;;

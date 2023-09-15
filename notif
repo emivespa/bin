@@ -9,7 +9,7 @@ else
 fi
 
 cmd="echo"
-if command -v figlet >/dev/null 2>&1; then
+if type figlet >/dev/null 2>&1; then
 	cmd="figlet"
 fi
 

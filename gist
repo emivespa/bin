@@ -4,7 +4,7 @@
 #
 # TODO: take extension from $1
 
-command -v gh >/dev/null 2>&1 || exit 1
+type gh >/dev/null 2>&1 || exit 1
 
 magic_id='NEW'
 

@@ -7,7 +7,7 @@
 #
 # TODO: clean this mess up. Specially 'paste'.
 
-command -v whisper >/dev/null 2>&1 || exit 1
+type whisper >/dev/null 2>&1 || exit 1
 
 d="${TMPDIR:-/tmp}/youtube2html-$(date -u +'%Y%m%d%H%M%S')-$(seed)"
 mkdir "$d"

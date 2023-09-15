@@ -2,7 +2,7 @@
 #
 # - pick between identically named entries in $PATH
 
-command -v which >/dev/null 2>&1 || exit 1
+type which >/dev/null 2>&1 || exit 1
 
 q="$1"; shift
 $(which -a $q | fzf) ${1+"$@"}

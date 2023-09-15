@@ -4,7 +4,7 @@
 #
 # No a/r option, only relative paths allowed.
 
-command -v git >/dev/null 2>&1 || exit 1
+type git >/dev/null 2>&1 || exit 1
 
 url="$1"
 shift

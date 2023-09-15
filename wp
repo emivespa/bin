@@ -4,7 +4,7 @@
 #
 # GNOME only for now.
 
-command -v gsettings >/dev/null 2>&1 || exit 1
+type gsettings >/dev/null 2>&1 || exit 1
 
 d="${HOME}/Pictures/wallpapers"
 test -d "$d" || exit 1

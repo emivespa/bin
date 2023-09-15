@@ -3,8 +3,8 @@
 # - download youtube video split by chapter
 
 # Strict deps
-command -v jq >/dev/null 2>&1 || exit 1
-command -v yt-dlp >/dev/null 2>&1 || exit 1
+type jq >/dev/null 2>&1 || exit 1
+type yt-dlp >/dev/null 2>&1 || exit 1
 
 # Util funcs
 dateunix()

@@ -4,7 +4,7 @@
 #
 # usage: curlx "$link" "$opts"
 
-command -v curl >/dev/null 2>&1 || exit 1
+type curl >/dev/null 2>&1 || exit 1
 
 cd "${HOME}/dl"
 

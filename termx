@@ -7,10 +7,10 @@
 #	would do the trick, but all terminals don't have the same flags
 # TODO: checking $TERM works, but I'm not sure if it's correct.
 
-command -v xterm >/dev/null 2>&1 || exit 1
+type xterm >/dev/null 2>&1 || exit 1
 
 if test -z "$TERM" -o "$TERM" = 'dumb'; then
-	xterm -e "$@"
+	xterm -maximized -e "$@"
 else
 	sh -c "$@"
 fi

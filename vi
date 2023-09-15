@@ -2,7 +2,7 @@
 #
 # - use the right vi
 
-command -v nvim     >/dev/null 2>&1 && exec nvim ${1+"$@"}
-command -v vim      >/dev/null 2>&1 && exec vim ${1+"$@"}
-command -v nvi      >/dev/null 2>&1 && exec nvi ${1+"$@"}
-command -v busybox  >/dev/null 2>&1 && exec busybox vi ${1+"$@"}
+type nvim     >/dev/null 2>&1 && exec nvim ${1+"$@"}
+type vim      >/dev/null 2>&1 && exec vim ${1+"$@"}
+type nvi      >/dev/null 2>&1 && exec nvi ${1+"$@"}
+type busybox  >/dev/null 2>&1 && exec busybox vi ${1+"$@"}

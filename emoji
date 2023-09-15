@@ -16,7 +16,7 @@ f="${XDG_CACHE_HOME:-"${HOME}/.cache"}/emoji.txt"
 
 # EMOJI_GET_VER='14' # Latest as of 2022: https://unicode.org/Public/emoji/14.0/emoji-test.txt
 if test  -n "$EMOJI_GET_VER"; then
-	command -v curl >/dev/null 2>&1 || exit 1
+	type curl >/dev/null 2>&1 || exit 1
 	test "$EMOJI_GET_VER" -gt '0' || exit 1
 	t="${TMPDIR:-/tmp}/emoji.txt"
 	touch "$f"

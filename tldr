@@ -12,7 +12,7 @@ if test "$(which -a tldr | uniq | wc -l)" != '1'; then
 	exec htap tldr ${1+"$@"}
 fi
 
-command -v curl >/dev/null 2>&1 || exit 1
+type curl >/dev/null 2>&1 || exit 1
 
 while test "$#" -gt '0'
 do

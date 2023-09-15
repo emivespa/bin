@@ -4,21 +4,20 @@
 #
 # https://github.com/chubin/awesome-console-services
 
-deps()
-{
-	command -v curl >/dev/null 2>&1 || return 1
-	command -v fzf >/dev/null 2>&1 || return 1
-	command -v vipe >/dev/null 2>&1 || return 1
+deps() {
+	type curl >/dev/null 2>&1 || return 1
+	type fzf >/dev/null 2>&1 || return 1
+	type vipe >/dev/null 2>&1 || return 1
 }
 
-main()
-{
+main() {
 	cat<<-EOF | fzf | tr ' ' '\n' | vipe | head -n1 | xargs -I{} curl {}
 		https://cheat.sh/ EG: btrfs tar~list lua/:learn go/zip+lists :help :intro
-		https://checkip.amazonaws.com/
-		https://raw.githubusercontent.com/tldr-pages/tldr/master/pages/ common/tldr.md {windows,osx,linux,sunos}/tldr.md
+		https://checkip.amazonaws.com
+		https://ipaddress.sh
+		https://raw.githubusercontent.com/tldr-pages/tldr/master/pages/common common/tldr.md {windows,osx,linux,sunos}/tldr.md
 		https://status.plaintext.sh/t
-		https://wttr.in/ EG: nyc new+york
+		https://wttr.in EG: nyc new+york
 	EOF
 }
 
