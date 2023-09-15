@@ -1,0 +1,13 @@
+#!/bin/sh -e
+#
+# - jq encoder/decoder
+
+mode="$1"; shift
+
+# if test "$#" = '0'; then
+# 	jq -sRr "@${mode}"
+# else
+# 	jq -rn --arg x "$*" "\$x|@${mode}"
+# fi
+
+jq -sRr "@${mode}"
