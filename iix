@@ -1,0 +1,24 @@
+#!/bin/sh -eu
+#
+# - ii but also autojoin
+#
+# TODO: http://nion.modprobe.de/blog/archives/440-Using-the-ii-irc-client.html
+
+if pidof ii; then
+	printf %s\\n "ii already running" 1>&2
+	exit 1
+fi
+
+(
+	find ~/irc -mindepth 1 -maxdepth 1 |
+		awk -F'/' '{print $5}' |
+		while read -r host; do
+			ii -s "${host}" >/dev/null 2>&1 &
+		done
+	sleep 10
+	find ~/irc -mindepth 2 -maxdepth 2 -type d |
+		awk -F'/' '{print $5 " " $6}' |
+		while read -r host channel; do
+			echo "/j ${channel}" >"${HOME}/irc/${host}/in"
+		done
+) >/dev/null 2>&1 &
