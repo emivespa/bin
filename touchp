@@ -1,0 +1,7 @@
+#!/bin/sh -eux
+#
+# - touch a file creating parent directories as needed, similarly to mkdir -p
+
+mkdir -p "$1"
+rm -r "$1"
+touch "$1"
