@@ -1,0 +1,28 @@
+#!/bin/sh -eu
+#
+# - print the flags from manpage
+
+print_man() {
+	MANWIDTH=9999 man ${1+"$@"} | col -b
+}
+
+get_flags() {
+	awk '/^ {7}-[^ ]/,/^$/'
+}
+
+reblank() {
+	sed 's/\t/ /g' |      # Convert tabs to spaces.
+	sed 's/^[ \t]*//g' |  # Delete whitespace at the beginning of lines.
+	sed -E 's/ +/ /g'     # Convert multiple spaces to single space.
+}
+
+wrap()
+{
+	if test -t 1;then
+		fold -s -w"$(tput cols)"
+	else
+		cat -
+	fi
+}
+
+print_man "${1:-}" | get_flags | reblank | wrap
