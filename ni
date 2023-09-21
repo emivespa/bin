@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# TODO: where is this from?
+# - generate ni:/// code for given data
 #
-# https://www.rfc-editor.org/rfc/rfc6920
+# https://posts.summerti.me/rfc-6920/
 
 hex2bin() {
 	# https://unix.stackexchange.com/questions/352569/converting-from-binary-to-hex-and-back#352570
@@ -11,12 +11,7 @@ hex2bin() {
 
 rfc6920 () {
     printf 'ni:///sha-256;'
-    sha256sum -b |
-    tr -cd '[:xdigit:]' |
-    hex2bin |  # bring your own implementation!
-    base64 |
-    tr '/+' '_-' |
-    tr -d =
+    sha256sum -b | tr -cd '[:xdigit:]' | hex2bin | base64 | tr '/+' '_-' | tr -d =
 }
 
 ${1:-rfc6920}
