@@ -1,22 +1,53 @@
-#!/bin/sh -e
+#!/bin/sh -eu
 #
-# - toggle light and dark versions of Yaru gtk-theme
-#
-# TODO turn into general purpose theme switcher
-#	how to know what theme to use? how does neofetch do it?
+# - toggle light and dark theme
 #
 # TODO: s/dconf/gsettings/ ?
 
-case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
-	"'prefer-dark'")
-		gsettings set org.gnome.desktop.interface color-scheme prefer-light
+case "${DESKTOP_SESSION:-}" in
+	('gnome') # TODO: check.
+		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
+			("'prefer-dark'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
+				;;
+			("'prefer-light'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
+				;;
+		esac
 		;;
-	"'prefer-light'")
-		gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+	('gnome-flashback-metacity')
+		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
+			("'prefer-dark'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
+				;;
+			("'prefer-light'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
+				;;
+		esac
 		;;
-	*)
-		# echo "$current_theme"
+	('none+icewm')
+		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
+			("'prefer-dark'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
+				;;
+			("'prefer-light'")
+				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
+				;;
+		esac
+		;;
+	('xfce')
+		case "$(xfconf-query -c xsettings -p /Net/ThemeName)" in
+			('Adwaita-dark')
+				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
+				xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita" || true
+				;;
+			('Adwaita')
+				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
+				xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" || true
+				;;
+		esac
+		;;
+	(*)
 		exit 1
 		;;
 esac
-
