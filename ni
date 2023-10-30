@@ -10,8 +10,8 @@ hex2bin() {
 }
 
 rfc6920 () {
-    printf 'ni:///sha-256;'
-    sha256sum -b | tr -cd '[:xdigit:]' | hex2bin | base64 | tr '/+' '_-' | tr -d =
+    sum="$(sha256sum -b | tr -cd '[:xdigit:]' | hex2bin | base64 | tr '/+' '_-' | tr -d =)"
+    printf %s\\n "ni:///sha-256;${sum}"
 }
 
 ${1:-rfc6920}
