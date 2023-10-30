@@ -11,8 +11,15 @@ test -d "$d" || exit 1
 
 newwp() {
 	new="$(find "${HOME}/Pictures/wallpapers" -type f | shuf -n1)"
-	gsettings set org.gnome.desktop.background picture-uri "$new"
-	gsettings set org.gnome.desktop.background picture-uri-dark "$new"
+	case "$DESKTOP_SESSION" in
+		('gnome')
+			gsettings set org.gnome.desktop.background picture-uri "$new"
+			gsettings set org.gnome.desktop.background picture-uri-dark "$new"
+			;;
+		('none+icewm')
+			icewmbg -i "$new"
+			;;
+	esac
 }
 
 while getopts "dnp" opt; do
