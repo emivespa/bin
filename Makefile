@@ -2,7 +2,7 @@ default: ;
 
 .PHONY: deps
 deps:
-	git grep 'type *.*|| *exit' | sed 's/:/ /' | awk '{ print $$4 }' | sort -u
+	git grep 'type *.*|| *exit' | sed 's/:/ /' | awk '{ print $$3 }' | sort -u
 
 .PHONY: shellcheck
 shellcheck:
