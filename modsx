@@ -1,0 +1,34 @@
+#!/bin/sh -eu
+#
+# - chatgpt cli/repl
+#
+# TODO: specify system prompt with flag.
+
+type curl jq mods sponge >/dev/null 2>&1 || exit 1
+
+mods="mods --model gpt-3.5-turbo"
+
+case "${1-''}" in
+	# ('-e') # Pick a conversation and edit it:
+	# ('-f') # Fork a conversation:
+	# ('--syspick') # Pick from system prompt library:
+	('--pick') # Pick an arbitrary conversation:
+		type fzf >/dev/null 2>&1 || exit 1
+		mods="mods -c $(mods -l | fzf --nth=2.. | awk '{print $1}')"
+		shift
+		;;
+esac
+
+if ! test -t 0; then
+	# Input is from stdin, run once:
+	prompt="$(cat -)"
+	printf %s\\n "$prompt" | $mods
+else
+	# Input is from a terminal, REPL mode:
+	while true; do
+		prompt="$(cat -)"
+		printf %s\\n "$prompt" | $mods
+	done
+fi
+
+main
