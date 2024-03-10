@@ -63,7 +63,7 @@ dest="${prefix}/${dir}"
 (
 	# TODO: clone to a tmp repo.
 	set -x
-	git clone ${1+"$@"} --depth 1 "$url" "$dest"
+	git clone ${1+"$@"} --depth 1 --recursive "$url" "$dest"
 )
 
 tput setaf 2
