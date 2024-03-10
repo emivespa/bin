@@ -1,3 +1,4 @@
+.PHONY: default
 default: ;
 
 .PHONY: deps
@@ -13,7 +14,7 @@ shellcheck:
 whatis:
 	./whatisx *
 
-################################################################################
+# --------------------------------------------------------------------------------
 
 .PHONY: vendor
 vendor: submodules ani birch neofetch ytfzf
@@ -33,3 +34,13 @@ neofetch:
 ytfzf:
 	unlink $@ || true
 	ln -s vendor/github.com/pystardust/ytfzf/ytfzf $@
+
+# --------------------------------------------------------------------------------
+
+.PHONY: clean
+clean:
+	rm ani
+	rm birch
+	rm neofetch
+	rm vendor -rf
+	rm ytfzf
