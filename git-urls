@@ -4,18 +4,12 @@
 
 type git >/dev/null 2>&1 || exit 1
 
-maybe_render_tsv()
-{
-	# TODO: test.
+find . -name '.git' -print0 |
+	xargs -0 -I _ grep -H 'from' _/logs/refs/remotes/origin/HEAD 2>/dev/null |
+	sed -E 's|/.git/logs/refs/remotes/origin/HEAD:| |' |
+	awk '{ print $NF "\t" $1 }' |
 	if test -t 1 && type sponge >/dev/null 2>&1; then
 		sponge | column -t -s'	' --
 	else
 		cat -
 	fi
-}
-
-find . -name '.git' -print0 |
-	xargs -0 -I _ grep -H 'from' _/logs/refs/remotes/origin/HEAD 2>/dev/null |
-	sed -E 's|/.git/logs/refs/remotes/origin/HEAD:| |' |
-	awk '{ print $NF "\t" $1 }' |
-	maybe_render_tsv

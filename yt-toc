@@ -10,16 +10,6 @@
 type jq >/dev/null 2>&1 || exit 1
 type yt-dlp >/dev/null 2>&1 || exit 1
 
-maybe_render_tsv()
-{
-	# TODO: test.
-	if test -t 1 && type sponge >/dev/null 2>&1; then
-		sponge | column -t -s'	' --
-	else
-		cat -
-	fi
-}
-
 header() {
 	printf %s\\t "upload_date"
 	printf %s\\t "uploader_id"
@@ -73,4 +63,9 @@ last="$(( chapters_length - 1))"
 		printf %s\\t "${chapter_title}"
 		printf %s\\n "${original_url}&t=${end_time}"
 	done
-} | maybe_render_tsv
+} |
+	if test -t 1 && type sponge >/dev/null 2>&1; then
+		sponge | column -t -s'	' --
+	else
+		cat -
+	fi
