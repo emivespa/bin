@@ -14,6 +14,10 @@ shellcheck:
 whatis:
 	./whatisx *
 
+.PHONY: emoji
+emoji:
+	EMOJI_GET_VER=14 emoji
+
 # --------------------------------------------------------------------------------
 
 .PHONY: vendor
