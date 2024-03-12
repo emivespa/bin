@@ -13,5 +13,7 @@ if test "$(tput cols)" -ge '138'; then # 138 = 8 SHA + 50 message + 80 preview.
 fi
 
 git log --abbrev-commit --color=always --decorate=full --pretty=oneline |
-	fzf --ansi --multi --preview="$preview" | awk '{print $1}' | tr '\n' ' ' |
+	fzf --ansi --multi --preview="$preview" |
+	awk '{print $1}' |
+	tr '\n' ' ' |
 	clipe
