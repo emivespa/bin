@@ -10,6 +10,7 @@
 #
 # TODO: add --go mode.
 # TODO: remove bashisms and use sh.
+# TODO: try to convert https to ssh clones.
 
 set -eu -o pipefail
 
