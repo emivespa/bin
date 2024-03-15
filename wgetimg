@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# - literally wgetwal but s/wallpapers/memes/
+# - literally wgetwal but s/wallpapers/images/
 
 cd "${HOME}/dl/." || exit 1
 wget -p -e robots=off -- "${@:-$(xsel -po)}"
