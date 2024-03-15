@@ -2,4 +2,14 @@
 #
 # - https://blog.fredrb.com/2023/08/13/bash-one-liner-gomod/
 
-for repo in $(cat ./go.mod | grep "\tgithub.com/" | sed 's/\t//' | sed 's/\ v.*//' | sed 's|github\.com/\([^/]*\/[^/]*\).*|\1|p' | uniq); do; printf "Last commit: %10s | %5s ⭐ | %s\n" "$(gh api /repos/$repo/commits | jq -r '.[0].commit.author.date' | sed 's/\(.*\)T.*/\1/')" "$(gh api /repos/$repo -q '.stargazers_count')" "github.com/$repo"; done;
+<./go.mod \
+	grep '	github.com/' |
+	sed 's/\t//' | sed 's/\ v.*//' |
+	sed 's|github\.com/\([^/]*\/[^/]*\).*|\1|p' |
+	uniq |
+	while read -r repo; do
+		last_commit="$(gh api "/repos/$repo/commits" | jq -r '.[0].commit.author.date' | sed 's/\(.*\)T.*/\1/')"
+		stargazers="$(gh api "/repos/$repo" -q '.stargazers_count')"
+		url="github.com/$repo"
+		printf "Last commit: %10s | %5s ⭐ | %s\n" "$last_commit" "$stargazers" "$url"
+	done
