@@ -12,5 +12,8 @@ cmd="echo"
 if type figlet >/dev/null 2>&1; then
 	cmd="figlet"
 fi
+if type cowsay >/dev/null 2>&1; then
+	cmd="cowsay"
+fi
 
 xterm -e "tput bel; $cmd '$s'; read -r x"
