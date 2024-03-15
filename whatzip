@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# - zip into independent <100MB zips, for whatsapp
+# - zip into independent <100MB zips, (to bypass WhatsApp max file size)
 #
 # https://unix.stackexchange.com/questions/490124/how-to-split-a-large-folder-into-smaller-folders-of-equal-size
 #
