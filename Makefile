@@ -21,7 +21,7 @@ emoji:
 # --------------------------------------------------------------------------------
 
 .PHONY: vendor
-vendor: submodules ani birch neofetch ytfzf
+vendor: submodules ani birch neofetch ytfzf fff
 .PHONY: submodules
 submodules:
 	git submodule init
@@ -38,6 +38,9 @@ neofetch:
 ytfzf:
 	unlink $@ || true
 	ln -s vendor/github.com/pystardust/ytfzf/ytfzf $@
+fff:
+	unlink $@ || true
+	ln -s vendor/github.com/dylanaraps/fff/fff $@
 
 # --------------------------------------------------------------------------------
 

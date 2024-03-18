@@ -10,3 +10,6 @@
 [submodule "vendor/github.com/pystardust/ytfzf"]
 	path = vendor/github.com/pystardust/ytfzf
 	url = https://github.com/pystardust/ytfzf
+[submodule "vendor/github.com/dylanaraps/fff"]
+	path = vendor/github.com/dylanaraps/fff
+	url = https://github.com/dylanaraps/fff
