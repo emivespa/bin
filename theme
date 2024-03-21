@@ -1,53 +1,26 @@
-#!/bin/sh -eu
+#!/bin/sh -eux
 #
 # - toggle light and dark theme
-#
-# TODO: s/dconf/gsettings/ ?
 
-case "${DESKTOP_SESSION:-}" in
-	('gnome') # TODO: check.
+isLight() {
+	if type gsettings >/dev/null 2>&1; then # GNOME
 		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
-			("'prefer-dark'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
-				;;
-			("'prefer-light'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
-				;;
+			("'prefer-dark'") return 1 ;;
+			("'prefer-light'") return 0 ;;
 		esac
-		;;
-	('gnome-flashback-metacity')
-		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
-			("'prefer-dark'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
-				;;
-			("'prefer-light'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
-				;;
-		esac
-		;;
-	('none+icewm')
-		case "$(gsettings get org.gnome.desktop.interface color-scheme)" in
-			("'prefer-dark'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
-				;;
-			("'prefer-light'")
-				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
-				;;
-		esac
-		;;
-	('xfce')
+	fi
+	if type xfconf-query >/dev/null 2>&1; then # XFCE
 		case "$(xfconf-query -c xsettings -p /Net/ThemeName)" in
-			('Adwaita-dark')
-				gsettings set org.gnome.desktop.interface color-scheme prefer-light || true
-				xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita" || true
-				;;
-			('Adwaita')
-				gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true
-				xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" || true
-				;;
+			('Adwaita-dark') return 1 ;;
+			('Adwaita') return 0 ;;
 		esac
-		;;
-	(*)
-		exit 1
-		;;
-esac
+	fi
+}
+
+if isLight; then
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark || true # GNOME
+	xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" || true # XFCE
+else
+	gsettings set org.gnome.desktop.interface color-scheme prefer-light || true # GNOME
+	xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita" || true # XFCE
+fi
