@@ -9,7 +9,8 @@
 
 type xterm >/dev/null 2>&1 || exit 1
 
-if test -z "$TERM" -o "$TERM" = 'dumb'; then
+# if test -z "$TERM" -o "$TERM" = 'dumb'; then
+if test -z "$TMUX"; then # FIXME.
 	xterm -maximized -e "$@"
 else
 	sh -c "$@"
