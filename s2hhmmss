@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+seconds=$1
+minutes=$((seconds / 60))
+remaining_seconds=$((seconds % 60))
+hours=$((minutes / 60))
+remaining_minutes=$((minutes % 60))
+
+# Ensure hours, remaining_minutes, and remaining_seconds have at least 2 digits by adding leading zeros
+formatted_hours=$(printf "%02d" $hours)
+formatted_minutes=$(printf "%02d" $remaining_minutes)
+formatted_seconds=$(printf "%02d" $remaining_seconds)
+
+printf "%s:%s:%s\n" "$formatted_hours" "$formatted_minutes" "$formatted_seconds"
+
