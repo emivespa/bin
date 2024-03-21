@@ -1,0 +1,31 @@
+#!/bin/sh -ex
+#
+# - build a db out of yt-toc
+
+# file="${HOME}/.cache/yt-db.tsv"
+#
+# playlist="$1"; shift
+#
+# case "$playlist" in
+# 	('cat')
+# 		cat "$file"
+# 		;;
+# 	('vi')
+# 		${EDITOR:-${VISUAL:-nano}} "$file"
+# 		;;
+# 	(*)                                           l
+# 		if ! test -f "$file"; then
+# 			JUST_HEADER=1 yt-toc >"$file"
+# 		fi
+# 		yt-ls --urls "$playlist" "$@" | while read -r url; do
+# 			NO_HEADER=1 yt-toc "$url" >>"$file"
+# 		done
+# 		;;
+# esac
+
+playlist="$1"; shift
+
+stdbuf -oL yt-ls --urls "$playlist" ${1+"$@"} | while read -r url; do
+	NO_HEADER=1 yt-toc "$url"
+done
+

@@ -1,0 +1,46 @@
+#!/bin/sh -eu
+#
+# - print ids or links for a youtube playlist
+#
+# TODO: opts?
+
+ids() {
+	# Get IDs.
+	# yt-dlp $opts --playlist-end 5 --print id --skip-download "${channel}" # Get IDs.
+		# $opts \
+	yt-dlp \
+		${PLAYLIST_START+--playlist-end ${PLAYLIST_START}} \
+		${PLAYLIST_END+--playlist-end ${PLAYLIST_END}} \
+		--print id \
+		--skip-download \
+		"$@"
+}
+
+id2url() {
+	sed 's ^ https://www.youtube.com/watch?v= '
+}
+
+mode='url' # Default.
+case "${1:-}" in
+	('--ids')
+		mode='id'
+		shift
+		;;
+	('--urls')
+		mode='url'
+		shift
+		;;
+	(*)
+		;;
+esac
+
+case "${mode:-}" in
+	('id')
+		ids "$@"
+		;;
+	('url')
+		ids "$@" | id2url
+		;;
+	(*)
+		;;
+esac

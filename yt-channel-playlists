@@ -1,0 +1,5 @@
+#!/bin/sh -eux
+#
+# - print playlists from a youtube channel
+
+yt-dlp --flat-playlist "$1"

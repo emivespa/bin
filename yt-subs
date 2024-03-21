@@ -1,0 +1,11 @@
+#!/bin/sh -ex
+#
+# - download subs for a youtube video
+
+yt-dlp \
+	--skip-download \
+	--sub-lang="${lang}" \
+	--write-auto-sub \
+	-- "$1"
+	# --output "%(id)s"
+	# --convert-subs=lrc \
