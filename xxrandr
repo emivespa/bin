@@ -1,0 +1,28 @@
+#!/bin/sh -eux
+
+xrandr | grep -v '^ ' | tail -n +2 | awk '{print $1}'
+
+cat_opts() {
+	cat<<-EOF | sed '/^$/d'
+		xrandr --output eDP-1 --same-as DP-1 && xrandr --output eDP-1 --mode 1920x1080
+	EOF
+}
+
+choose() {
+	cat_opts | fzf \
+		--nth=2.. \
+		--header="Choose an action or press ctrl-c to cancel:" \
+		--header-first \
+		--
+}
+
+run_choice() {
+	choose | sh -x
+}
+
+main() {
+	# FIXME: work without recursion.
+	termx "$0 run_choice" || exit 0
+}
+
+"${@:-main}"
