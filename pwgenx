@@ -2,4 +2,7 @@
 #
 # - personal pwgen wrapper
 
-pwgen --no-capitalize --numerals --secure $@ 16 1 | tr -d '\n' | clipe
+{
+	pwgen --no-capitalize --numerals --secure ${1+"$@"} 16 1 | tr -d '\n'
+	printf %s '!0Aa' # Make sure to tick every "password must contain" box.
+} | clipe
