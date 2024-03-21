@@ -1,0 +1,18 @@
+#!/bin/sh -e
+#
+# - git-commit with git-addx commit message
+
+state="$(git diff --cached)"
+hash="$(printf %s "$state" | sha256sum | awk '{print $1}')"
+d="${TMPDIR:-/tmp}/git-addx"; mkdir -p "$d"
+f="${d}/${hash}"
+
+check()
+{
+	test -f "$f"
+}
+
+if ! check; then
+	git addx
+fi
+git commit --verbose --template "$f" ${1+"$@"}
