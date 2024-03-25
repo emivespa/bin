@@ -14,4 +14,4 @@ rfc6920 () {
     printf %s\\n "ni:///sha-256;${sum}"
 }
 
-${1:-rfc6920}
+rfc6920
