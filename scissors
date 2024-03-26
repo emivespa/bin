@@ -1,0 +1,9 @@
+#!/bin/sh -e
+#
+# - git-style scissors
+#
+# Meant stuff for this:
+#	while sleep 1; do; cmd2repeat; scissors; done;
+
+printf %s\\n '------------------------ >8 ------------------------'
+
