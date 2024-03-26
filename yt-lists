@@ -1,0 +1,6 @@
+#!/bin/sh -eux
+#
+# - print playlists from a youtube channel
+
+yt-dlp -j --flat https://www.youtube.com/@teej_dv/playlists |
+	jq -r ".webpage_url"
