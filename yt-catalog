@@ -1,8 +1,8 @@
 #!/bin/sh -ex
 #
-# - build a db out of yt-toc
+# - build a catalog out of yt-toc
 
-# file="${HOME}/.cache/yt-db.tsv"
+# file="${HOME}/.cache/yt-catalog.tsv"
 #
 # playlist="$1"; shift
 #
@@ -25,7 +25,8 @@
 
 playlist="$1"; shift
 
-stdbuf -oL yt-ls --urls "$playlist" ${1+"$@"} | while read -r url; do
-	NO_HEADER=1 yt-toc "$url"
-done
+stdbuf -oL yt-ls --urls "$playlist" ${1+"$@"} |
+	while read -r url; do
+		NO_HEADER=1 yt-toc "$url"
+	done
 
