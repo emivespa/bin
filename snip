@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# - snippet manager
+#
+# TODO: also print the command to stdout.
+
+f="${XDG_CONFIG_HOME:-"${HOME}/.config"}/snip/sh.sh"
+
+<"$f" \
+	fzf

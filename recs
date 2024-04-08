@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# - recommended commands
+
+f="${XDG_CACHE_HOME:-"${HOME}/.cache"}/rex.sh"
+
+touchp "$f"
+
+if ! test -t 0; then
+	tee "$f"
+else
+	<"$f" \
+		fzf |
+		${SHELL:-"sh"}
+fi

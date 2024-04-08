@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#
+# - run shipet from snip
+#
+# TODO: also print the command to stdout?
+
+snip | ${SHELL:-sh}
