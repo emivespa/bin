@@ -35,7 +35,7 @@ strip_protocol() {
 
 mode_root() {
 	case "$1" in
-		('--absolute')  printf %s "${HOME}/src" ;;
+		('--absolute')  printf %s "${HOME}/Documents" ;;
 		('--relative')  printf %s "./" ;;
 		('--tmp')       printf %s "/tmp/${USER}" ;;
 		(*) exit 1 ;;
@@ -61,12 +61,19 @@ dir="$(strip_protocol "${url}")"
 prefix="$(mode_root "$mode")"
 dest="${prefix}/${dir}"
 
-(
-	# TODO: clone to a tmp repo.
-	set -x
-	git clone ${1+"$@"} --depth 1 --recursive "$url" "$dest"
-)
-
-tput setaf 2
+git clone ${1+"$@"} --depth 1 --recursive "$url" "$dest" 2>&1 |
+	while read -r line; do
+		case "${line}" in
+			('fatal: Server does not support shallow clients')
+				rm -rf "${dest}"
+				git clone ${1+"$@"} --recursive "$url" "$dest"
+				exit 1
+				;;
+			("fatal: destination path '${dest}' already exists and is not an empty directory.")
+				printf %s\\n "$line" 2>&1
+				printf %s\\n "cd ${dest}"
+				exit 0
+				;;
+		esac
+	done
 printf %s\\n "cd ${dest}"
-tput sgr0
