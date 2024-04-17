@@ -32,4 +32,9 @@ mode_pick()
 	EOF
 }
 
-"${1:-$(mode_pick)}"
+case "${1}" in
+	('b') b ;;
+	('o') o ;;
+	('') eval "$(mode_pick)" ;;
+	(*) exit 1 ;;
+esac
