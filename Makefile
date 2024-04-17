@@ -17,37 +17,3 @@ whatis:
 .PHONY: emoji
 emoji:
 	EMOJI_GET_VER=14 emoji
-
-# --------------------------------------------------------------------------------
-
-.PHONY: vendor
-vendor: submodules ani birch neofetch ytfzf fff
-.PHONY: submodules
-submodules:
-	git submodule init
-	git submodule update
-ani:
-	unlink $@ || true
-	ln -s vendor/github.com/pystardust/ani-cli/ani-cli $@
-birch:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/birch/birch $@
-neofetch:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/neofetch/neofetch $@
-ytfzf:
-	unlink $@ || true
-	ln -s vendor/github.com/pystardust/ytfzf/ytfzf $@
-fff:
-	unlink $@ || true
-	ln -s vendor/github.com/dylanaraps/fff/fff $@
-
-# --------------------------------------------------------------------------------
-
-.PHONY: clean
-clean:
-	rm ani
-	rm birch
-	rm neofetch
-	rm vendor -rf
-	rm ytfzf
