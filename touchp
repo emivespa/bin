@@ -1,6 +1,10 @@
-#!/bin/sh -eux
+#!/bin/sh -eu
 #
 # - touch a file creating parent directories as needed, similarly to mkdir -p
+
+if test -f "$1"; then
+	exit 0
+fi
 
 mkdir -p "$1"
 rm -r "$1"
