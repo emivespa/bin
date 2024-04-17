@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-# - archive a webpage with wget
+# - archive a website with wget
 #
 # https://dheinemann.com/posts/2022-02-05-archiving-a-website-with-wget
 # https://www.petekeen.net/archiving-websites-with-wget
