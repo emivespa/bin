@@ -1,0 +1,27 @@
+#!/bin/sh -eu
+#
+# - youtube channel ongoing live url, if there is one
+# - download youtube live, if there is one
+
+url="${1}"; shift
+
+# if ps | grep -F "$0" | grep -F "$url"; then
+# 	printf %s\\n "another yt-liveurl process is already downloading ${url}" 2>/dev/null
+# 	exit 1
+# fi
+
+case "${url}" in
+	# https://support.google.com/youtube/answer/6180214?hl=en
+	(*'youtube.com/channel/'*)  url="$(yt-liveurl "${url}")" ;; # Channel URL (ID-based)
+	(*'youtube.com/@'*)         url="$(yt-liveurl "${url}")" ;; # Handle URL
+	(*'youtube.com/c/'*)        url="$(yt-liveurl "${url}")" ;; # Custom URL
+	(*'youtube.com/user/'*)     url="$(yt-liveurl "${url}")" ;; # Legacy username URL
+esac
+
+id="$(printf %s "${url}" | rev | cut -c 1-11 | rev)"
+
+while ! yt-dlp --live-from-start "$url"; do
+	echo "\$?=$?"
+	rm -rf ./*"${id}"*
+	sleep 60 # ?
+done

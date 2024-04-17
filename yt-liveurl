@@ -1,0 +1,14 @@
+#!/bin/sh -eu
+#
+# - youtube channel ongoing live url, if there is one
+
+channel="${1}"; shift
+
+case "$channel" in
+	(*'/streams')  streams="$channel"            ;;
+	(*)            streams="${channel}/streams"  ;;
+esac
+
+yt-dlp --dump-json --playlist-items 1 "${streams}" |
+	grep 'is_live' |
+	jq -r ".webpage_url"

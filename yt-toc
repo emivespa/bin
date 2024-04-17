@@ -1,30 +1,51 @@
 #!/bin/sh -e
-
-#! /usr/bin/env nix-shell
-#! nix-shell -i sh -p jq yt-dlp
-
+#
 # - print youtube video chapter data as tsv
 #
 # yt-toc $url
+#
+# TODO: remove fractional bit from link.
+# TODO: -s|--short
+# TODO: -o|--original-url
 
 type jq >/dev/null 2>&1 || exit 1
 type yt-dlp >/dev/null 2>&1 || exit 1
 
-header() {
-	printf %s\\t "upload_date"
-	printf %s\\t "uploader_id"
-	printf %s\\t "original_url"
-	printf %s\\t "title"
-	printf %s\\t "chapter_index"
-	printf %s\\t "start_time_url"
-	printf %s\\t "chapter_title"
-	printf %s\\n "end_time_url"
+maybe_render_tsv()
+{
+	# TODO: test.
+	if test -t 1 && type sponge >/dev/null 2>&1; then
+		sponge | column -t -s'	' --
+	else
+		cat -
+	fi
 }
 
-if test -n "$JUST_HEADER"; then
-	header
-	exit 0
-fi
+# header() {
+# 	printf %s\\t "upload_date"
+# 	printf %s\\t "uploader_id"
+# 	printf %s\\t "original_url"
+# 	printf %s\\t "title"
+# 	printf %s\\t "chapter_index"
+# 	printf %s\\t "start_time_url"
+# 	printf %s\\t "chapter_title"
+# 	printf %s\\n "end_time_url"
+# }
+
+# new order:
+# uploader_id (or name ideally)
+# upload_date
+# original_url
+# title
+# chapter_index
+# start_time_url
+# chapter_title
+# end_time_url
+
+# if test -n "$JUST_HEADER"; then
+# 	header
+# 	exit 0
+# fi
 
 # Work in a temp directory.
 d="${TMPDIR:-/tmp}/yt-toc/$(date -u +'%Y%m%d%H%M%S')-$(seed)"
@@ -39,33 +60,32 @@ cd "$d" || exit 1
 yt-dlp --dump-json "$1" >dump.json
 
 title="$(         jq -r ".title" dump.json)"
-uploader_id="$(   jq -r ".uploader_id" dump.json)"
+# uploader_id="$(   jq -r ".uploader_id" dump.json)"
 original_url="$(  jq -r ".original_url" dump.json)"
-upload_date="$(   jq -r ".upload_date" dump.json)"
+# upload_date="$(   jq -r ".upload_date" dump.json)"
 
 chapters_length="$(jq -r '.chapters | length' dump.json)"
 last="$(( chapters_length - 1))"
 {
-	if test -z "$NO_HEADER"; then
-		header
-	fi
+	# if test -z "$NO_HEADER"; then
+	# 	header
+	# fi
+	printf %s\\t "${original_url}"  #
+	printf %s\\n "${title}"         #
 	for chapter_index in $(seq 0 "$last"); do
 		start_time="$(jq -r ".chapters[${chapter_index}].start_time" dump.json)"
-		end_time="$(jq -r ".chapters[${chapter_index}].end_time" dump.json)"
+		# end_time="$(jq -r ".chapters[${chapter_index}].end_time" dump.json)"
 		chapter_title="$(jq -r ".chapters[${chapter_index}].title" dump.json)"
 
-		printf %s\\t "${upload_date}"
-		printf %s\\t "${uploader_id}"
-		printf %s\\t "${original_url}"
-		printf %s\\t "${title}"
-		printf %s\\t "${chapter_index}"
+		# printf %s\\t "${upload_date}"
+		# printf %s\\t "${uploader_id}"
+		# printf %s\\t "${original_url}"
+		# printf %s\\t "${title}"
+		# printf %s\\t "${chapter_index}"
+		# printf %s\\t "${chapter_index}"
 		printf %s\\t "${original_url}&t=${start_time}"
-		printf %s\\t "${chapter_title}"
-		printf %s\\n "${original_url}&t=${end_time}"
+		# printf %s\\t "${chapter_title}"
+		# printf %s\\n "${original_url}&t=${end_time}"
+		printf %s\\n "${chapter_title}"
 	done
-} |
-	if test -t 1 && type sponge >/dev/null 2>&1; then
-		sponge | column -t -s'	' --
-	else
-		cat -
-	fi
+} | maybe_render_tsv

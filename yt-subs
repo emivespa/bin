@@ -1,11 +1,14 @@
-#!/bin/sh -ex
+#!/bin/sh -eu
 #
 # - download subs for a youtube video
+#
+# TODO: can you know what the original language is?
 
 yt-dlp \
+	-- "$1"
+	--no-embed-thumbnail \
 	--skip-download \
 	--sub-lang="${lang}" \
 	--write-auto-sub \
-	-- "$1"
 	# --output "%(id)s"
 	# --convert-subs=lrc \

@@ -1,6 +1,12 @@
-#!/bin/sh -eux
+#!/bin/sh -eu
 #
-# - print playlists from a youtube channel
+# - print all playlists from a youtube channel
 
-yt-dlp -j --flat https://www.youtube.com/@teej_dv/playlists |
+channel="${1}"; shift
+case "$channel" in
+	(*'/playlists')  playlists="$channel"              ;;
+	(*)              playlists="${channel}/playlists"  ;;
+esac
+
+yt-dlp --dump-json --flat-playlist "${playlists}" |
 	jq -r ".webpage_url"
